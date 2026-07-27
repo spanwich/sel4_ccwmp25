@@ -12,6 +12,8 @@
 #define SMCWD_FUNC_ID   0xbc000000
 #define SMCWD_PET       3
 
+seL4_CPtr camkes_get_smc_cap(seL4_Word smc_call);
+
 /*
  * Yield iterations between pets. Each seL4_Yield() is a syscall roundtrip
  * (~1us on Cortex-A35). 10M iterations ≈ a few seconds — well within the

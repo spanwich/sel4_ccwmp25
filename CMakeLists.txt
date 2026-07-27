@@ -125,10 +125,10 @@ if("${KernelARMPlatform}" STREQUAL "qemu-arm-virt")
     )
 
 # ================================================================
-# Platform: stm32mp25x — native-only (no VM, no VirtIO, no lwIP)
+# Platform: ccmp25-dvk — native-only (no VM, no VirtIO, no lwIP)
 # Build with: -DSTM32MP25X_VM=OFF (default)
 # ================================================================
-elseif("${KernelARMPlatform}" STREQUAL "stm32mp25x" AND NOT STM32MP25X_VM)
+elseif("${KernelARMPlatform}" STREQUAL "ccmp25-dvk" AND NOT STM32MP25X_VM)
 
     # ICS_Inbound (validation component — no hardware deps)
     DeclareCAmkESComponent(
@@ -164,17 +164,17 @@ elseif("${KernelARMPlatform}" STREQUAL "stm32mp25x" AND NOT STM32MP25X_VM)
     DeclareCAmkESRootserver(ics_stm32mp25x.camkes)
 
 # ================================================================
-# Platform: stm32mp25x + VM — Linux VM guest + native components
+# Platform: ccmp25-dvk + VM — Linux VM guest + native components
 # Build with: -DSTM32MP25X_VM=ON
 # ================================================================
-elseif("${KernelARMPlatform}" STREQUAL "stm32mp25x" AND STM32MP25X_VM)
+elseif("${KernelARMPlatform}" STREQUAL "ccmp25-dvk" AND STM32MP25X_VM)
 
     include(${CAMKES_ARM_VM_HELPERS_PATH})
     set(cpp_includes "${CAMKES_VM_DIR}/components/VM_Arm")
     set(cpp_flags "-DKERNELARMPLATFORM_STM32MP25X")
 
     # Platform include for vmlinux.h (GIC path, passthrough IRQs, keep-devices)
-    list(APPEND cpp_includes "${CMAKE_CURRENT_LIST_DIR}/plat_include/stm32mp25x")
+    list(APPEND cpp_includes "${CMAKE_CURRENT_LIST_DIR}/plat_include/ccmp25-dvk")
 
     # Linux kernel image for VM guest
     # Expected at: linux/linux-Image (built from yocto-linux)

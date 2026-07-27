@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 #
 # MODBUS Bidirectional Cross-Domain Gateway
-# Multi-platform: qemu-arm-virt (QEMU VirtIO) + stm32mp25x (Digi CCMP25-DVK)
+# Multi-platform: qemu-arm-virt (QEMU VirtIO) + ccmp25-dvk (Digi CCMP25-DVK)
 #
 
 cmake_minimum_required(VERSION 3.7.2)
@@ -29,7 +29,7 @@ include(application_settings)
 # ================================================================
 # Platform-specific configuration
 # ================================================================
-set(supported_platforms "qemu-arm-virt;stm32mp25x")
+set(supported_platforms "qemu-arm-virt;ccmp25-dvk")
 if(NOT "${PLATFORM}" IN_LIST supported_platforms)
     message(FATAL_ERROR "modbus_ccmp25 supports: ${supported_platforms}. Got: ${PLATFORM}")
 endif()
@@ -43,7 +43,7 @@ if("${PLATFORM}" STREQUAL "qemu-arm-virt")
     set(VirtioNetSupport ON CACHE BOOL "" FORCE)
     set(SIMULATION ON CACHE BOOL "Generate QEMU simulation script" FORCE)
     set(LibLwip ON CACHE BOOL "" FORCE)
-elseif("${PLATFORM}" STREQUAL "stm32mp25x")
+elseif("${PLATFORM}" STREQUAL "ccmp25-dvk")
     # Digi CCMP25-DVK: Cortex-A35 AArch64
     set(KernelArch "arm" CACHE STRING "" FORCE)
     set(KernelSel4Arch "aarch64" CACHE STRING "" FORCE)
@@ -69,9 +69,9 @@ sel4_configure_platform_settings()
 
 ApplyData61ElfLoaderSettings(${KernelARMPlatform} ${KernelSel4Arch})
 
-# Override elfloader image format for stm32mp25x:
+# Override elfloader image format for ccmp25-dvk:
 # bootm reads load/entry from uImage header (no hardcoded addresses)
-if("${PLATFORM}" STREQUAL "stm32mp25x")
+if("${PLATFORM}" STREQUAL "ccmp25-dvk")
     set(ElfloaderImage "uimage" CACHE STRING "" FORCE)
 endif()
 
@@ -89,7 +89,7 @@ set(LibUSB OFF CACHE BOOL "" FORCE)
 
 find_package(camkes-tool REQUIRED)
 
-# VM builds (QEMU or stm32mp25x+VM) need camkes-arm-vm, which internally
+# VM builds (QEMU or ccmp25-dvk+VM) need camkes-arm-vm, which internally
 # calls camkes_tool_setup_camkes_build_environment() plus VM-specific setup.
 # Native-only builds just need camkes-tool setup directly.
 if("${PLATFORM}" STREQUAL "qemu-arm-virt" OR STM32MP25X_VM)

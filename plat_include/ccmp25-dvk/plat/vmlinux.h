@@ -12,18 +12,21 @@
 #define IRQ_SPI_OFFSET 32
 
 /* Path to the GIC node in the guest device tree */
-#define GIC_NODE_PATH  "/intc@4ac00000"
+#define GIC_NODE_PATH  "/interrupt-controller@4ac10000"
 
 /*
  * Passthrough IRQs: hardware interrupts forwarded directly to the VM.
  * These correspond to devices passed through via untyped_mmios in devices.camkes.
  *
+ * NOTE: IRQ passthrough requires IRQ caps in the capdl spec.
+ * Currently empty for minimal boot — add back once IRQ cap
+ * allocation is configured (via vm0.dtb or explicit CAmkES IRQ config).
+ *
  * USART2: GIC_SPI 115 → hardware IRQ 115 + 32 = 147
  * DWMAC:  GIC_SPI 130 → hardware IRQ 130 + 32 = 162
  */
 static const int linux_pt_irqs[] = {
-    115 + IRQ_SPI_OFFSET,   /* USART2 */
-    130 + IRQ_SPI_OFFSET,   /* DWMAC Ethernet */
+    115 + IRQ_SPI_OFFSET,   /* USART2 (GIC SPI 115) */
 };
 
 /* Platform interrupts available for VMM use (not allocated to VM) */
@@ -39,6 +42,8 @@ static const int free_plat_interrupts[] = {
 static const char *plat_keep_devices[] = {
     "/timer",
     "/psci",
+    "/aliases",
+    "/fixed-clock-usart2",
 };
 
 /* Nodes to keep but mark as disabled */
