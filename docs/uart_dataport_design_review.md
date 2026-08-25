@@ -110,7 +110,7 @@ rather than entangled with boot debug. Total Phase 1 (1.0 + 1.1) remains
 know Phase 1.0 already worked (kernels boot fine), so the failure is
 isolated to the shared-frame plumbing.
 
-## Open question for the user
+## Deferred Phase 1.1 address decision
 
 The proposal's `0xAC000000` shared-pool address conflicts mildly with the
 Phase 1 design's `[0xAC000000 – 0xBA7FFFFF]` *reserved* shared pool (held
@@ -120,6 +120,5 @@ of that pool now. Or pick a clearer non-overlapping address.
 ## Status
 
 - Configuration audit: ✅ complete (all three Qs check out)
-- Adoption: pending user decision on the Phase 1.0/1.1 split
-- Phase 1 design doc §1, §3, §4, §5, §7, §9 will need updates either way
-  (per the proposal's "Impact on Phase 1 design doc" list)
+- Adoption: Phase 1.0 direct UART selected; Phase 1.1 is deferred until the STM hardware boot gate passes
+- Phase 1 design doc updated on 2026-08-12 with the implemented split and acceptance gates

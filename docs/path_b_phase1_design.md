@@ -1,255 +1,132 @@
-# Path B Phase 1 Design — Boot Two seL4 Kernels on STM32MP25x
+# Path B Phase 1 — Two Independent seL4 Kernels
 
-**Goal:** Two independent unicore seL4 kernels boot on the Digi CCMP25-DVK
-(2× Cortex-A35), one pinned per core, and print to UART so both are observably
-alive. Watchdog (IWDG1) petting on core 0 prevents the 32 s OP-TEE-armed
-reset. No cross-kernel communication yet (deferred to Phase 2-3).
+Status on 2026-08-12: implementation-complete; STM32MP25x hardware acceptance pending.
 
-**Out of scope for Phase 1:** IPI cap signalling, shared-memory dataports,
-distributed-kernel coordinator, capdl-loader, CAmkES `Kernel` component
-multikernel framework. Phase 1 is the smallest possible "two kernels boot and
-talk to UART" demo.
+Phase 1 is the smallest asymmetric-multiprocessing proof for this project: two independent unicore seL4 kernels, one per Cortex-A35 core, boot from one image and remain observably alive. It does not include the distributed capability layer or production cross-kernel communication.
 
----
+## Definition of done
 
-## 1. Memory partition scheme
+| Gate | State | Evidence |
+|---|---|---|
+| v16 source builds for both per-core kernels | PASS | K0 and K1 compile from the local v16 dependency tree |
+| ARM-QEMU boots two independent kernels | PASS | Both kernels reach user space and both rootservers continue ticking |
+| x86 regression and shared-memory handshake | PASS | K0/K1 identify as slots 0/1 and complete the cafe/babe round trip |
+| STM bundle has a valid K1 handoff address | PASS | The build derives the trampoline symbol, recompiles K0, relinks, and requires address convergence |
+| STM K1 uses prepared-secondary mode only | PASS | The build checks K1 has the generated config symbol and K0 does not |
+| CCMP25-DVK runs K0 and K1 for at least 60 seconds | PENDING | Requires a connected Digi board and UART log |
+| K0 keeps the OP-TEE-armed watchdog alive with no RISAB panic | PENDING | Requires the same hardware run |
 
-DRAM available on STM32MP25x: **0x84000000 – 0xBA7FFFFF (~870 MB)**, after
-TF-A/OP-TEE/CM33 carve-outs in the first 64 MB. (Verified earlier; see
-`stm32mp25x/devices.camkes` in the existing native build.)
+Phase 1 is not closed until the two pending hardware gates pass. The workstation currently exposes an STM32 ST-LINK for a different board, not a Digi CCMP25-DVK, so no hardware result is claimed.
 
-Phase 1 partition (deliberately conservative — generous slack for each kernel
-plus a future shared pool):
+## 1. Scope
+
+Phase 1 includes:
+
+- one independently built seL4 kernel and rootserver per physical core;
+- disjoint physical RAM ownership;
+- one elfloader image containing both kernel/rootserver/DTB tuples;
+- platform-appropriate secondary-core dispatch;
+- direct, prefixed UART output from both kernels;
+- watchdog petting by K0 only;
+- reproducible QEMU smoke tests.
+
+Phase 1 does not include:
+
+- K0-exclusive UART with a K1 shared-memory logging ring (Phase 1.1);
+- IPI capability signalling or production dataports;
+- SemperKernel capability enforcement;
+- CAmkES or CapDL integration for the multikernel bootstrap;
+- more than two kernels on the Phase 1 targets.
+
+## 2. STM32MP25x memory partition
 
 | Region | Range | Size | Owner |
-|---|---|---|---|
-| Kernel 0 ELF + untypeds | `0x84000000 – 0x97FFFFFF` | 320 MB | Core 0 |
-| Kernel 1 ELF + untypeds | `0x98000000 – 0xABFFFFFF` | 320 MB | Core 1 |
-| Shared device-untyped pool (Phase 2+) | `0xAC000000 – 0xBA7FFFFF` | ~232 MB | Reserved, unused in Phase 1 |
+|---|---|---:|---|
+| K0 RAM | 0x84000000–0x97ffffff | 320 MiB | Core 0 seL4 |
+| K1 RAM | 0x98000000–0xabffffff | 320 MiB | Core 1 seL4 |
+| Reserved shared pool | 0xac000000–0xba7fffff | about 232 MiB | Later phases |
 
-Each kernel sees only its own region as `/memory` in its DTS — the other
-kernel's region is *not visible* (no `reserved-memory` entry needed because the
-DTS doesn't declare it as memory in the first place).
+Each kernel DTB declares only its own RAM. USART2 at 0x400e0000 is present in both DTBs for the Phase 1 proof. Concurrent bytes may interleave; the K0/K1 prefixes are the diagnostic contract.
 
-The shared pool is reserved physical memory neither kernel claims as RAM in
-its DTS; Phase 2 will add it as a device-untyped to both kernels.
+## 3. Boot contracts
 
-UART region: `0x400e0000 – 0x400e03FF` (USART block) — present in both
-kernels' DTS as a peripheral `serial@400e0000`. Both kernels map it
-independently. UART hardware is shared at the bus level; byte-level
-contention on poll-mode writes is acceptable for Phase 1 (the goal is to
-*see* both cores alive, not to multiplex output cleanly).
+### 3.1 ARM-QEMU Stage A
 
-## 2. Per-kernel build orchestration
+1. Build K1 at RAM base 0x70000000 and K0 at 0x60000000.
+2. Bundle the stripped K1 kernel, rootserver, and DTB in K0's elfloader archive.
+3. The elfloader loads both tuples and calls PSCI CPU_ON for core 1 with multikernel_secondary_startup.
+4. The generic trampoline enables the prepared boot page tables, restores the K1 entry arguments, and branches to K1.
+5. The boot core enters K0. Both rootservers print ticks.
 
-Two parallel seL4 kernel builds, each producing its own kernel ELF:
+ARM-QEMU must use the generic trampoline. STM-only late-dispatch and RISAB tracing are guarded by CONFIG_PLAT_STM32MP2.
 
-**Layout** (in the `multikernel-stm32mp25x` branch of this project):
+### 3.2 STM32MP25x Stage B
 
-```
-projects/sel4_ccwmp25/
-├── multikernel/
-│   ├── kernel_0/
-│   │   ├── stm32mp25x_k0.dts        ← /memory@84000000 size 0x14000000
-│   │   └── settings.cmake           ← kernel-0-specific KernelArm* settings
-│   ├── kernel_1/
-│   │   ├── stm32mp25x_k1.dts        ← /memory@98000000 size 0x14000000
-│   │   └── settings.cmake           ← kernel-1-specific (PSCI entry will be its load addr)
-│   ├── rootserver_0/                ← hand-rolled rootserver source (~80 LoC)
-│   ├── rootserver_1/                ← hand-rolled rootserver source (~80 LoC)
-│   └── CMakeLists.txt               ← orchestrates both builds + elfloader packaging
-```
+The STM secure-firmware path needs a later handoff than QEMU:
 
-The `CMakeLists.txt` declares two `ExternalProject_Add()` invocations — one
-per kernel — each pointing at the seL4 kernel source tree but with different
-`KernelCustomDTSOverlay` and link addresses. Each ExternalProject also builds
-its own minimal rootserver. Result: 4 ELF artefacts (`kernel_0.elf`,
-`kernel_1.elf`, `rootserver_0.elf`, `rootserver_1.elf`).
+1. Build K1 first with KernelArmPreparedSecondaryBoot enabled.
+2. Build K0 and bundle K1. The elfloader loads and cleans the K1 kernel, rootserver, DTB, entry metadata, and boot page-table state.
+3. On STM only, the elfloader leaves core 1 parked and enters K0.
+4. The K0 rootserver invokes PSCI CPU_ON through seL4_CapSMC.
+5. Core 1 enters mk_core1_trampoline at EL2 with the MMU off, enables the secondary MMU path, restores x0–x5, and branches to K1.
+6. K0 alone pets the OP-TEE watchdog through the watchdog SMC. K1 never calls the watchdog service.
 
-A top-level cmake target packages all 4 into the elfloader's CPIO archive,
-then links the elfloader into the final `uImage` per the existing STM32MP25x
-build (using the `bootm`-via-uImage path that already works for native
-sel4_ccwmp25).
+The trampoline address is not a source constant. build-stm32mp25x.sh performs a bounded link fixpoint:
 
-**Native single-kernel build path is untouched** — this multikernel cmake
-infrastructure lives in its own subdirectory and is opt-in via
-`-DMULTIKERNEL=ON` (or similar).
+1. link a bootstrap image;
+2. read mk_core1_trampoline from that exact elfloader with aarch64-linux-gnu-nm;
+3. rebuild K0 with MK_CORE1_TRAMPOLINE_PADDR;
+4. relink and reject the image unless the linked and compiled addresses match.
 
-## 3. Elfloader changes
+For the current v16 build the verified address is 0x880050a0. It is evidence from this build, not an ABI promise.
 
-Take the **conservative-modification** route on `spanwich/seL4_tools`:
-extend the existing elfloader to optionally load N kernels instead of
-rewriting it. Single-kernel builds continue to work unchanged.
+## 4. Implementation layout
 
-**Files modified** (in `tools/seL4/elfloader-tool/`):
+- projects/sel4_ccwmp25/multikernel_hello/ — STM rootserver, DTBs, settings, and two-pass build orchestration.
+- projects/multikernel_qemu/ — AArch64 QEMU K0/K1 build and smoke test.
+- projects/multikernel_qemu_x86_64/ — x86 K0/K1 build and shared-memory regression test.
+- tools/seL4/elfloader-tool/src/arch-arm/multikernel.c — secondary tuple loading and platform dispatch.
+- tools/seL4/elfloader-tool/src/arch-arm/64/multikernel_trampoline.S — generic ARM secondary trampoline.
+- kernel/src/arch/arm/ — prepared-secondary kernel option and cache-maintenance path.
 
-| File | Change | LoC estimate |
-|---|---|---|
-| `src/common.c` | New optional code path: when CPIO contains `kernel_N.elf` (N=0,1,...), load each to its respective entry address from a per-kernel sidecar config (`kernel_layout.h` generated by our cmake). | +60 |
-| `src/arch-arm/drivers/smp-psci.c` | When loading multikernel: instead of waking secondaries with `&secondary_startup`, wake CPU N with `kernel_N`'s entry address. | +20 |
-| `include/elfloader_common.h` | Add `struct kernel_node { paddr_t entry; paddr_t load; size_t size; }` (no macro collision with the kernel's `CONFIG_MAX_NUM_NODES`). | +8 |
-| `CMakeLists.txt` | New optional `MULTIKERNEL_KERNELS` cmake variable: when set, elfloader CPIO includes per-kernel ELFs and the C compile gets `-DMULTIKERNEL`. | +15 |
+The native single-kernel and CAmkES gateway paths remain opt-in and separate from this bootstrap.
 
-**No changes to vanilla single-kernel boot path** (preserved by `#ifdef
-MULTIKERNEL` guards).
+## 5. Reproducible local validation
 
-**Why not kent's approach:** kent's commits replaced single-kernel CPIO
-handling entirely (`kernel.elf` → `seL4-N-kernel`), broke include layering
-(`CONFIG_MAX_NUM_NODES` collision), and still won't compile in 2026. Our
-extension preserves backwards compatibility and uses distinct names
-(`kernel_0.elf`, `kernel_1.elf`) to avoid namespace clashes.
+Run from the v16 staging source root:
 
-## 4. Boot sequence
+    cd .v16-staging/source
+    ./projects/multikernel_qemu/build-mk.sh
+    ./projects/multikernel_qemu/test-mk.sh
+    ./projects/multikernel_qemu_x86_64/build.sh both
+    ./projects/multikernel_qemu_x86_64/test.sh
+    ./projects/sel4_ccwmp25/multikernel_hello/build-stm32mp25x.sh
 
-```
-TF-A
- ↓
-OP-TEE (S-EL1, IWDG1 armed 32 s)
- ↓
-U-Boot (existing boot.cmd unchanged)
- ↓
-elfloader (booti via uImage)
- ├── On primary CPU (CPU0):
- │     – Detect MULTIKERNEL build (via CPIO entry names)
- │     – Load kernel_0.elf → 0x84000000
- │     – Load kernel_1.elf → 0x98000000
- │     – Load rootserver_0.elf → reserved slot in K0's untyped region
- │     – Load rootserver_1.elf → reserved slot in K1's untyped region
- │     – cache maintenance: clean-to-PoC for both kernel images
- │     – PSCI CPU_ON(target=cpu1, entry=0x98000000, ctx=0)
- │     – Jump to kernel_0.elf entry @ 0x84000000
- │
- └── On CPU1 (woken by PSCI):
-       – TF-A bl31 warmboot → jumps to entry pointer 0x98000000
-       – kernel_1 init runs (sees its DTS = memory @ 0x98000000, 320 MB)
-       – kernel_1 starts rootserver_1
-```
+The expected STM artifact is discovered by platform prefix because v16 names it rootserver_hello-image-arm-stm32mp2 while older trees used stm32mp25x. The current artifact is under build-ccwmp25-mk-hello-k0/images/.
 
-**PSCI CPU_ON validation on STM32MP25x** (verified earlier): only
-`entrypoint >= STM32MP_DDR_BASE` (0x80000000). 0x98000000 passes trivially.
+## 6. Hardware acceptance procedure
 
-**Cache maintenance:** elfloader currently does `dsb` + cache invalidate
-after loading. We extend the same pattern to cover the additional kernel
-image bytes. No new mechanism.
+Use a Digi CCMP25-DVK, not another ST-LINK target.
 
-## 5. Per-kernel rootserver
+1. Deploy the exact generated uImage with deploy/usb-deploy.sh --image PATH, or the established SD/eMMC install flow.
+2. Capture USART2 at 115200 baud from the board's serial device.
+3. Keep the board running for at least 60 seconds.
+4. Require all of the following evidence:
 
-Hand-rolled, ~80 lines C each. NOT capdl-based (capdl-loader is per-kernel
-parameterised, more setup than we need for Phase 1).
+   - K0 prints ROOTSERVER_BUILD: ccwmp25-mk-phase1-v16-01;
+   - K0 prints the derived trampoline address and PSCI return 0;
+   - K1 prints the same build marker and reaches tick output;
+   - K0 and K1 ticks continue for at least 60 seconds;
+   - there is no watchdog reset, OP-TEE RISAB/IAC panic, or EL2 trampoline exception.
 
-**rootserver_0** (`projects/sel4_ccwmp25/multikernel/rootserver_0/main.c`):
-```c
-#include <sel4/sel4.h>
-#include <stdint.h>
+Save the complete UART log beside the hardware investigation notes. A compile-only result cannot close this gate.
 
-#define IWDG_PET_INTERVAL_S 10
-extern int seL4_DebugPutChar(int c);  // KernelPrinting=ON
+## 7. Verification boundary
 
-static void puts_(const char *s) {
-    while (*s) seL4_DebugPutChar(*s++);
-}
+Each instance is configured as a unicore seL4 kernel. KernelArmPreparedSecondaryBoot changes low-level AArch64 cache-maintenance behavior and is not covered by the stock verified configuration. The loader/trampoline owns address-scoped cleaning to the point of coherency before K1 entry.
 
-int main(void) {
-    seL4_BootInfo *bi = platsupport_get_bootinfo();
-    /* SMC cap for IWDG petting comes from caps in bootinfo; for Phase 1
-     * we rely on the fact that KernelAllowSMCCalls=ON gives the rootserver
-     * direct access to seL4_ARM_SMC_Call. */
-    seL4_ARM_SMCContext args = {0}, result = {0};
-    args.x0 = 0xbc000000;  // SMCWD_FUNC_ID
-    args.x1 = 3;           // SMCWD_PET
-    seL4_CPtr smc_cap = ???; // TODO Phase 1: figure out how to obtain SMC cap
+Phase 1 establishes boot isolation through static RAM partitioning. It does not yet demonstrate runtime authority transfer or seL4-enforced cross-kernel capabilities.
 
-    uint32_t tick = 0;
-    for (;;) {
-        seL4_ARM_SMC_Call(smc_cap, &args, &result);
-        printf("[K0] WDG kick %u\n", ++tick);
-        delay_seconds(IWDG_PET_INTERVAL_S);
-    }
-}
-```
+## 8. Next phase
 
-**Open question for K0**: how does the rootserver obtain the SMC cap? In
-the existing native build, CAmkES wires this via `camkes_get_smc_cap()`.
-For our hand-rolled rootserver, we need to either (a) pre-create the SMC
-cap during kernel init and pass it via bootinfo, OR (b) skip the SMC for
-Phase 1 (disable IWDG via U-Boot) and pet only when the SMC plumbing is
-ready. **Recommend (b) for the absolute first PoC** — disable IWDG in
-boot.cmd, get two kernels printing, then add SMC for IWDG petting.
-
-**rootserver_1** (`projects/sel4_ccwmp25/multikernel/rootserver_1/main.c`):
-```c
-int main(void) {
-    uint32_t tick = 0;
-    for (;;) {
-        printf("[K1] tick %u\n", ++tick);
-        delay_seconds(IWDG_PET_INTERVAL_S);
-    }
-}
-```
-
-`delay_seconds()` is a busy-wait loop using the ARM generic timer
-(`mrs x0, CNTPCT_EL0` etc.) — no kernel scheduling required for Phase 1.
-
-## 6. Watchdog handling for Phase 1
-
-**Recommendation: disable IWDG1 in U-Boot before `booti`**. Add to
-`deploy/boot.cmd`:
-```
-mw.l 0x44033000 0x0  # Disable IWDG1 (or appropriate register write)
-```
-
-Once Phase 1 boots both kernels successfully, Phase 1.5 reintroduces the SMC
-plumbing for K0's IWDG petting (smaller surface area to debug). This avoids
-coupling the multikernel boot debug with the SMC-cap-acquisition debug.
-
-## 7. Test plan (Phase 1)
-
-**Stage A — QEMU sanity (qemu-arm-virt):**
-- Build with `-DPLATFORM=qemu-arm-virt -DMULTIKERNEL=ON`. Memory layout
-  scaled to QEMU's 1 GB default (kernel_0 at 0x40000000, kernel_1 at
-  0x60000000, shared at 0x80000000).
-- Run with `qemu-system-aarch64 -smp 2`. Expect interleaved `[K0]` /
-  `[K1]` output on stdout.
-- This validates the elfloader changes + rootserver mechanics independent
-  of the STM32MP25x platform code.
-
-**Stage B — STM32MP25x hardware:**
-- Build with `-DPLATFORM=stm32mp25x -DMULTIKERNEL=ON`. Memory layout per
-  §1.
-- Deploy via existing `deploy/` flow (uImage on SD card, boot via U-Boot).
-- Connect to `/dev/ttyACM1` on workstation. Expect interleaved `[K0]` /
-  `[K1]` output.
-- Success criterion: both lines appear, both cores observably alive.
-
-## 8. Open implementation questions
-
-1. **SMC cap acquisition in hand-rolled rootserver** — see §5. Recommend
-   disabling IWDG in U-Boot for first boot, addressing properly in Phase 1.5.
-2. **Kernel link address for kernel_1** — kernel ELFs are linked to a
-   specific physical base address. Need to confirm whether spanwich's seL4
-   build accepts a non-default `KernelArmRamBase` cleanly, or whether we need
-   to introduce that as a build option (one-line patch to platform config).
-3. **Where the rootserver's BSS / heap goes** — within the kernel's untyped
-   pool (i.e., kernel selects pages for it). Standard seL4 init flow handles
-   this; just need to confirm rootserver_1's link script doesn't conflict
-   with the kernel_1's own physical base (it shouldn't — rootserver runs in
-   virtual address space, kernel allocates physical pages for it).
-4. **Elfloader's MMU setup** — the elfloader currently sets up an identity
-   map for the entire DRAM region. For multikernel, we still want identity
-   map (kernels need to see their physical regions); no change needed.
-
-## 9. Effort + sequencing
-
-| Step | Effort | Output |
-|---|---|---|
-| (a) Set up `multikernel/` directory + cmake skeleton | 0.5 day | Builds nothing yet, just structure |
-| (b) Write hand-rolled rootserver_0 (no SMC for now) | 0.5 day | rootserver_0.elf builds for native single-kernel; verify it boots stand-alone |
-| (c) Mirror for rootserver_1 + write per-kernel DTS | 0.5 day | Two rootserver builds + two DTS files |
-| (d) Modify elfloader to load 2 kernels (`MULTIKERNEL=ON` path) | 1-2 days | Elfloader CPIO contains 4 entries; loads them |
-| (e) Modify smp-psci.c to redirect CPU1 entry | 0.5 day | PSCI CPU_ON sends CPU1 to kernel_1 |
-| (f) Stage A test on QEMU | 0.5 day | Two kernels printing in QEMU |
-| (g) Stage B test on hardware (`/dev/ttyACM1`) | 0.5 day | Two kernels printing on STM32MP25x |
-| (h) Reintroduce IWDG petting from K0 | 1 day | `[K0] WDG kick N` actually pets the watchdog via SMC |
-
-**Total: ~5-6 days** for Phase 1 if no surprises, ~7-10 days realistic with
-debugging.
+After the hardware gate passes, Phase 1.1 can make K0 the exclusive UART owner and carry K1 logs through a shared device frame. That work must not be folded back into the Phase 1 boot acceptance result.

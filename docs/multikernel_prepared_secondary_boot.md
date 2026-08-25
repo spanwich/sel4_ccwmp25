@@ -29,11 +29,13 @@ This is a boot-mode contract, not a formal verification claim. It changes low-le
 
 ## STM32MP25x Usage
 
-`multikernel_hello/build-stm32mp25x.sh` enables `KernelArmPreparedSecondaryBoot=ON` only for K1. The script checks K1's generated kernel config for `CONFIG_ARM_PREPARED_SECONDARY_BOOT`, checks K0 does not enable it, and verifies the rootserver build marker `ccwmp25-mk-prepared-secondary-01` is present in both rootserver binaries.
+`multikernel_hello/build-stm32mp25x.sh` enables `KernelArmPreparedSecondaryBoot=ON` only for K1. The script checks K1's generated kernel config for `CONFIG_ARM_PREPARED_SECONDARY_BOOT`, checks K0 does not enable it, and verifies the rootserver build marker `ccwmp25-mk-phase1-v16-01` is present in both rootserver binaries.
+
+The script also derives mk_core1_trampoline from the linked K0 elfloader, recompiles K0 with that address, and rejects the final image unless a subsequent link produces the same address. The value is build output, not a hardcoded interface.
 
 Expected proof for this project:
 
 - build-time K1 generated config contains `CONFIG_ARM_PREPARED_SECONDARY_BOOT  1`
-- UART reaches `[K1] ROOTSERVER_BUILD: ccwmp25-mk-prepared-secondary-01`
+- UART reaches `[K1] ROOTSERVER_BUILD: ccwmp25-mk-phase1-v16-01`
 
 There is intentionally no early kernel UART marker for this mode: before `map_kernel_window()` the secondary kernel may still be running on handoff page tables whose `KDEV_BASE` mapping is not the final seL4 device mapping.

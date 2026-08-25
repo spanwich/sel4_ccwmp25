@@ -13,7 +13,7 @@
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-trace-e100k-s0-01"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-phase1-v16-01"
 #endif
 
 #define MK_TRACE_VADDR 0x41f000ull
@@ -162,9 +162,14 @@ static void delay(void)
     }
 }
 
+#if KERNEL_ID == 0
+#ifndef MK_CORE1_TRAMPOLINE_PADDR
+#error "K0 requires the build-derived MK_CORE1_TRAMPOLINE_PADDR"
+#endif
+
 #define PSCI_CPU_ON_AARCH64   0xc4000003ull
 #define CORE1_MPIDR           0x1ull
-#define K1_CORE1_TRAMPOLINE   0x847260a0ull
+#define K1_CORE1_TRAMPOLINE   ((uint64_t)MK_CORE1_TRAMPOLINE_PADDR)
 
 static uint64_t dispatch_core1(void)
 {
@@ -176,7 +181,9 @@ static uint64_t dispatch_core1(void)
     req.x2 = K1_CORE1_TRAMPOLINE;
     req.x3 = 1;
 
-    put_str("[K0] dispatch: PSCI CPU_ON core1 -> trampoline (K1)\n");
+    put_str("[K0] dispatch: PSCI CPU_ON core1 -> K1 trampoline at ");
+    put_hex64(K1_CORE1_TRAMPOLINE);
+    put_str("\n");
     seL4_ARM_SMC_Call(seL4_CapSMC, &req, &resp);
     return resp.x0;
 }
@@ -193,6 +200,7 @@ static void pet_watchdog(void)
     req.x1 = SMCWD_PET;
     seL4_ARM_SMC_Call(seL4_CapSMC, &req, &resp);
 }
+#endif
 
 int main(void)
 {
@@ -211,14 +219,11 @@ int main(void)
     uint64_t psci_ret = dispatch_core1();
     trace_record_user(MK_TRACE_K0_AFTER_CPU_ON);
 
-    put_str("[K0] post-dispatch no-SMC quiet window\n");
-    for (int q = 0; q < 4; q++) {
-        delay();
-    }
-    put_str("[K0] quiet window done\n");
-    put_str("[K0] (resumed) PSCI CPU_ON ret=");
+    pet_watchdog();
+    put_str("[K0] PSCI CPU_ON ret=");
     put_dec(psci_ret);
     put_str("\n");
+    delay();
     trace_dump();
 #else
     trace_record_user(MK_TRACE_K1_ROOTSERVER);
