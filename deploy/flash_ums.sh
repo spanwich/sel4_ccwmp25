@@ -1,5 +1,6 @@
 #!/bin/bash
-# Flash sel4.bin to the CCMP25-DVK eMMC (partition 5) over USB-C via U-Boot ums,
+# Flash sel4.bin + deploy/sdcard/boot.scr (run `make -C deploy` first) to the
+# CCMP25-DVK eMMC (partition 5) over USB-C via U-Boot ums,
 # then reboot into it. Console must be open in tmux session $TMUX_SESSION.
 # Usage: deploy/flash_ums.sh path/to/sel4.bin
 set -e
@@ -43,8 +44,10 @@ if [ -z "$MNT" ]; then
     MNT=$(lsblk -no MOUNTPOINT "$PART")
 fi
 cp "$IMAGE" "$MNT/sel4.bin"
+cp "$HERE/sdcard/boot.scr" "$MNT/boot.scr"
 sync
 cmp "$IMAGE" "$MNT/sel4.bin"
+cmp "$HERE/sdcard/boot.scr" "$MNT/boot.scr"
 
 echo "[4/5] unmount + end ums"
 for p in $(lsblk -lnpo NAME,MOUNTPOINT "$DEV" | awk 'NF==2 {print $1}'); do

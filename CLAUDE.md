@@ -97,6 +97,28 @@ fatload mmc 2 0x90000000 install.scr && source 0x90000000
 # Reboot to boot seL4
 ```
 
+## Multikernel (`multikernel_hello/`)
+
+Two independent unicore seL4 kernels, one per A35 core, both at EL2:
+K0 owns `0x84000000..0x98000000`, K1 owns `0x98000000..0xac000000`
+(`0xac000000+` reserved for later shared memory).
+
+- **Branches**: kernel and `tools/seL4` on `multikernel-stm32mp2-v16`
+  (prepared-secondary boot, `[Kn]` print prefix, elfloader K1 bundling).
+- **Build**: `cd multikernel_hello && SEL4_VENV=/home/iamfo470/phd/sel4-dev-env ./build-stm32mp25x.sh`
+  → `../../build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2`
+  (builds K1, then K0 until the trampoline address converges).
+- **Flash**: `deploy/flash_ums.sh <image>`.
+- **Core 1 start**: the elfloader only loads K1. K0's rootserver issues PSCI CPU_ON
+  (via `seL4_CapSMC`) to `mk_core1_trampoline`. Never re-enable elfloader-time
+  dispatch (`MULTIKERNEL_DISPATCH_SECONDARIES`): it trips the TF-A RISAB firewall
+  and OP-TEE panics. See `docs/multikernel.md`.
+- **Idle**: each rootserver blocks on the per-core EL1 physical timer (PPI/IRQ 30,
+  exported with `KernelArmExportP{CNT,TMR}User`). Do not busy-wait.
+- **SMCs**: only K0 issues OP-TEE SMCs (IWDG pet, PSCI). K1 makes none.
+- **Expected console**: `[K0] tick N busy=0.013%` / `[K1] tick N busy=0.013%`, one
+  line per kernel per second (K1 offset by half a second).
+
 ## Remote Reset & Console
 
 - **Console**: `/dev/ttyACM0` (Cypress USB-UART on J19, 115200 8N1), open in tmux session `mp255` (minicom). Read with `tmux capture-pane -p -t mp255 -S -40`.

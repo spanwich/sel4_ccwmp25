@@ -17,11 +17,11 @@ if test $? -ne 0; then
 fi
 
 echo "Loading DTB (required by bootm)..."
-fatload mmc 0:5 0x88000000 ccmp25-dvk.dtb
+fatload mmc 0:5 0xb0000000 ccmp25-dvk.dtb
 if test $? -ne 0; then
     echo "WARNING: No DTB found, trying bootm without FDT..."
     bootm 0x90000000
 fi
 
 echo "Starting seL4 via bootm..."
-bootm 0x90000000 - 0x88000000
+bootm 0x90000000 - 0xb0000000
