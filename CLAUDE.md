@@ -97,6 +97,21 @@ fatload mmc 2 0x90000000 install.scr && source 0x90000000
 # Reboot to boot seL4
 ```
 
+## Remote Reset & Console
+
+- **Console**: `/dev/ttyACM0` (Cypress USB-UART on J19, 115200 8N1), open in tmux session `mp255` (minicom). Read with `tmux capture-pane -p -t mp255 -S -40`.
+- **Reset**: `deploy/reset.sh` — sends `r` to a Nucleo-F767ZI (ST-LINK VCP), which pulses CCMP25 NRST low for 200 ms.
+  - Wiring: Nucleo A0/PA3 (open-drain) → J6 pin 2 (NRST); Nucleo GND → J6 pin 3. J6 pin 1 is PMIC_PONKEY_N — never touch it.
+  - Success shows `Reset reason: Pin reset from NRST` in the console.
+  - **The J6 wires are not soldered yet and can come loose.** If `reset.sh` reports success but the console shows no reboot, ask the user to check the J6 wiring before debugging anything else.
+- **Nucleo firmware**: `tools/nucleo_reset/` (`make flash` uses OpenOCD; st-flash 1.8 fails on F7).
+- **Boot mode**: all S1 BOOT MODE switches OFF = eMMC boot (TF-A → U-Boot → `boot.scr` on mmc 0:5).
+- **Remote flash over USB-C (J25)** — no SD card needed. Automated: `deploy/flash_ums.sh path/to/sel4.bin` (reset → U-Boot → ums → copy → reboot). Manual steps:
+  1. `deploy/reset.sh`, then immediately spam keys into the console (`tmux send-keys -t mp255 ' '` in a loop for ~8 s). `bootdelay` is 0, so only spamming catches the `=>` prompt.
+  2. `tmux send-keys -t mp255 C-u "ums 0 mmc 0" Enter` — the eMMC appears on the host as a ~7.3G USB disk ("UMS disk 0"); partition 5 (vfat, "Boot DEY") auto-mounts.
+  3. Copy `sel4.bin` to the "Boot DEY" partition, `sync`, then `udisksctl unmount` every mounted partition of that disk.
+  4. `tmux send-keys -t mp255 C-c` to end ums, then `deploy/reset.sh`.
+
 ## Boot Chain
 
 TF-A → OP-TEE (starts IWDG1, 32s timeout) → U-Boot → seL4 (uImage via bootm)
