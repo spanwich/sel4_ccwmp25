@@ -185,6 +185,51 @@ physically at the board.
   - So Digi supports "M33 boots" in the sense that the A35 boots the M33. The
     M33-master BOOT[3:0] modes appear only in the SOM hardware manual
     (90002593); no DEY software uses them.
+- **[C] Source check (2026-10-18): who can start the M33 in A35-TD.** Trees
+  under `~/phd/ccwmp255`.
+  - **TF-A** (`v2.10/stm32mp/maint`, e22f7d898):
+    - It never loads or starts the M33. Its BL2 image list
+      (`plat/st/stm32mp2/plat_bl2_mem_params_desc.c`) has DDR_FW, FW_CONFIG,
+      BL31, SOC_FW_CONFIG, BL32, BL32_EXTRA1, HW_CONFIG and BL33. None of
+      these is an M33 image.
+    - `BOOT_API_IMAGE_TYPE_M33` (`include/boot_api.h:173`) is defined but
+      never used.
+    - The only CPU2 control is the one that stops it. On PSCI system-off it
+      clears `RCC_CPUBOOTCR.BOOT_CPU2` and asserts C2RST
+      (`stm32mp2_pm.c:907-912`).
+    - `stm32_pm_init` sets only `BOOT_CPU1` plus legacy boot, which lets
+      only the A35 boot (`stm32mp2_pm.c:1327-1330`).
+    - BL2 always hands off to BL31 → BL32 → BL33 on the A35. Its only
+      M33-aware path is `STM32MP_M33_TDCID`, where the M33 already runs and
+      BL2 skips its setup.
+  - **U-Boot**:
+    - The local tree is Digi's i.MX branch (`v2024.04/maint`, `dub-2024.04-r3.1`).
+      It has no CCMP25 board, so the board's own U-Boot source is not on
+      this machine.
+    - Its `drivers/remoteproc/stm32_copro.c` matches only `st,stm32mp1-m4`.
+      `board/st/stm32mp2` has no rproc code.
+    - Digi documents `rproc` in the CCMP25 U-Boot, so that support lives
+      only in Digi's STM32 branch, which is not here.
+  - **OP-TEE** (`stm32_remoteproc.c`) owns the M33 start in A35-TD.
+    - It matches `st,stm32mp2-m33` (`ns_loading`: U-Boot/Linux load the
+      image, and hold-boot/reset are exported as SCMI reset domains) and
+      `st,stm32mp2-m33-tee` (OP-TEE's remoteproc TA authenticates and loads
+      the image).
+    - `stm32mp2_rproc_start` (line 204) writes the boot address to
+      `A35SSC_M33_INITSVTOR_CR` and, when TrustZone is enabled
+      (`stm32_rproc_enable_sec_boot`), sets `A35SSC_M33_TZEN_CR`. It then
+      releases hold-boot.
+    - The CCMP25 DT uses the `ns_loading` variant (`ccmp25-dvk.dts:431`).
+    - The RIF DT already reserves TF-M code and data (`0x80000000` and
+      `0x80900000`, CID2, secure, encrypted; `ccmp25-dvk-rif.dtsi:954-964`).
+  - **Conclusion:**
+    - No stage of the current chain can hand control *to* the M33 instead of
+      the A35. The A35 always continues to BL33.
+    - The A35 chain can start the M33 alongside itself: U-Boot or Linux
+      through SCMI, or OP-TEE's TA, including a secure TF-M image with TZEN.
+      It always stays the TDCID while doing so.
+    - Reversing who measures whom requires the ROM's M33-master boot modes,
+      the M33-TD flavour above.
 - **[I] An intermediate step that uses only Digi software: A35-TD plus a
   measured M33.** OP-TEE already authenticates the M33 image (RPROC-FW-PKH).
   It could also extend a measurement of that image into its own log. This does
