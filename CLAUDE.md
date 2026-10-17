@@ -116,8 +116,15 @@ K0 owns `0x84000000..0x98000000`, K1 owns `0x98000000..0xac000000`
 - **Idle**: each rootserver blocks on the per-core EL1 physical timer (PPI/IRQ 30,
   exported with `KernelArmExportP{CNT,TMR}User`). Do not busy-wait.
 - **SMCs**: only K0 issues OP-TEE SMCs (IWDG pet, PSCI). K1 makes none.
-- **Expected console**: `[K0] tick N busy=0.013%` / `[K1] tick N busy=0.013%`, one
-  line per kernel per second (K1 offset by half a second).
+- **Channel**: `channel/mk_channel` SPSC rings at `0xac000000` (K0) / `0xaca00000`
+  (K1), mapped Device (non-cacheable: unicore kernels map cacheable pages
+  non-shareable). Doorbell is **SGI 1** — SGIs 8-15 are secure under TF-A and
+  never arrive. Shared DRAM survives reset, so never trust a ring without the
+  epoch handshake.
+- **Expected console**: `[K0] bench: 10000 round trips ... p50=~43750ns`, then
+  `[K0] tick N busy=0.018% ping=~30000ns` / `[K1] tick N busy=0.015% pongs=N`,
+  one line per kernel per second (K1 offset by half a second). A few
+  `[K1] Received disabled IRQ: 1` at start-up are expected.
 
 ## Remote Reset & Console
 

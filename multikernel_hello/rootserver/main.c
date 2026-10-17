@@ -1,33 +1,60 @@
 /*
  * Rootserver for the STM32MP25x multikernel (one unicore seL4 kernel per core).
  *
- * K0 starts core 1 into K1 via PSCI CPU_ON, then both kernels run the same
- * idle loop: block on a notification bound to the per-core EL1 physical
- * timer (PPI 30), wake once a second, print a tick, block again. While the
- * rootserver is blocked the kernel runs its idle thread (WFI), so neither
- * core spins.
- *
- * Each tick reports the fraction of the last second the core spent awake,
- * measured with the PMU cycle counter (which stops in WFI) against a
- * one-second busy-wait calibration taken at start-up.
+ * K0 starts core 1 into K1 via PSCI CPU_ON. Each kernel then:
+ *   1. calibrates the PMU cycle counter (one second of spinning);
+ *   2. maps the inter-kernel channel (mk_channel ABI v2) at MK_SHARED_BASE:
+ *      its own 10 MiB ring read-write, the peer's read-only, both Device
+ *      (non-cacheable, see channel/mk_channel.c);
+ *   3. binds SGI MK_CHANNEL_SGI as the doorbell and waits for the peer ring;
+ *   4. runs a ping-pong benchmark (K0 initiates, K1 echoes);
+ *   5. idles on the per-core EL1 physical timer (PPI 30), waking once a second.
+ *      Each K0 tick also sends one PING that K1 answers from its idle loop.
+ * While a rootserver is blocked the kernel runs its idle thread (WFI).
  *
  * Only K0 makes OP-TEE SMCs (watchdog pet, PSCI); K1 makes none.
  */
 
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sel4/sel4.h>
 #include <sel4runtime.h>
+
+#include "mk_channel.h"
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-idle-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-channel-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
 #define PTIMER_IRQ 30
+
+/* Shared window, outside both kernels' RAM: K0 ring then K1 ring. */
+#define MK_SHARED_BASE    0xac000000ull
+#define MK_SHARED_VADDR   0x40000000ull /* local ring; peer ring follows */
+#define MK_FRAME_BITS     seL4_LargePageBits
+#define MK_FRAMES         (MK_CHANNEL_REGION_SIZE >> MK_FRAME_BITS)
+/* Non-secure SGI: TF-A reserves SGIs 8-15 for the secure world (Group 0), and
+ * a non-secure GICD_SGIR write cannot raise those. */
+#define MK_CHANNEL_SGI    1u
+#define MK_CHANNEL_EPOCH  0x202610170001ull
+#define MK_READY_TIMEOUT  10u /* seconds */
+#define MK_MSG_PING       1u
+#define MK_MSG_PONG       2u
+#define MK_BENCH_WARMUP   1000u
+#define MK_BENCH_SAMPLES  10000u
+
+/* Notification badges: one notification, two interrupt sources. */
+#define BADGE_TIMER 1u
+#define BADGE_SGI   2u
+
+_Static_assert(MK_CHANNEL_REGION_SIZE % (1u << MK_FRAME_BITS) == 0,
+               "ring must be a whole number of large pages");
 
 static void put_str(const char *s)
 {
@@ -76,12 +103,12 @@ static void put_ppm_as_pct(uint64_t ppm)
     seL4_DebugPutChar('%');
 }
 
-static void halt(const char *why, seL4_Error err)
+static void halt(const char *why, uint64_t err)
 {
     put_str("FATAL: ");
     put_str(why);
     put_str(" err=");
-    put_dec((uint64_t)err);
+    put_dec(err);
     put_str("\n");
     for (;;) {
         seL4_TCB_Suspend(seL4_CapInitThreadTCB);
@@ -172,13 +199,18 @@ static void dispatch_core1(void)
     put_dec(ret);
     put_str("\n");
 }
+#else
+static void pet_watchdog(void)
+{
+}
 #endif
 
 /* ---- capability setup ---- */
 
+static const seL4_BootInfo *bi;
 static seL4_CPtr next_free_slot;
 
-static seL4_CPtr alloc_slot(const seL4_BootInfo *bi)
+static seL4_CPtr alloc_slot(void)
 {
     if (next_free_slot >= bi->empty.end) {
         halt("out of cslots", seL4_NotEnoughMemory);
@@ -186,33 +218,124 @@ static seL4_CPtr alloc_slot(const seL4_BootInfo *bi)
     return next_free_slot++;
 }
 
-static seL4_CPtr make_notification(const seL4_BootInfo *bi)
+/* Retype one kernel object from the first RAM untyped that has room. */
+static seL4_CPtr alloc_object(seL4_Word type, seL4_Word size_bits, const char *what)
 {
-    seL4_CPtr slot = alloc_slot(bi);
+    seL4_CPtr slot = alloc_slot();
 
     for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
         const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
-        if (d->isDevice || d->sizeBits < seL4_NotificationBits) {
+        if (d->isDevice || d->sizeBits < size_bits) {
             continue;
         }
-        if (seL4_Untyped_Retype(ut, seL4_NotificationObject, 0,
-                                seL4_CapInitThreadCNode, 0, 0, slot, 1) == seL4_NoError) {
+        if (seL4_Untyped_Retype(ut, type, 0, seL4_CapInitThreadCNode, 0, 0,
+                                slot, 1) == seL4_NoError) {
             return slot;
         }
     }
-    halt("no untyped for notification", seL4_NotEnoughMemory);
+    halt(what, seL4_NotEnoughMemory);
     return 0;
 }
 
-static seL4_CPtr bind_ptimer_irq(const seL4_BootInfo *bi, seL4_CPtr ntfn)
+/*
+ * Turn the device-untyped span [lo, hi) into large-page frames, written to
+ * frames[(paddr - lo) >> MK_FRAME_BITS]. Splits the covering untyped in halves
+ * down to frame size, so frames land at exact physical addresses without an
+ * allocator. Device untypeds are not zeroed by the kernel on retype.
+ */
+static void carve(seL4_CPtr ut, uint64_t base, unsigned bits, uint64_t lo,
+                  uint64_t hi, seL4_CPtr *frames)
 {
-    seL4_CPtr irq = alloc_slot(bi);
     seL4_Error err;
 
-    err = seL4_IRQControl_Get(seL4_CapIRQControl, PTIMER_IRQ,
+    if (base + (1ull << bits) <= lo || base >= hi) {
+        return;
+    }
+    if (bits == MK_FRAME_BITS) {
+        seL4_CPtr slot = alloc_slot();
+        err = seL4_Untyped_Retype(ut, seL4_ARM_LargePageObject, 0,
+                                  seL4_CapInitThreadCNode, 0, 0, slot, 1);
+        if (err) {
+            halt("retype shared frame", err);
+        }
+        frames[(base - lo) >> MK_FRAME_BITS] = slot;
+        return;
+    }
+
+    seL4_CPtr halves = alloc_slot();
+    (void)alloc_slot();
+    err = seL4_Untyped_Retype(ut, seL4_UntypedObject, bits - 1,
+                              seL4_CapInitThreadCNode, 0, 0, halves, 2);
+    if (err) {
+        halt("split device untyped", err);
+    }
+    carve(halves, base, bits - 1, lo, hi, frames);
+    carve(halves + 1, base + (1ull << (bits - 1)), bits - 1, lo, hi, frames);
+}
+
+static void carve_window(uint64_t lo, uint64_t hi, seL4_CPtr *frames)
+{
+    for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
+        const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
+        uint64_t end = d->paddr + (1ull << d->sizeBits);
+        if (d->isDevice && d->paddr <= lo && hi <= end) {
+            carve(ut, d->paddr, d->sizeBits, lo, hi, frames);
+            return;
+        }
+    }
+    put_str("no single device untyped covers ");
+    put_hex(lo);
+    put_str("\n");
+    halt("carve shared window", seL4_FailedLookup);
+}
+
+/* Map a frame, creating whatever page tables are missing on the way. */
+static void map_frame(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights)
+{
+    /* Not cacheable: unicore kernels map cacheable pages non-shareable. */
+    seL4_ARM_VMAttributes attr = seL4_ARM_ExecuteNever;
+
+    for (int level = 0; level < 4; level++) {
+        seL4_Error err = seL4_ARM_Page_Map(frame, seL4_CapInitThreadVSpace,
+                                           vaddr, rights, attr);
+        if (err == seL4_NoError) {
+            return;
+        }
+        if (err != seL4_FailedLookup) {
+            halt("Page_Map shared frame", err);
+        }
+        seL4_CPtr pt = alloc_object(seL4_ARM_PageTableObject,
+                                    seL4_PageTableBits, "page table");
+        err = seL4_ARM_PageTable_Map(pt, seL4_CapInitThreadVSpace, vaddr,
+                                     seL4_ARM_Default_VMAttributes);
+        if (err) {
+            halt("PageTable_Map", err);
+        }
+    }
+    halt("Page_Map: too many levels", seL4_FailedLookup);
+}
+
+static seL4_CPtr badged(seL4_CPtr ntfn, seL4_Word badge)
+{
+    seL4_CPtr slot = alloc_slot();
+    seL4_Error err = seL4_CNode_Mint(seL4_CapInitThreadCNode, slot, seL4_WordBits,
+                                     seL4_CapInitThreadCNode, ntfn, seL4_WordBits,
+                                     seL4_AllRights, badge);
+    if (err) {
+        halt("CNode_Mint", err);
+    }
+    return slot;
+}
+
+static seL4_CPtr bind_irq(seL4_Word irq_num, seL4_CPtr ntfn)
+{
+    seL4_CPtr irq = alloc_slot();
+    seL4_Error err;
+
+    err = seL4_IRQControl_Get(seL4_CapIRQControl, irq_num,
                               seL4_CapInitThreadCNode, irq, seL4_WordBits);
     if (err) {
-        halt("IRQControl_Get(30)", err);
+        halt("IRQControl_Get", err);
     }
     err = seL4_IRQHandler_SetNotification(irq, ntfn);
     if (err) {
@@ -221,12 +344,274 @@ static seL4_CPtr bind_ptimer_irq(const seL4_BootInfo *bi, seL4_CPtr ntfn)
     return irq;
 }
 
+/* ---- channel runtime ---- */
+
+static seL4_CPtr ntfn, timer_irq, sgi_irq, sgi_signal;
+static mk_channel_t channel;
+static mk_channel_region_t *local_ring;
+static const mk_channel_region_t *peer_ring;
+static int timer_pending;
+
+static void channel_notify(void *cookie)
+{
+    (void)cookie;
+    seL4_Signal(sgi_signal);
+}
+
+/* Block until something arrives. A timer tick seen here is remembered for the
+ * idle loop. Doorbells are hints: the caller always re-checks the ring. */
+static int channel_wait(void *cookie)
+{
+    seL4_Word badge = 0;
+
+    (void)cookie;
+    seL4_Wait(ntfn, &badge);
+    if (badge & BADGE_TIMER) {
+        timer_pending = 1;
+    }
+    if (badge & BADGE_SGI) {
+        return seL4_IRQHandler_Ack(sgi_irq);
+    }
+    return 0;
+}
+
+static void setup_channel(uint64_t freq)
+{
+    seL4_CPtr frames[2 * MK_FRAMES];
+    seL4_Error err;
+    const uint64_t lo = MK_SHARED_BASE;
+    const uint64_t hi = MK_SHARED_BASE + 2ull * MK_CHANNEL_REGION_SIZE;
+    const unsigned local_first = KERNEL_ID * MK_FRAMES;
+    const unsigned peer_first = (1 - KERNEL_ID) * MK_FRAMES;
+
+    carve_window(lo, hi, frames);
+    for (unsigned i = 0; i < MK_FRAMES; i++) {
+        seL4_Word off = (seL4_Word)i << MK_FRAME_BITS;
+        map_frame(frames[local_first + i], MK_SHARED_VADDR + off, seL4_ReadWrite);
+        map_frame(frames[peer_first + i],
+                  MK_SHARED_VADDR + MK_CHANNEL_REGION_SIZE + off, seL4_CanRead);
+    }
+    local_ring = (mk_channel_region_t *)(uintptr_t)MK_SHARED_VADDR;
+    peer_ring = (const mk_channel_region_t *)(uintptr_t)
+                (MK_SHARED_VADDR + MK_CHANNEL_REGION_SIZE);
+
+    put_str("channel: local ");
+    put_hex(lo + (uint64_t)local_first * (1u << MK_FRAME_BITS));
+    put_str(" rw, peer ");
+    put_hex(lo + (uint64_t)peer_first * (1u << MK_FRAME_BITS));
+    put_str(" ro, Device, SGI ");
+    put_dec(MK_CHANNEL_SGI);
+    put_str("\n");
+
+    sgi_irq = bind_irq(MK_CHANNEL_SGI, badged(ntfn, BADGE_SGI));
+    err = seL4_IRQHandler_Ack(sgi_irq);
+    if (err) {
+        halt("Ack SGI", err);
+    }
+    sgi_signal = alloc_slot();
+    err = seL4_IRQControl_IssueSGISignal(seL4_CapIRQControl, MK_CHANNEL_SGI,
+                                         1 - KERNEL_ID, seL4_CapInitThreadCNode,
+                                         sgi_signal, seL4_WordBits);
+    if (err) {
+        halt("IssueSGISignal", err);
+    }
+
+    /*
+     * Boot-fresh handshake. Shared DRAM survives NRST, so a ring may still say
+     * READY from the previous boot. K0 picks a new epoch and rings the doorbell
+     * until K1's ring carries that epoch. K1 trusts K0's ring only after an SGI,
+     * which can only come from this boot, and then adopts K0's epoch.
+     */
+    uint64_t epoch = 0;
+    uint64_t deadline = cntpct() + freq * MK_READY_TIMEOUT;
+#if KERNEL_ID == 0
+    epoch = (MK_CHANNEL_EPOCH << 32) ^ cntpct();
+    mk_channel_region_prepare(local_ring, KERNEL_ID, epoch);
+    mk_channel_region_mark_ready(local_ring);
+    while (!mk_channel_region_is_ready(peer_ring, 1) ||
+           ((const volatile mk_channel_control_t *)&peer_ring->control)->epoch != epoch) {
+        if (cntpct() >= deadline) {
+            halt("K1 ring not ready (timeout)", MK_READY_TIMEOUT);
+        }
+        seL4_Signal(sgi_signal);
+        for (uint64_t t = cntpct(); cntpct() - t < freq / 100;) {
+        }
+    }
+#else
+    mk_channel_region_prepare(local_ring, KERNEL_ID, 0);
+    for (;;) {
+        seL4_Word badge = 0;
+        seL4_Wait(ntfn, &badge);
+        seL4_IRQHandler_Ack(sgi_irq);
+        if (mk_channel_region_is_ready(peer_ring, 0)) {
+            break;
+        }
+    }
+    epoch = ((const volatile mk_channel_control_t *)&peer_ring->control)->epoch;
+    ((volatile mk_channel_control_t *)&local_ring->control)->epoch = epoch;
+    mk_channel_region_mark_ready(local_ring);
+#endif
+    (void)deadline;
+    mk_channel_status_t st = mk_channel_attach(&channel, KERNEL_ID, local_ring,
+                                               peer_ring, channel_notify,
+                                               channel_wait, NULL);
+    if (st != MK_CHANNEL_OK) {
+        halt("mk_channel_attach", st);
+    }
+    put_str("channel: READY abi=");
+    put_dec(MK_CHANNEL_ABI_VERSION);
+    put_str(" epoch=");
+    put_hex(epoch);
+    put_str("\n");
+}
+
+static void make_payload(uint8_t payload[MK_CHANNEL_PAYLOAD_SIZE], uint64_t seq)
+{
+    memcpy(payload, &seq, sizeof(seq));
+    for (size_t i = sizeof(seq); i < MK_CHANNEL_PAYLOAD_SIZE; i++) {
+        payload[i] = (uint8_t)((seq * 131u + i) & 0xffu);
+    }
+}
+
+static int payload_valid(const mk_channel_message_t *m, uint16_t type, uint64_t seq)
+{
+    uint8_t expected[MK_CHANNEL_PAYLOAD_SIZE];
+
+    make_payload(expected, seq);
+    return m->type == type && m->length == MK_CHANNEL_PAYLOAD_SIZE &&
+           memcmp(m->payload, expected, sizeof(expected)) == 0;
+}
+
+/* K1: echo one PING as a PONG. */
+static void echo(const mk_channel_message_t *m)
+{
+    if (m->type != MK_MSG_PING) {
+        halt("echo: unexpected type", m->type);
+    }
+    mk_channel_status_t st = mk_channel_try_send(&channel, MK_MSG_PONG, 0,
+                                                 m->payload, m->length, NULL);
+    if (st != MK_CHANNEL_OK) {
+        halt("echo: send", st);
+    }
+}
+
+/* K0: one validated round trip; returns its duration in counter ticks. */
+static uint64_t round_trip(uint64_t seq)
+{
+    uint8_t payload[MK_CHANNEL_PAYLOAD_SIZE];
+    mk_channel_message_t m;
+
+    make_payload(payload, seq);
+    uint64_t t0 = cntpct();
+    mk_channel_status_t st = mk_channel_try_send(&channel, MK_MSG_PING, 0,
+                                                 payload, sizeof(payload), NULL);
+    if (st != MK_CHANNEL_OK) {
+        halt("ping: send", st);
+    }
+    st = mk_channel_recv(&channel, &m);
+    uint64_t t1 = cntpct();
+    if (st != MK_CHANNEL_OK) {
+        halt("ping: recv", st);
+    }
+    if (!payload_valid(&m, MK_MSG_PONG, seq)) {
+        halt("ping: bad PONG", seq);
+    }
+    return t1 - t0;
+}
+
+static int cmp_u64(const void *a, const void *b)
+{
+    uint64_t x = *(const uint64_t *)a, y = *(const uint64_t *)b;
+    return (x > y) - (x < y);
+}
+
+static uint64_t ticks_to_ns(uint64_t ticks, uint64_t freq)
+{
+    return ticks * 1000000000ull / freq;
+}
+
+static void benchmark(uint64_t freq)
+{
+    const uint64_t total = (uint64_t)MK_BENCH_WARMUP + MK_BENCH_SAMPLES;
+
+#if KERNEL_ID == 0
+    static uint64_t samples[MK_BENCH_SAMPLES];
+    uint64_t start = 0, sum = 0;
+
+    for (uint64_t seq = 0; seq < total; seq++) {
+        if (seq == MK_BENCH_WARMUP) {
+            start = cntpct();
+        }
+        uint64_t dt = round_trip(seq);
+        if (seq == 0) {
+            put_str("bench: first PONG received\n");
+        }
+        if (seq >= MK_BENCH_WARMUP) {
+            samples[seq - MK_BENCH_WARMUP] = dt;
+            sum += dt;
+        }
+    }
+    uint64_t elapsed = cntpct() - start;
+
+    qsort(samples, MK_BENCH_SAMPLES, sizeof(samples[0]), cmp_u64);
+    uint64_t min = samples[0], max = samples[MK_BENCH_SAMPLES - 1];
+    uint64_t p50 = samples[MK_BENCH_SAMPLES / 2];
+    uint64_t p99 = samples[MK_BENCH_SAMPLES * 99 / 100];
+
+    put_str("bench: ");
+    put_dec(MK_BENCH_SAMPLES);
+    put_str(" round trips x ");
+    put_dec(MK_CHANNEL_PAYLOAD_SIZE);
+    put_str(" B: min=");
+    put_dec(ticks_to_ns(min, freq));
+    put_str("ns p50=");
+    put_dec(ticks_to_ns(p50, freq));
+    put_str("ns p99=");
+    put_dec(ticks_to_ns(p99, freq));
+    put_str("ns max=");
+    put_dec(ticks_to_ns(max, freq));
+    put_str("ns mean=");
+    put_dec(ticks_to_ns(sum, freq) / MK_BENCH_SAMPLES);
+    put_str("ns rate=");
+    put_dec(elapsed ? MK_BENCH_SAMPLES * freq / elapsed : 0);
+    put_str(" rt/s\n");
+#else
+    mk_channel_message_t m;
+    for (uint64_t seq = 0; seq < total; seq++) {
+        mk_channel_status_t st = mk_channel_recv(&channel, &m);
+        if (st != MK_CHANNEL_OK) {
+            halt("bench: recv", st);
+        }
+        if (!payload_valid(&m, MK_MSG_PING, seq)) {
+            halt("bench: bad PING", seq);
+        }
+        if (seq == 0) {
+            put_str("bench: first PING received\n");
+        }
+        echo(&m);
+    }
+    put_str("bench: echoed ");
+    put_dec(total);
+    put_str(" PINGs\n");
+#endif
+    const volatile mk_channel_control_t *lc = &local_ring->control;
+    put_str("bench: sent=");
+    put_dec(lc->sent);
+    put_str(" received=");
+    put_dec(lc->received);
+    put_str(" full=");
+    put_dec(lc->full);
+    put_str(" corrupt=");
+    put_dec(lc->corrupt);
+    put_str("\n");
+}
+
 int main(void)
 {
-    const seL4_BootInfo *bi = sel4runtime_bootinfo();
     uint64_t freq, cyc_per_sec, next, prev_cyc, tick = 0;
-    seL4_CPtr ntfn, irq;
+    uint64_t ping_seq = 1000000; /* idle-loop pings, distinct from the bench */
 
+    bi = sel4runtime_bootinfo();
     put_str("rootserver up, build " ROOTSERVER_BUILD_ID "\n");
 
 #if KERNEL_ID == 0
@@ -234,14 +619,11 @@ int main(void)
     dispatch_core1();
 #endif
 
-    next_free_slot = bi->empty.start;
-    ntfn = make_notification(bi);
-    irq = bind_ptimer_irq(bi, ntfn);
-
     freq = cntfrq();
     pmu_init();
 
-    /* Calibrate: cycles in one second of pure spinning = 100% busy. */
+    /* Calibrate before allocating anything: on K0 this also gives core 1 a
+     * full second to leave the trampoline, which lives in K0's untyped RAM. */
     {
         uint64_t t0 = cntpct(), c0 = pmccntr();
         while (cntpct() - t0 < freq) {
@@ -252,27 +634,59 @@ int main(void)
     put_dec(freq);
     put_str(" Hz, cpu=");
     put_dec(cyc_per_sec);
-    put_str(" cycles/s; blocking on PPI 30\n");
+    put_str(" cycles/s\n");
+
+    next_free_slot = bi->empty.start;
+    ntfn = alloc_object(seL4_NotificationObject, seL4_NotificationBits,
+                        "notification");
+
+    pet_watchdog();
+    setup_channel(freq);
+    pet_watchdog();
+    benchmark(freq);
+    pet_watchdog();
+
+    timer_irq = bind_irq(PTIMER_IRQ, badged(ntfn, BADGE_TIMER));
+    put_str("idle: blocking on PPI 30 + SGI ");
+    put_dec(MK_CHANNEL_SGI);
+    put_str("\n");
 
     /* K0 ticks on whole seconds, K1 on half seconds: no shared-UART collisions. */
     next = (cntpct() / freq + 1) * freq + (KERNEL_ID ? freq / 2 : 0);
     ptimer_arm(next);
-    seL4_IRQHandler_Ack(irq);
+    seL4_IRQHandler_Ack(timer_irq);
     prev_cyc = pmccntr();
 
     for (;;) {
-        seL4_Word badge;
-        uint64_t now_cyc, busy_ppm;
+        seL4_Word badge = 0;
+        uint64_t now_cyc, busy_ppm, rtt = 0;
 
-        seL4_Wait(ntfn, &badge);
+        if (!timer_pending) {
+            seL4_Wait(ntfn, &badge);
+        }
+
+        if (badge & BADGE_SGI) {
+            seL4_IRQHandler_Ack(sgi_irq);
+#if KERNEL_ID == 1
+            mk_channel_message_t m;
+            while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
+                echo(&m);
+            }
+#endif
+        }
+        if (!(badge & BADGE_TIMER) && !timer_pending) {
+            continue;
+        }
+        timer_pending = 0;
 
         /* A future deadline drops the level-triggered line before the ack. */
         next += freq;
         ptimer_arm(next);
-        seL4_IRQHandler_Ack(irq);
+        seL4_IRQHandler_Ack(timer_irq);
 
 #if KERNEL_ID == 0
         pet_watchdog();
+        rtt = round_trip(ping_seq++);
 #endif
         now_cyc = pmccntr();
         busy_ppm = (now_cyc - prev_cyc) * 1000000ull / cyc_per_sec;
@@ -281,6 +695,14 @@ int main(void)
         put_dec(tick++);
         put_str(" busy=");
         put_ppm_as_pct(busy_ppm);
+#if KERNEL_ID == 0
+        put_str(" ping=");
+        put_dec(ticks_to_ns(rtt, freq));
+        put_str("ns");
+#else
+        put_str(" pongs=");
+        put_dec(((const volatile mk_channel_control_t *)&local_ring->control)->sent);
+#endif
         put_str("\n");
 
         /* exclude our own printing from the next sample's start point */

@@ -11,7 +11,7 @@ fi
 
 K1_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k1"
 K0_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k0"
-ROOTSERVER_BUILD_ID="ccwmp25-mk-idle-v16"
+ROOTSERVER_BUILD_ID="ccwmp25-mk-channel-v16"
 CROSS_PREFIX="aarch64-linux-gnu-"
 NM="${CROSS_PREFIX}nm"
 MAX_TRAMPOLINE_PASSES=3

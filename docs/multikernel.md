@@ -15,7 +15,8 @@ stable past several 32 s watchdog windows.
 | OP-TEE SMCs | IWDG pet, PSCI | none |
 | Tick source | EL1 phys timer, PPI 30 | EL1 phys timer, PPI 30 (banked per core) |
 
-`0xac000000..0xba7fffff` is reserved for future inter-kernel shared memory.
+`0xac000000..0xad3fffff` holds the inter-kernel channel (below);
+`0xad400000..0xba7fffff` is still free for later shared memory.
 
 Boot sequence:
 1. The elfloader loads K0, then `kernel_1.elf`, `rootserver_1` and `kernel_1.dtb`
@@ -30,6 +31,40 @@ Why core 1 is started this way: an elfloader-time CPU_ON leads to a
 non-secure access into TF-A BL31's SRAM bank (RISAB1, `0x0E002570`), and OP-TEE
 panics. Starting core 1 from the booted K0 avoids this. The history is in
 `~/sel4-multikernel/projects/sel4_ccwmp25/docs/risab_tfa_sram_investigation.md`.
+
+## Inter-kernel channel
+
+`channel/mk_channel.{h,c}` is ported from `projects/multikernel_qemu`
+(`feature/qemu-aarch64-ikc`, ABI v2, magic "MKCH"). Each kernel owns one
+10 MiB SPSC ring (16384 slots, 64 B header + 512 B payload) and maps the
+peer's read-only: K0 at `0xac000000`, K1 at `0xaca00000`. Both rootservers
+carve these frames out of the device untyped (the window is in neither DTB's
+RAM) by halving it down to 2 MiB pages.
+
+Differences from the QEMU original, all forced by the hardware:
+- **Device (non-cacheable) mapping.** Unicore kernels map cacheable user
+  pages non-shareable, so cached sharing between cores is not coherent. The
+  library therefore uses only aligned 64-bit accesses (no `memcpy`/`memset`
+  on shared memory), plain owner-only counter updates (no exclusives), and
+  LDAR/STLR for head/tail. Header fields are read once (TOCTOU fix).
+- **Doorbell is SGI 1, not SGI 8.** TF-A keeps SGIs 8-15 secure (Group 0); a
+  non-secure `GICD_SGIR` write cannot raise them, so SGI 8 never arrives.
+  The kernel's `seL4_IRQControl_IssueSGISignal` (upstream) sends it.
+- **Boot-fresh handshake.** DRAM survives NRST, so a ring can still say READY
+  from the previous boot. K0 picks a new epoch and rings the doorbell every
+  10 ms; K1 trusts K0's ring only after an SGI (which can only come from this
+  boot) and copies K0's epoch into its own ring; K0 attaches only when K1's
+  ring shows that epoch. K1 logs a few `Received disabled IRQ: 1` while K0
+  rings before K1 has bound SGI 1; this is expected.
+
+Measured on the board (2026-10-17), 10 000 round trips of 512 B after 1 000
+warm-up: min 42.8 us, p50 43.8 us, p99 44.9 us, max 45.8 us, 14 424 rt/s, no
+full or corrupt slots. One ping per idle tick takes about 30 us. Both cores
+still idle at 0.015-0.018% busy.
+
+The ring is a transport only. The contract layer (policy_gate-style message
+validation and admission) still sits above it; see the feasibility notes in
+the session report.
 
 ## Idle
 
@@ -80,6 +115,8 @@ only thread. Once real components exist, move to a timer driver component.
 
 ## Known gaps
 
+- The channel trusts the peer for liveness: a stuck K1 hangs K0's
+  `mk_channel_recv` (no timeout yet), and the watchdog then resets the board.
 - Both kernels write USART2 unlocked. For now collisions are avoided by phase
   offset (K1 ticks at +0.5 s).
 - The GIC distributor is shared, and each kernel initialises it at boot. That
