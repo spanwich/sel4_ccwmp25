@@ -171,6 +171,25 @@ physically at the board.
     the M33-TD firmware.
   - It also likely means moving TF-A and OP-TEE to the OpenSTLinux 6.1
     baselines, a jump from our Digi 5.0 versions.
+- **[C] Digi DEY 5.0 documents only the coprocessor mode, A35-TD (reviewed 2026-10-18).**
+  - [Develop Cortex-M applications](https://docs.digi.com/resources/documentation/digidocs/embedded/dey/5.0/ccmp25/yocto-develop-cortex-apps_t_stm.html)
+    starts the M33 *from the A35*: Linux remoteproc (`/lib/firmware`,
+    `/sys/class/remoteproc/remoteproc0`), U-Boot `rproc`, or ST-LINK.
+  - [Boot chain](https://docs.digi.com/resources/documentation/digidocs/embedded/dey/5.0/ccmp25/yocto-boot-chain_t_stm.html)
+    lists only ROM → TF-A (FSBL) → OP-TEE → U-Boot on the A35. There are no
+    M33 boot modes, no TF-M and no MCUboot.
+  - [Secure boot set-up](https://docs.digi.com/resources/documentation/digidocs/embedded/dey/5.0/ccmp25/yocto-trustfence-secure-boot-set-up_t_stm.html)
+    has OP-TEE authenticate and decrypt M33 firmware before remoteproc starts
+    it. The keys are RPROC-FW-PKH (OTP 176..183) and RPROC-FW-ENC-KEY
+    (OTP 336..343), both write-once.
+  - So Digi supports "M33 boots" in the sense that the A35 boots the M33. The
+    M33-master BOOT[3:0] modes appear only in the SOM hardware manual
+    (90002593); no DEY software uses them.
+- **[I] An intermediate step that uses only Digi software: A35-TD plus a
+  measured M33.** OP-TEE already authenticates the M33 image (RPROC-FW-PKH).
+  It could also extend a measurement of that image into its own log. This does
+  not move the root of trust to the M33: the M33 is measured by the A35 chain,
+  not the reverse. It does need no boot-mode change and no new FSBL.
 
 ## 6. OTP plan (not executed)
 
