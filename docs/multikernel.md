@@ -54,16 +54,20 @@ only thread. Once real components exist, move to a timer driver component.
   Bruel/ST) and we use it (`PLATFORM=stm32mp2`, `KernelARMPlatform=ccmp25-dvk`).
   Upstream has **no multikernel support**. Its SMP model is one kernel across
   all cores.
-- **au-ts multikernel** (https://github.com/au-ts/multikernel-manifest,
-  `multikernel` branches of seL4 and Microkit) is the closest upstream effort.
-  Like us, it uses a per-kernel RAM region and a fixed kernel virtual address.
-  It differs from our work in these ways:
-  - Its loader is the Microkit loader. Ours is the seL4_tools elfloader.
-  - Its loader releases the secondaries. We start core 1 from K0's rootserver,
-    for the RISAB reason above.
-  - It has `KernelEnableMultikernelSupport` with cross-core SGI notifications.
-    We have no inter-kernel IPC yet.
-  - It supports QEMU, OdroidC4 and MaaXboard, not STM32MP2.
+- **Our basis: Kent McLeod's multikernel prototype** (github.com/kent-mcleod,
+  `kent/multicore3` in both seL4 and seL4_tools; mirrored as
+  `spanwich/kent-multicore3`). The kernels stay plain unicore seL4 with no
+  multikernel config option; the elfloader loads one kernel per core with
+  per-core page tables. Related pieces: `kent/sgi` (the SGI API, now upstream
+  as `seL4_IRQControl_IssueSGISignal`), `093bca57` (reserve DTB memory gaps so a
+  kernel never hands another kernel's RAM out as device untypeds), `3ccb3d4a`
+  (per-core SPI split) and the elfloader GIC distributor init. Our
+  `ElfloaderMultikernel` reimplements his loader rather than descending from his
+  commits, and starts core 1 from K0 instead of the elfloader (RISAB, above).
+- **au-ts multikernel** (`au-ts/seL4` branch `multikernel`, 2025, Microkit
+  loader) is a separate, later line. `KernelEnableMultikernelSupport` and
+  `KernelMultikernelNumCPUs` are defined there (`config.cmake`), not in any of
+  our or Kent's branches. It is a reference only.
 - **Our kernel patches**, on `multikernel-stm32mp2-v16`:
   - `KernelArmPreparedSecondaryBoot` turns set/way cache maintenance into
     barriers for the kernel that enters through the trampoline. This is outside
@@ -83,3 +87,7 @@ only thread. Once real components exist, move to a timer driver component.
 - The trampoline region is not reserved in K0. It is safe only because K0
   dispatches before allocating any memory.
 - If K0 dies, nobody pets IWDG1 and the board resets.
+- Memory isolation is by convention only: each DTB lists only its own RAM, but
+  the other kernel's range is not reserved (Kent's `093bca57` not ported), so a
+  rootserver may receive device untypeds covering it. No RIF/RISAF partition
+  is configured yet; OP-TEE can set one up on this board.
