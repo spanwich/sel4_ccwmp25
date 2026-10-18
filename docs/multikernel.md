@@ -115,8 +115,8 @@ only thread. Once real components exist, move to a timer driver component.
 
 ## Known gaps
 
-- The channel trusts the peer for liveness: a stuck K1 hangs K0's
-  `mk_channel_recv` (no timeout yet), and the watchdog then resets the board.
+- K1 still blocks without a deadline while it waits for K0 (benchmark echo).
+  K0's round trips are bounded (`mk_channel_recv_until`, 10 ms) since P1.
 - Both kernels write USART2 unlocked. For now collisions are avoided by phase
   offset (K1 ticks at +0.5 s).
 - The GIC distributor is shared, and each kernel initialises it at boot. That
@@ -124,7 +124,9 @@ only thread. Once real components exist, move to a timer driver component.
 - The trampoline region is not reserved in K0. It is safe only because K0
   dispatches before allocating any memory.
 - If K0 dies, nobody pets IWDG1 and the board resets.
-- Memory isolation is by convention only: each DTB lists only its own RAM, but
-  the other kernel's range is not reserved (Kent's `093bca57` not ported), so a
-  rootserver may receive device untypeds covering it. No RIF/RISAF partition
-  is configured yet; OP-TEE can set one up on this board.
+- Memory isolation is enforced by each kernel's boot configuration, not by
+  hardware. Since P1 (kernel `659faba4`), each DTS marks all DDR outside its own RAM and
+  the channel window as `sel4,foreign-memory`, so neither kernel can hand out
+  the other's RAM, even as device untypeds. The rootservers audit this at
+  boot (`untyped-audit ... PASS`). Both cores are still CID1 on the bus, so
+  RIF/RISAF cannot separate them.

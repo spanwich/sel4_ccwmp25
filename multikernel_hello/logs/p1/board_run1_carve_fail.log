@@ -1,0 +1,1937 @@
+[K1] tick 87644 busy=0.015% pongs=98645
+[K0] tick 87645 busy=0.018% ping=29575ns
+[K1] tick 87645 busy=0.015% pongs=98646
+[K0] tick 87646 busy=0.018% ping=29575ns
+[K1] tick 87646 busy=0.015% pongs=98647
+[K0] tick 87647 busy=0.018% ping=29950ns
+[K1] tick 87647 busy=0.015% pongs=98648
+[K0] tick 87648 busy=0.018% ping=29225ns
+[K1] tick 87648 busy=0.015% pongs=98649
+[K0] tick 87649 busy=0.018% ping=29825ns
+[K1] tick 87649 busy=0.015% pongs=98650
+[K0] tick 87650 busy=0.018% ping=30225ns
+[K1] tick 87650 busy=0.015% pongs=98651
+[K0] tick 87651 busy=0.018% ping=29175ns
+[K1] tick 87651 busy=0.015% pongs=98652
+[K0] tick 87652 busy=0.018% ping=29525ns
+[K1] tick 87652 busy=0.015% pongs=98653
+[K0] tick 87653 busy=0.018% ping=29925ns
+[K1] tick 87653 busy=0.015% pongs=98654
+[K0] tick 87654 busy=0.018% ping=29850ns
+[K1] tick 87654 busy=0.015% pongs=98655
+[K0] tick 87655 busy=0.018% ping=29350ns
+[K1] tick 87655 busy=0.015% pongs=98656
+[K0] tick 87656 busy=0.018% ping=29475ns
+[K1] tick 87656 busy=0.015% pongs=98657
+[K0] tick 87657 busy=0.018% ping=29575ns
+[K1] tick 87657 busy=0.015% pongs=98658
+[K0] tick 87658 busy=0.018% ping=29500ns
+[K1] tick 87658 busy=0.015% pongs=98659
+[K0] tick 87659 busy=0.018% ping=29675ns
+[K1] tick 87659 busy=0.015% pongs=98660
+[K0] tick 87660 busy=0.018% ping=29750ns
+[K1] tick 87660 busy=0.015% pongs=98661
+[K0] tick 87661 busy=0.018% ping=29550ns
+[K1] tick 87661 busy=0.015% pongs=98662
+[K0] tick 87662 busy=0.018% ping=29750ns
+[K1] tick 87662 busy=0.015% pongs=98663
+[K0] tick 87663 busy=0.018% ping=29850ns
+[K1] tick 87663 busy=0.015% pongs=98664
+[K0] tick 87664 busy=0.018% ping=29500ns
+[K1] tick 87664 busy=0.015% pongs=98665
+[K0] tick 87665 busy=0.018% ping=29075ns
+[K1] tick 87665 busy=0.015% pongs=98666
+[K0] tick 87666 busy=0.018% ping=29175ns
+[K1] tick 87666 busy=0.015% pongs=98667
+[K0] tick 87667 busy=0.018% ping=29050ns
+[K1] tick 87667 busy=0.015% pongs=98668
+[K0] tick 87668 busy=0.018% ping=29425ns
+[K1] tick 87668 busy=0.015% pongs=98669
+[K0] tick 87669 busy=0.018% ping=29100ns
+[K1] tick 87669 busy=0.015% pongs=98670
+[K0] tick 87670 busy=0.018% ping=29700ns
+[K1] tick 87670 busy=0.015% pongs=98671
+[K0] tick 87671 busy=0.018% ping=29375ns
+[K1] tick 87671 busy=0.015% pongs=98672
+[K0] tick 87672 busy=0.018% ping=29325ns
+[K1] tick 87672 busy=0.015% pongs=98673
+[K0] tick 87673 busy=0.018% ping=30125ns
+[K1] tick 87673 busy=0.015% pongs=98674
+[K0] tick 87674 busy=0.018% ping=29775ns
+[K1] tick 87674 busy=0.015% pongs=98675
+[K0] tick 87675 busy=0.018% ping=29200ns
+[K1] tick 87675 busy=0.015% pongs=98676
+[K0] tick 87676 busy=0.018% ping=30050ns
+[K1] tick 87676 busy=0.015% pongs=98677
+[K0] tick 87677 busy=0.018% ping=30425ns
+[K1] tick 87677 busy=0.015% pongs=98678
+[K0] tick 87678 busy=0.018% ping=29750ns
+[K1] tick 87678 busy=0.015% pongs=98679
+[K0] tick 87679 busy=0.018% ping=29750ns
+[K1] tick 87679 busy=0.015% pongs=98680
+[K0] tick 87680 busy=0.018% ping=29625ns
+[K1] tick 87680 busy=0.015% pongs=98681
+[K0] tick 87681 busy=0.018% ping=29675ns
+[K1] tick 87681 busy=0.015% pongs=98682
+[K0] tick 87682 busy=0.018% ping=29850ns
+[K1] tick 87682 busy=0.015% pongs=98683
+[K0] tick 87683 busy=0.018% ping=29325ns
+[K1] tick 87683 busy=0.015% pongs=98684
+[K0] tick 87684 busy=0.018% ping=29325ns
+[K1] tick 87684 busy=0.015% pongs=98685
+[K0] tick 87685 busy=0.018% ping=30425ns
+[K1] tick 87685 busy=0.015% pongs=98686
+[K0] tick 87686 busy=0.018% ping=29650ns
+[K1] tick 87686 busy=0.015% pongs=98687
+[K0] tick 87687 busy=0.018% ping=29500ns
+[K1] tick 87687 busy=0.015% pongs=98688
+[K0] tick 87688 busy=0.018% ping=29550ns
+[K1] tick 87688 busy=0.015% pongs=98689
+[K0] tick 87689 busy=0.018% ping=29375ns
+[K1] tick 87689 busy=0.015% pongs=98690
+[K0] tick 87690 busy=0.018% ping=29625ns
+[K1] tick 87690 busy=0.015% pongs=98691
+[K0] tick 87691 busy=0.018% ping=29075ns
+[K1] tick 87691 busy=0.015% pongs=98692
+[K0] tick 87692 busy=0.018% ping=29525ns
+[K1] tick 87692 busy=0.015% pongs=98693
+[K0] tick 87693 busy=0.018% ping=29250ns
+[K1] tick 87693 busy=0.015% pongs=98694
+[K0] tick 87694 busy=0.018% ping=29425ns
+[K1] tick 87694 busy=0.015% pongs=98695
+[K0] tick 87695 busy=0.018% ping=30125ns
+[K1] tick 87695 busy=0.015% pongs=98696
+[K0] tick 87696 busy=0.018% ping=29975ns
+[K1] tick 87696 busy=0.015% pongs=98697
+[K0] tick 87697 busy=0.018% ping=29425ns
+[K1] tick 87697 busy=0.015% pongs=98698
+[K0] tick 87698 busy=0.018% ping=29675ns
+[K1] tick 87698 busy=0.015% pongs=98699
+[K0] tick 87699 busy=0.018% ping=30500ns
+[K1] tick 87699 busy=0.015% pongs=98700
+[K0] tick 87700 busy=0.018% ping=29825ns
+[K1] tick 87700 busy=0.015% pongs=98701
+[K0] tick 87701 busy=0.018% ping=29275ns
+[K1] tick 87701 busy=0.015% pongs=98702
+[K0] tick 87702 busy=0.018% ping=29600ns
+[K1] tick 87702 busy=0.015% pongs=98703
+[K0] tick 87703 busy=0.018% ping=29875ns
+[K1] tick 87703 busy=0.015% pongs=98704
+[K0] tick 87704 busy=0.018% ping=29275ns
+[K1] tick 87704 busy=0.015% pongs=98705
+[K0] tick 87705 busy=0.018% ping=30250ns
+[K1] tick 87705 busy=0.015% pongs=98706
+[K0] tick 87706 busy=0.018% ping=29475ns
+[K1] tick 87706 busy=0.015% pongs=98707
+[K0] tick 87707 busy=0.018% ping=29500ns
+[K1] tick 87707 busy=0.015% pongs=98708
+[K0] tick 87708 busy=0.018% ping=30000ns
+[K1] tick 87708 busy=0.015% pongs=98709
+[K0] tick 87709 busy=0.018% ping=29825ns
+[K1] tick 87709 busy=0.015% pongs=98710
+[K0] tick 87710 busy=0.018% ping=29900ns
+[K1] tick 87710 busy=0.015% pongs=98711
+[K0] tick 87711 busy=0.018% ping=29875ns
+[K1] tick 87711 busy=0.015% pongs=98712
+[K0] tick 87712 busy=0.018% ping=29725ns
+[K1] tick 87712 busy=0.015% pongs=98713
+[K0] tick 87713 busy=0.018% ping=30175ns
+[K1] tick 87713 busy=0.015% pongs=98714
+[K0] tick 87714 busy=0.018% ping=29900ns
+[K1] tick 87714 busy=0.015% pongs=98715
+[K0] tick 87715 busy=0.018% ping=29175ns
+[K1] tick 87715 busy=0.015% pongs=98716
+[K0] tick 87716 busy=0.018% ping=29500ns
+[K1] tick 87716 busy=0.015% pongs=98717
+[K0] tick 87717 busy=0.018% ping=30500ns
+[K1] tick 87717 busy=0.015% pongs=98718
+[K0] tick 87718 busy=0.018% ping=29375ns
+[K1] tick 87718 busy=0.015% pongs=98719
+[K0] tick 87719 busy=0.018% ping=29125ns
+[K1] tick 87719 busy=0.015% pongs=98720
+[K0] tick 87720 busy=0.018% ping=29875ns
+[K1] tick 87720 busy=0.015% pongs=98721
+[K0] tick 87721 busy=0.018% ping=30350ns
+[K1] tick 87721 busy=0.015% pongs=98722
+[K0] tick 87722 busy=0.018% ping=29450ns
+[K1] tick 87722 busy=0.015% pongs=98723
+[K0] tick 87723 busy=0.018% ping=30725ns
+[K1] tick 87723 busy=0.015% pongs=98724
+[K0] tick 87724 busy=0.018% ping=29400ns
+[K1] tick 87724 busy=0.015% pongs=98725
+[K0] tick 87725 busy=0.018% ping=29175ns
+[K1] tick 87725 busy=0.015% pongs=98726
+[K0] tick 87726 busy=0.018% ping=29525ns
+[K1] tick 87726 busy=0.015% pongs=98727
+[K0] tick 87727 busy=0.018% ping=29275ns
+[K1] tick 87727 busy=0.015% pongs=98728
+[K0] tick 87728 busy=0.018% ping=29850ns
+[K1] tick 87728 busy=0.015% pongs=98729
+[K0] tick 87729 busy=0.018% ping=29425ns
+[K1] tick 87729 busy=0.015% pongs=98730
+[K0] tick 87730 busy=0.018% ping=29250ns
+[K1] tick 87730 busy=0.015% pongs=98731
+[K0] tick 87731 busy=0.018% ping=30025ns
+[K1] tick 87731 busy=0.015% pongs=98732
+[K0] tick 87732 busy=0.018% ping=29875ns
+[K1] tick 87732 busy=0.015% pongs=98733
+[K0] tick 87733 busy=0.018% ping=29200ns
+[K1] tick 87733 busy=0.015% pongs=98734
+[K0] tick 87734 busy=0.018% ping=29600ns
+[K1] tick 87734 busy=0.015% pongs=98735
+[K0] tick 87735 busy=0.018% ping=30850ns
+[K1] tick 87735 busy=0.015% pongs=98736
+[K0] tick 87736 busy=0.018% ping=30500ns
+[K1] tick 87736 busy=0.015% pongs=98737
+[K0] tick 87737 busy=0.018% ping=29825ns
+[K1] tick 87737 busy=0.015% pongs=98738
+[K0] tick 87738 busy=0.018% ping=29350ns
+[K1] tick 87738 busy=0.015% pongs=98739
+[K0] tick 87739 busy=0.018% ping=29025ns
+[K1] tick 87739 busy=0.015% pongs=98740
+[K0] tick 87740 busy=0.018% ping=29700ns
+[K1] tick 87740 busy=0.015% pongs=98741
+[K0] tick 87741 busy=0.018% ping=29025ns
+[K1] tick 87741 busy=0.015% pongs=98742
+[K0] tick 87742 busy=0.018% ping=29675ns
+[K1] tick 87742 busy=0.015% pongs=98743
+[K0] tick 87743 busy=0.018% ping=29950ns
+[K1] tick 87743 busy=0.015% pongs=98744
+[K0] tick 87744 busy=0.018% ping=30450ns
+[K1] tick 87744 busy=0.015% pongs=98745
+[K0] tick 87745 busy=0.018% ping=29700ns
+[K1] tick 87745 busy=0.015% pongs=98746
+[K0] tick 87746 busy=0.018% ping=30425ns
+[K1] tick 87746 busy=0.015% pongs=98747
+[K0] tick 87747 busy=0.018% ping=29525ns
+[K1] tick 87747 busy=0.015% pongs=98748
+[K0] tick 87748 busy=0.018% ping=29450ns
+[K1] tick 87748 busy=0.015% pongs=98749
+[K0] tick 87749 busy=0.018% ping=30225ns
+[K1] tick 87749 busy=0.015% pongs=98750
+[K0] tick 87750 busy=0.018% ping=29650ns
+[K1] tick 87750 busy=0.015% pongs=98751
+[K0] tick 87751 busy=0.018% ping=29150ns
+[K1] tick 87751 busy=0.015% pongs=98752
+[K0] tick 87752 busy=0.018% ping=29975ns
+[K1] tick 87752 busy=0.015% pongs=98753
+[K0] tick 87753 busy=0.018% ping=29350ns
+[K1] tick 87753 busy=0.015% pongs=98754
+[K0] tick 87754 busy=0.018% ping=29350ns
+[K1] tick 87754 busy=0.015% pongs=98755
+[K0] tick 87755 busy=0.018% ping=29475ns
+[K1] tick 87755 busy=0.015% pongs=98756
+[K0] tick 87756 busy=0.018% ping=29575ns
+[K1] tick 87756 busy=0.015% pongs=98757
+[K0] tick 87757 busy=0.018% ping=29950ns
+[K1] tick 87757 busy=0.015% pongs=98758
+[K0] tick 87758 busy=0.018% ping=30125ns
+[K1] tick 87758 busy=0.015% pongs=98759
+[K0] tick 87759 busy=0.018% ping=30250ns
+[K1] tick 87759 busy=0.015% pongs=98760
+[K0] tick 87760 busy=0.018% ping=29775ns
+[K1] tick 87760 busy=0.015% pongs=98761
+[K0] tick 87761 busy=0.018% ping=29675ns
+[K1] tick 87761 busy=0.015% pongs=98762
+[K0] tick 87762 busy=0.018% ping=29150ns
+[K1] tick 87762 busy=0.015% pongs=98763
+[K0] tick 87763 busy=0.018% ping=29425ns
+[K1] tick 87763 busy=0.015% pongs=98764
+[K0] tick 87764 busy=0.018% ping=29500ns
+[K1] tick 87764 busy=0.015% pongs=98765
+[K0] tick 87765 busy=0.018% ping=29275ns
+[K1] tick 87765 busy=0.015% pongs=98766
+[K0] tick 87766 busy=0.018% ping=29375ns
+[K1] tick 87766 busy=0.015% pongs=98767
+[K0] tick 87767 busy=0.018% ping=30500ns
+[K1] tick 87767 busy=0.015% pongs=98768
+[K0] tick 87768 busy=0.018% ping=29675ns
+[K1] tick 87768 busy=0.015% pongs=98769
+[K0] tick 87769 busy=0.018% ping=29425ns
+[K1] tick 87769 busy=0.015% pongs=98770
+[K0] tick 87770 busy=0.018% ping=29625ns
+[K1] tick 87770 busy=0.015% pongs=98771
+[K0] tick 87771 busy=0.018% ping=30300ns
+[K1] tick 87771 busy=0.015% pongs=98772
+[K0] tick 87772 busy=0.018% ping=30025ns
+[K1] tick 87772 busy=0.015% pongs=98773
+[K0] tick 87773 busy=0.018% ping=29075ns
+[K1] tick 87773 busy=0.015% pongs=98774
+[K0] tick 87774 busy=0.018% ping=29550ns
+[K1] tick 87774 busy=0.015% pongs=98775
+[K0] tick 87775 busy=0.018% ping=29625ns
+[K1] tick 87775 busy=0.015% pongs=98776
+[K0] tick 87776 busy=0.018% ping=29000ns
+[K1] tick 87776 busy=0.015% pongs=98777
+[K0] tick 87777 busy=0.018% ping=29375ns
+[K1] tick 87777 busy=0.015% pongs=98778
+[K0] tick 87778 busy=0.018% ping=29375ns
+[K1] tick 87778 busy=0.015% pongs=98779
+[K0] tick 87779 busy=0.018% ping=29550ns
+[K1] tick 87779 busy=0.015% pongs=98780
+[K0] tick 87780 busy=0.018% ping=29925ns
+[K1] tick 87780 busy=0.015% pongs=98781
+[K0] tick 87781 busy=0.018% ping=30800ns
+[K1] tick 87781 busy=0.015% pongs=98782
+[K0] tick 87782 busy=0.018% ping=30375ns
+[K1] tick 87782 busy=0.015% pongs=98783
+[K0] tick 87783 busy=0.018% ping=29350ns
+[K1] tick 87783 busy=0.015% pongs=98784
+[K0] tick 87784 busy=0.018% ping=29825ns
+[K1] tick 87784 busy=0.015% pongs=98785
+[K0] tick 87785 busy=0.018% ping=29975ns
+[K1] tick 87785 busy=0.015% pongs=98786
+[K0] tick 87786 busy=0.018% ping=29250ns
+[K1] tick 87786 busy=0.015% pongs=98787
+[K0] tick 87787 busy=0.018% ping=29875ns
+[K1] tick 87787 busy=0.015% pongs=98788
+[K0] tick 87788 busy=0.018% ping=29475ns
+[K1] tick 87788 busy=0.015% pongs=98789
+[K0] tick 87789 busy=0.018% ping=29100ns
+[K1] tick 87789 busy=0.015% pongs=98790
+[K0] tick 87790 busy=0.018% ping=29700ns
+[K1] tick 87790 busy=0.015% pongs=98791
+[K0] tick 87791 busy=0.018% ping=29025ns
+[K1] tick 87791 busy=0.015% pongs=98792
+[K0] tick 87792 busy=0.018% ping=29700ns
+[K1] tick 87792 busy=0.015% pongs=98793
+[K0] tick 87793 busy=0.018% ping=31200ns
+[K1] tick 87793 busy=0.015% pongs=98794
+[K0] tick 87794 busy=0.018% ping=29925ns
+[K1] tick 87794 busy=0.015% pongs=98795
+[K0] tick 87795 busy=0.018% ping=29800ns
+[K1] tick 87795 busy=0.015% pongs=98796
+[K0] tick 87796 busy=0.018% ping=29700ns
+[K1] tick 87796 busy=0.015% pongs=98797
+[K0] tick 87797 busy=0.018% ping=29250ns
+[K1] tick 87797 busy=0.015% pongs=98798
+[K0] tick 87798 busy=0.018% ping=29425ns
+[K1] tick 87798 busy=0.015% pongs=98799
+[K0] tick 87799 busy=0.018% ping=29375ns
+[K1] tick 87799 busy=0.015% pongs=98800
+[K0] tick 87800 busy=0.018% ping=29225ns
+[K1] tick 87800 busy=0.015% pongs=98801
+[K0] tick 87801 busy=0.018% ping=29350ns
+[K1] tick 87801 busy=0.015% pongs=98802
+[K0] tick 87802 busy=0.018% ping=29150ns
+[K1] tick 87802 busy=0.015% pongs=98803
+[K0] tick 87803 busy=0.018% ping=30700ns
+[K1] tick 87803 busy=0.015% pongs=98804
+[K0] tick 87804 busy=0.018% ping=29625ns
+[K1] tick 87804 busy=0.015% pongs=98805
+[K0] tick 87805 busy=0.018% ping=29325ns
+[K1] tick 87805 busy=0.015% pongs=98806
+[K0] tick 87806 busy=0.018% ping=29825ns
+[K1] tick 87806 busy=0.015% pongs=98807
+[K0] tick 87807 busy=0.018% ping=29650ns
+[K1] tick 87807 busy=0.015% pongs=98808
+[K0] tick 87808 busy=0.018% ping=29950ns
+[K1] tick 87808 busy=0.015% pongs=98809
+[K0] tick 87809 busy=0.018% ping=29225ns
+[K1] tick 87809 busy=0.015% pongs=98810
+[K0] tick 87810 busy=0.018% ping=29400ns
+[K1] tick 87810 busy=0.015% pongs=98811
+[K0] tick 87811 busy=0.018% ping=29275ns
+[K1] tick 87811 busy=0.015% pongs=98812
+[K0] tick 87812 busy=0.018% ping=29125ns
+[K1] tick 87812 busy=0.015% pongs=98813
+[K0] tick 87813 busy=0.018% ping=29575ns
+[K1] tick 87813 busy=0.015% pongs=98814
+[K0] tick 87814 busy=0.018% ping=29300ns
+[K1] tick 87814 busy=0.015% pongs=98815
+[K0] tick 87815 busy=0.018% ping=29200ns
+[K1] tick 87815 busy=0.015% pongs=98816
+[K0] tick 87816 busy=0.018% ping=30600ns
+[K1] tick 87816 busy=0.015% pongs=98817
+[K0] tick 87817 busy=0.018% ping=30350ns
+[K1] tick 87817 busy=0.015% pongs=98818
+[K0] tick 87818 busy=0.018% ping=30175ns
+[K1] tick 87818 busy=0.015% pongs=98819
+[K0] tick 87819 busy=0.018% ping=29975ns
+[K1] tick 87819 busy=0.015% pongs=98820
+[K0] tick 87820 busy=0.018% ping=29325ns
+[K1] tick 87820 busy=0.015% pongs=98821
+[K0] tick 87821 busy=0.018% ping=29750ns
+[K1] tick 87821 busy=0.015% pongs=98822
+[K0] tick 87822 busy=0.018% ping=29975ns
+[K1] tick 87822 busy=0.015% pongs=98823
+[K0] tick 87823 busy=0.018% ping=28975ns
+[K1] tick 87823 busy=0.015% pongs=98824
+[K0] tick 87824 busy=0.018% ping=29500ns
+[K1] tick 87824 busy=0.015% pongs=98825
+[K0] tick 87825 busy=0.018% ping=29525ns
+[K1] tick 87825 busy=0.015% pongs=98826
+[K0] tick 87826 busy=0.018% ping=29425ns
+[K1] tick 87826 busy=0.015% pongs=98827
+[K0] tick 87827 busy=0.018% ping=29475ns
+[K1] tick 87827 busy=0.015% pongs=98828
+[K0] tick 87828 busy=0.018% ping=29225ns
+[K1] tick 87828 busy=0.015% pongs=98829
+[K0] tick 87829 busy=0.018% ping=29700ns
+[K1] tick 87829 busy=0.015% pongs=98830
+[K0] tick 87830 busy=0.018% ping=29400ns
+[K1] tick 87830 busy=0.015% pongs=98831
+[K0] tick 87831 busy=0.018% ping=30225ns
+[K1] tick 87831 busy=0.015% pongs=98832
+[K0] tick 87832 busy=0.018% ping=29525ns
+[K1] tick 87832 busy=0.015% pongs=98833
+[K0] tick 87833 busy=0.018% ping=29075ns
+[K1] tick 87833 busy=0.015% pongs=98834
+[K0] tick 87834 busy=0.018% ping=29500ns
+[K1] tick 87834 busy=0.015% pongs=98835
+[K0] tick 87835 busy=0.018% ping=29525ns
+[K1] tick 87835 busy=0.015% pongs=98836
+[K0] tick 87836 busy=0.018% ping=29425ns
+[K1] tick 87836 busy=0.015% pongs=98837
+[K0] tick 87837 busy=0.018% ping=29425ns
+[K1] tick 87837 busy=0.015% pongs=98838
+[K0] tick 87838 busy=0.018% ping=29425ns
+[K1] tick 87838 busy=0.015% pongs=98839
+[K0] tick 87839 busy=0.018% ping=29825ns
+[K1] tick 87839 busy=0.015% pongs=98840
+[K0] tick 87840 busy=0.018% ping=29750ns
+[K1] tick 87840 busy=0.015% pongs=98841
+[K0] tick 87841 busy=0.018% ping=29250ns
+[K1] tick 87841 busy=0.015% pongs=98842
+[K0] tick 87842 busy=0.018% ping=29700ns
+[K1] tick 87842 busy=0.015% pongs=98843
+[K0] tick 87843 busy=0.018% ping=29825ns
+[K1] tick 87843 busy=0.015% pongs=98844
+[K0] tick 87844 busy=0.018% ping=29325ns
+[K1] tick 87844 busy=0.015% pongs=98845
+[K0] tick 87845 busy=0.018% ping=29250ns
+[K1] tick 87845 busy=0.015% pongs=98846
+[K0] tick 87846 busy=0.018% ping=29550ns
+[K1] tick 87846 busy=0.015% pongs=98847
+[K0] tick 87847 busy=0.018% ping=29150ns
+[K1] tick 87847 busy=0.015% pongs=98848
+[K0] tick 87848 busy=0.018% ping=29725ns
+[K1] tick 87848 busy=0.015% pongs=98849
+[K0] tick 87849 busy=0.018% ping=29225ns
+[K1] tick 87849 busy=0.015% pongs=98850
+[K0] tick 87850 busy=0.018% ping=29250ns
+[K1] tick 87850 busy=0.015% pongs=98851
+[K0] tick 87851 busy=0.018% ping=29775ns
+[K1] tick 87851 busy=0.015% pongs=98852
+[K0] tick 87852 busy=0.018% ping=29625ns
+[K1] tick 87852 busy=0.015% pongs=98853
+[K0] tick 87853 busy=0.018% ping=30250ns
+[K1] tick 87853 busy=0.015% pongs=98854
+[K0] tick 87854 busy=0.018% ping=30075ns
+[K1] tick 87854 busy=0.015% pongs=98855
+[K0] tick 87855 busy=0.018% ping=29525ns
+[K1] tick 87855 busy=0.015% pongs=98856
+[K0] tick 87856 busy=0.018% ping=29575ns
+[K1] tick 87856 busy=0.015% pongs=98857
+[K0] tick 87857 busy=0.018% ping=30200ns
+[K1] tick 87857 busy=0.015% pongs=98858
+[K0] tick 87858 busy=0.018% ping=29775ns
+[K1] tick 87858 busy=0.015% pongs=98859
+[K0] tick 87859 busy=0.018% ping=29650ns
+[K1] tick 87859 busy=0.015% pongs=98860
+[K0] tick 87860 busy=0.018% ping=29800ns
+[K1] tick 87860 busy=0.015% pongs=98861
+[K0] tick 87861 busy=0.018% ping=29450ns
+[K1] tick 87861 busy=0.015% pongs=98862
+[K0] tick 87862 busy=0.018% ping=29525ns
+[K1] tick 87862 busy=0.015% pongs=98863
+[K0] tick 87863 busy=0.018% ping=29700ns
+[K1] tick 87863 busy=0.015% pongs=98864
+[K0] tick 87864 busy=0.018% ping=29500ns
+[K1] tick 87864 busy=0.015% pongs=98865
+[K0] tick 87865 busy=0.018% ping=29450ns
+[K1] tick 87865 busy=0.015% pongs=98866
+[K0] tick 87866 busy=0.018% ping=29400ns
+[K1] tick 87866 busy=0.015% pongs=98867
+[K0] tick 87867 busy=0.018% ping=29975ns
+[K1] tick 87867 busy=0.015% pongs=98868
+[K0] tick 87868 busy=0.018% ping=29250ns
+[K1] tick 87868 busy=0.015% pongs=98869
+[K0] tick 87869 busy=0.018% ping=29725ns
+[K1] tick 87869 busy=0.015% pongs=98870
+[K0] tick 87870 busy=0.018% ping=29275ns
+[K1] tick 87870 busy=0.015% pongs=98871
+[K0] tick 87871 busy=0.018% ping=28975ns
+[K1] tick 87871 busy=0.015% pongs=98872
+[K0] tick 87872 busy=0.018% ping=29600ns
+[K1] tick 87872 busy=0.015% pongs=98873
+[K0] tick 87873 busy=0.018% ping=29350ns
+[K1] tick 87873 busy=0.015% pongs=98874
+[K0] tick 87874 busy=0.018% ping=29625ns
+[K1] tick 87874 busy=0.015% pongs=98875
+[K0] tick 87875 busy=0.018% ping=30575ns
+[K1] tick 87875 busy=0.015% pongs=98876
+[K0] tick 87876 busy=0.018% ping=30175ns
+[K1] tick 87876 busy=0.015% pongs=98877
+[K0] tick 87877 busy=0.018% ping=29500ns
+[K1] tick 87877 busy=0.015% pongs=98878
+[K0] tick 87878 busy=0.018% ping=29650ns
+[K1] tick 87878 busy=0.015% pongs=98879
+[K0] tick 87879 busy=0.018% ping=29800ns
+[K1] tick 87879 busy=0.015% pongs=98880
+[K0] tick 87880 busy=0.018% ping=29225ns
+[K1] tick 87880 busy=0.015% pongs=98881
+[K0] tick 87881 busy=0.018% ping=29100ns
+[K1] tick 87881 busy=0.015% pongs=98882
+[K0] tick 87882 busy=0.018% ping=29350ns
+[K1] tick 87882 busy=0.015% pongs=98883
+[K0] tick 87883 busy=0.018% ping=29575ns
+[K1] tick 87883 busy=0.015% pongs=98884
+[K0] tick 87884 busy=0.018% ping=29175ns
+[K1] tick 87884 busy=0.015% pongs=98885
+[K0] tick 87885 busy=0.018% ping=29750ns
+[K1] tick 87885 busy=0.015% pongs=98886
+[K0] tick 87886 busy=0.018% ping=29575ns
+[K1] tick 87886 busy=0.015% pongs=98887
+[K0] tick 87887 busy=0.018% ping=29125ns
+[K1] tick 87887 busy=0.015% pongs=98888
+[K0] tick 87888 busy=0.018% ping=29525ns
+[K1] tick 87888 busy=0.015% pongs=98889
+[K0] tick 87889 busy=0.018% ping=29600ns
+[K1] tick 87889 busy=0.015% pongs=98890
+[K0] tick 87890 busy=0.018% ping=31025ns
+[K1] tick 87890 busy=0.015% pongs=98891
+[K0] tick 87891 busy=0.018% ping=29450ns
+[K1] tick 87891 busy=0.015% pongs=98892
+[K0] tick 87892 busy=0.018% ping=29825ns
+[K1] tick 87892 busy=0.015% pongs=98893
+[K0] tick 87893 busy=0.018% ping=29500ns
+[K1] tick 87893 busy=0.015% pongs=98894
+[K0] tick 87894 busy=0.018% ping=29200ns
+[K1] tick 87894 busy=0.015% pongs=98895
+[K0] tick 87895 busy=0.018% ping=29950ns
+[K1] tick 87895 busy=0.015% pongs=98896
+[K0] tick 87896 busy=0.018% ping=29475ns
+[K1] tick 87896 busy=0.015% pongs=98897
+[K0] tick 87897 busy=0.018% ping=29150ns
+[K1] tick 87897 busy=0.015% pongs=98898
+[K0] tick 87898 busy=0.018% ping=30550ns
+[K1] tick 87898 busy=0.015% pongs=98899
+[K0] tick 87899 busy=0.018% ping=29450ns
+[K1] tick 87899 busy=0.015% pongs=98900
+[K0] tick 87900 busy=0.018% ping=29375ns
+[K1] tick 87900 busy=0.015% pongs=98901
+[K0] tick 87901 busy=0.018% ping=29575ns
+[K1] tick 87901 busy=0.015% pongs=98902
+[K0] tick 87902 busy=0.018% ping=29225ns
+[K1] tick 87902 busy=0.015% pongs=98903
+[K0] tick 87903 busy=0.018% ping=29700ns
+[K1] tick 87903 busy=0.015% pongs=98904
+[K0] tick 87904 busy=0.018% ping=30100ns
+[K1] tick 87904 busy=0.015% pongs=98905
+[K0] tick 87905 busy=0.018% ping=29175ns
+[K1] tick 87905 busy=0.015% pongs=98906
+[K0] tick 87906 busy=0.018% ping=29550ns
+[K1] tick 87906 busy=0.015% pongs=98907
+[K0] tick 87907 busy=0.018% ping=29275ns
+[K1] tick 87907 busy=0.015% pongs=98908
+[K0] tick 87908 busy=0.018% ping=29900ns
+[K1] tick 87908 busy=0.015% pongs=98909
+[K0] tick 87909 busy=0.018% ping=29300ns
+[K1] tick 87909 busy=0.015% pongs=98910
+[K0] tick 87910 busy=0.018% ping=29500ns
+[K1] tick 87910 busy=0.015% pongs=98911
+[K0] tick 87911 busy=0.018% ping=30075ns
+[K1] tick 87911 busy=0.015% pongs=98912
+[K0] tick 87912 busy=0.018% ping=30250ns
+[K1] tick 87912 busy=0.015% pongs=98913
+[K0] tick 87913 busy=0.018% ping=29625ns
+[K1] tick 87913 busy=0.015% pongs=98914
+[K0] tick 87914 busy=0.018% ping=29525ns
+[K1] tick 87914 busy=0.015% pongs=98915
+[K0] tick 87915 busy=0.018% ping=29575ns
+[K1] tick 87915 busy=0.015% pongs=98916
+[K0] tick 87916 busy=0.018% ping=29350ns
+[K1] tick 87916 busy=0.015% pongs=98917
+[K0] tick 87917 busy=0.018% ping=29675ns
+[K1] tick 87917 busy=0.015% pongs=98918
+[K0] tick 87918 busy=0.018% ping=29475ns
+[K1] tick 87918 busy=0.015% pongs=98919
+[K0] tick 87919 busy=0.018% ping=29100ns
+[K1] tick 87919 busy=0.015% pongs=98920
+[K0] tick 87920 busy=0.018% ping=29425ns
+[K1] tick 87920 busy=0.015% pongs=98921
+[K0] tick 87921 busy=0.018% ping=29250ns
+[K1] tick 87921 busy=0.015% pongs=98922
+[K0] tick 87922 busy=0.018% ping=30275ns
+[K1] tick 87922 busy=0.015% pongs=98923
+[K0] tick 87923 busy=0.018% ping=29500ns
+[K1] tick 87923 busy=0.015% pongs=98924
+[K0] tick 87924 busy=0.018% ping=29625ns
+[K1] tick 87924 busy=0.015% pongs=98925
+[K0] tick 87925 busy=0.018% ping=29650ns
+[K1] tick 87925 busy=0.015% pongs=98926
+[K0] tick 87926 busy=0.018% ping=30025ns
+[K1] tick 87926 busy=0.015% pongs=98927
+[K0] tick 87927 busy=0.018% ping=29800ns
+[K1] tick 87927 busy=0.015% pongs=98928
+[K0] tick 87928 busy=0.018% ping=29350ns
+[K1] tick 87928 busy=0.015% pongs=98929
+[K0] tick 87929 busy=0.018% ping=29100ns
+[K1] tick 87929 busy=0.015% pongs=98930
+[K0] tick 87930 busy=0.018% ping=29775ns
+[K1] tick 87930 busy=0.015% pongs=98931
+[K0] tick 87931 busy=0.018% ping=29600ns
+[K1] tick 87931 busy=0.015% pongs=98932
+[K0] tick 87932 busy=0.018% ping=29950ns
+[K1] tick 87932 busy=0.015% pongs=98933
+[K0] tick 87933 busy=0.018% ping=29875ns
+[K1] tick 87933 busy=0.015% pongs=98934
+[K0] tick 87934 busy=0.018% ping=29925ns
+[K1] tick 87934 busy=0.015% pongs=98935
+[K0] tick 87935 busy=0.018% ping=29925ns
+[K1] tick 87935 busy=0.015% pongs=98936
+[K0] tick 87936 busy=0.018% ping=30050ns
+[K1] tick 87936 busy=0.015% pongs=98937
+[K0] tick 87937 busy=0.018% ping=29075ns
+[K1] tick 87937 busy=0.015% pongs=98938
+[K0] tick 87938 busy=0.018% ping=29550ns
+[K1] tick 87938 busy=0.015% pongs=98939
+[K0] tick 87939 busy=0.018% ping=29750ns
+[K1] tick 87939 busy=0.015% pongs=98940
+[K0] tick 87940 busy=0.018% ping=29225ns
+[K1] tick 87940 busy=0.015% pongs=98941
+[K0] tick 87941 busy=0.018% ping=29400ns
+[K1] tick 87941 busy=0.015% pongs=98942
+[K0] tick 87942 busy=0.018% ping=29850ns
+[K1] tick 87942 busy=0.015% pongs=98943
+[K0] tick 87943 busy=0.018% ping=29575ns
+[K1] tick 87943 busy=0.015% pongs=98944
+[K0] tick 87944 busy=0.018% ping=29675ns
+[K1] tick 87944 busy=0.015% pongs=98945
+[K0] tick 87945 busy=0.018% ping=29475ns
+[K1] tick 87945 busy=0.015% pongs=98946
+[K0] tick 87946 busy=0.018% ping=29375ns
+[K1] tick 87946 busy=0.015% pongs=98947
+[K0] tick 87947 busy=0.018% ping=29950ns
+[K1] tick 87947 busy=0.015% pongs=98948
+[K0] tick 87948 busy=0.018% ping=31000ns
+[K1] tick 87948 busy=0.015% pongs=98949
+[K0] tick 87949 busy=0.018% ping=29575ns
+[K1] tick 87949 busy=0.015% pongs=98950
+[K0] tick 87950 busy=0.018% ping=29525ns
+[K1] tick 87950 busy=0.015% pongs=98951
+[K0] tick 87951 busy=0.018% ping=29000ns
+[K1] tick 87951 busy=0.015% pongs=98952
+[K0] tick 87952 busy=0.018% ping=29325ns
+[K1] tick 87952 busy=0.015% pongs=98953
+[K0] tick 87953 busy=0.018% ping=29400ns
+[K1] tick 87953 busy=0.015% pongs=98954
+[K0] tick 87954 busy=0.018% ping=29450ns
+[K1] tick 87954 busy=0.015% pongs=98955
+[K0] tick 87955 busy=0.018% ping=29275ns
+[K1] tick 87955 busy=0.015% pongs=98956
+[K0] tick 87956 busy=0.018% ping=29375ns
+[K1] tick 87956 busy=0.015% pongs=98957
+[K0] tick 87957 busy=0.018% ping=29450ns
+[K1] tick 87957 busy=0.015% pongs=98958
+[K0] tick 87958 busy=0.018% ping=29900ns
+[K1] tick 87958 busy=0.015% pongs=98959
+[K0] tick 87959 busy=0.018% ping=30025ns
+[K1] tick 87959 busy=0.015% pongs=98960
+[K0] tick 87960 busy=0.018% ping=29525ns
+[K1] tick 87960 busy=0.015% pongs=98961
+[K0] tick 87961 busy=0.018% ping=30050ns
+[K1] tick 87961 busy=0.015% pongs=98962
+[K0] tick 87962 busy=0.018% ping=31050ns
+[K1] tick 87962 busy=0.015% pongs=98963
+[K0] tick 87963 busy=0.018% ping=29325ns
+[K1] tick 87963 busy=0.015% pongs=98964
+[K0] tick 87964 busy=0.018% ping=29975ns
+[K1] tick 87964 busy=0.015% pongs=98965
+[K0] tick 87965 busy=0.018% ping=29325ns
+[K1] tick 87965 busy=0.015% pongs=98966
+[K0] tick 87966 busy=0.018% ping=29175ns
+[K1] tick 87966 busy=0.015% pongs=98967
+[K0] tick 87967 busy=0.018% ping=29450ns
+[K1] tick 87967 busy=0.015% pongs=98968
+[K0] tick 87968 busy=0.018% ping=29725ns
+[K1] tick 87968 busy=0.015% pongs=98969
+[K0] tick 87969 busy=0.018% ping=29550ns
+[K1] tick 87969 busy=0.015% pongs=98970
+[K0] tick 87970 busy=0.018% ping=30150ns
+[K1] tick 87970 busy=0.015% pongs=98971
+[K0] tick 87971 busy=0.018% ping=30300ns
+[K1] tick 87971 busy=0.015% pongs=98972
+[K0] tick 87972 busy=0.018% ping=29800ns
+[K1] tick 87972 busy=0.015% pongs=98973
+[K0] tick 87973 busy=0.018% ping=29500ns
+[K1] tick 87973 busy=0.015% pongs=98974
+[K0] tick 87974 busy=0.018% ping=29925ns
+[K1] tick 87974 busy=0.015% pongs=98975
+[K0] tick 87975 busy=0.018% ping=29475ns
+[K1] tick 87975 busy=0.015% pongs=98976
+[K0] tick 87976 busy=0.018% ping=29200ns
+[K1] tick 87976 busy=0.015% pongs=98977
+[K0] tick 87977 busy=0.018% ping=29625ns
+[K1] tick 87977 busy=0.015% pongs=98978
+[K0] tick 87978 busy=0.018% ping=29700ns
+[K1] tick 87978 busy=0.015% pongs=98979
+[K0] tick 87979 busy=0.018% ping=29300ns
+[K1] tick 87979 busy=0.015% pongs=98980
+[K0] tick 87980 busy=0.018% ping=30600ns
+[K1] tick 87980 busy=0.015% pongs=98981
+[K0] tick 87981 busy=0.018% ping=29350ns
+[K1] tick 87981 busy=0.015% pongs=98982
+[K0] tick 87982 busy=0.018% ping=29350ns
+[K1] tick 87982 busy=0.015% pongs=98983
+[K0] tick 87983 busy=0.018% ping=30325ns
+[K1] tick 87983 busy=0.015% pongs=98984
+[K0] tick 87984 busy=0.018% ping=30150ns
+[K1] tick 87984 busy=0.015% pongs=98985
+[K0] tick 87985 busy=0.018% ping=29825ns
+[K1] tick 87985 busy=0.015% pongs=98986
+[K0] tick 87986 busy=0.018% ping=29350ns
+[K1] tick 87986 busy=0.015% pongs=98987
+[K0] tick 87987 busy=0.018% ping=29225ns
+[K1] tick 87987 busy=0.015% pongs=98988
+[K0] tick 87988 busy=0.018% ping=29550ns
+[K1] tick 87988 busy=0.015% pongs=98989
+[K0] tick 87989 busy=0.018% ping=29100ns
+[K1] tick 87989 busy=0.015% pongs=98990
+[K0] tick 87990 busy=0.018% ping=29175ns
+[K1] tick 87990 busy=0.015% pongs=98991
+[K0] tick 87991 busy=0.018% ping=29625ns
+[K1] tick 87991 busy=0.015% pongs=98992
+[K0] tick 87992 busy=0.018% ping=29375ns
+[K1] tick 87992 busy=0.015% pongs=98993
+[K0] tick 87993 busy=0.018% ping=30450ns
+[K1] tick 87993 busy=0.015% pongs=98994
+[K0] tick 87994 busy=0.018% ping=30125ns
+[K1] tick 87994 busy=0.015% pongs=98995
+[K0] tick 87995 busy=0.018% ping=30025ns
+[K1] tick 87995 busy=0.015% pongs=98996
+[K0] tick 87996 busy=0.018% ping=29675ns
+[K1] tick 87996 busy=0.015% pongs=98997
+[K0] tick 87997 busy=0.018% ping=29750ns
+[K1] tick 87997 busy=0.015% pongs=98998
+[K0] tick 87998 busy=0.018% ping=30825ns
+[K1] tick 87998 busy=0.015% pongs=98999
+[K0] tick 87999 busy=0.018% ping=29650ns
+[K1] tick 87999 busy=0.015% pongs=99000
+[K0] tick 88000 busy=0.018% ping=29625ns
+[K1] tick 88000 busy=0.015% pongs=99001
+[K0] tick 88001 busy=0.018% ping=29250ns
+[K1] tick 88001 busy=0.015% pongs=99002
+[K0] tick 88002 busy=0.018% ping=29400ns
+[K1] tick 88002 busy=0.015% pongs=99003
+[K0] tick 88003 busy=0.018% ping=29900ns
+[K1] tick 88003 busy=0.015% pongs=99004
+[K0] tick 88004 busy=0.018% ping=29550ns
+[K1] tick 88004 busy=0.015% pongs=99005
+[K0] tick 88005 busy=0.018% ping=29450ns
+[K1] tick 88005 busy=0.015% pongs=99006
+[K0] tick 88006 busy=0.018% ping=30275ns
+[K1] tick 88006 busy=0.015% pongs=99007
+[K0] tick 88007 busy=0.018% ping=30250ns
+[K1] tick 88007 busy=0.015% pongs=99008
+[K0] tick 88008 busy=0.018% ping=29650ns
+[K1] tick 88008 busy=0.015% pongs=99009
+[K0] tick 88009 busy=0.018% ping=29725ns
+[K1] tick 88009 busy=0.015% pongs=99010
+[K0] tick 88010 busy=0.018% ping=29550ns
+[K1] tick 88010 busy=0.015% pongs=99011
+[K0] tick 88011 busy=0.018% ping=29250ns
+[K1] tick 88011 busy=0.015% pongs=99012
+[K0] tick 88012 busy=0.018% ping=29175ns
+[K1] tick 88012 busy=0.015% pongs=99013
+[K0] tick 88013 busy=0.018% ping=29425ns
+[K1] tick 88013 busy=0.015% pongs=99014
+[K0] tick 88014 busy=0.018% ping=29550ns
+[K1] tick 88014 busy=0.015% pongs=99015
+[K0] tick 88015 busy=0.018% ping=29975ns
+[K1] tick 88015 busy=0.015% pongs=99016
+[K0] tick 88016 busy=0.018% ping=30450ns
+[K1] tick 88016 busy=0.015% pongs=99017
+[K0] tick 88017 busy=0.018% ping=29775ns
+[K1] tick 88017 busy=0.015% pongs=99018
+[K0] tick 88018 busy=0.018% ping=29475ns
+[K1] tick 88018 busy=0.015% pongs=99019
+[K0] tick 88019 busy=0.018% ping=29550ns
+[K1] tick 88019 busy=0.015% pongs=99020
+[K0] tick 88020 busy=0.018% ping=30050ns
+[K1] tick 88020 busy=0.015% pongs=99021
+[K0] tick 88021 busy=0.018% ping=30300ns
+[K1] tick 88021 busy=0.015% pongs=99022
+[K0] tick 88022 busy=0.018% ping=29025ns
+[K1] tick 88022 busy=0.015% pongs=99023
+[K0] tick 88023 busy=0.018% ping=29425ns
+[K1] tick 88023 busy=0.015% pongs=99024
+[K0] tick 88024 busy=0.018% ping=29450ns
+[K1] tick 88024 busy=0.015% pongs=99025
+[K0] tick 88025 busy=0.018% ping=29400ns
+[K1] tick 88025 busy=0.015% pongs=99026
+[K0] tick 88026 busy=0.018% ping=29575ns
+[K1] tick 88026 busy=0.015% pongs=99027
+[K0] tick 88027 busy=0.018% ping=29200ns
+[K1] tick 88027 busy=0.015% pongs=99028
+[K0] tick 88028 busy=0.018% ping=29775ns
+[K1] tick 88028 busy=0.015% pongs=99029
+[K0] tick 88029 busy=0.018% ping=29850ns
+[K1] tick 88029 busy=0.015% pongs=99030
+[K0] tick 88030 busy=0.018% ping=30700ns
+[K1] tick 88030 busy=0.015% pongs=99031
+[K0] tick 88031 busy=0.018% ping=29575ns
+[K1] tick 88031 busy=0.015% pongs=99032
+[K0] tick 88032 busy=0.018% ping=29525ns
+[K1] tick 88032 busy=0.015% pongs=99033
+[K0] tick 88033 busy=0.018% ping=29950ns
+[K1] tick 88033 busy=0.015% pongs=99034
+[K0] tick 88034 busy=0.018% ping=29800ns
+[K1] tick 88034 busy=0.015% pongs=99035
+[K0] tick 88035 busy=0.018% ping=29150ns
+[K1] tick 88035 busy=0.015% pongs=99036
+[K0] tick 88036 busy=0.018% ping=29400ns
+[K1] tick 88036 busy=0.015% pongs=99037
+[K0] tick 88037 busy=0.018% ping=29300ns
+[K1] tick 88037 busy=0.015% pongs=99038
+[K0] tick 88038 busy=0.018% ping=29650ns
+[K1] tick 88038 busy=0.015% pongs=99039
+[K0] tick 88039 busy=0.018% ping=29400ns
+[K1] tick 88039 busy=0.015% pongs=99040
+[K0] tick 88040 busy=0.018% ping=29200ns
+[K1] tick 88040 busy=0.015% pongs=99041
+[K0] tick 88041 busy=0.018% ping=29700ns
+[K1] tick 88041 busy=0.015% pongs=99042
+[K0] tick 88042 busy=0.018% ping=30400ns
+[K1] tick 88042 busy=0.015% pongs=99043
+[K0] tick 88043 busy=0.018% ping=29600ns
+[K1] tick 88043 busy=0.015% pongs=99044
+[K0] tick 88044 busy=0.018% ping=30975ns
+[K1] tick 88044 busy=0.015% pongs=99045
+[K0] tick 88045 busy=0.018% ping=29325ns
+[K1] tick 88045 busy=0.015% pongs=99046
+[K0] tick 88046 busy=0.018% ping=29500ns
+[K1] tick 88046 busy=0.015% pongs=99047
+[K0] tick 88047 busy=0.018% ping=29675ns
+[K1] tick 88047 busy=0.015% pongs=99048
+[K0] tick 88048 busy=0.018% ping=29025ns
+[K1] tick 88048 busy=0.015% pongs=99049
+[K0] tick 88049 busy=0.018% ping=29300ns
+[K1] tick 88049 busy=0.015% pongs=99050
+[K0] tick 88050 busy=0.018% ping=29925ns
+[K1] tick 88050 busy=0.015% pongs=99051
+[K0] tick 88051 busy=0.018% ping=29100ns
+[K1] tick 88051 busy=0.015% pongs=99052
+[K0] tick 88052 busy=0.018% ping=30950ns
+[K1] tick 88052 busy=0.015% pongs=99053
+[K0] tick 88053 busy=0.018% ping=30400ns
+[K1] tick 88053 busy=0.015% pongs=99054
+[K0] tick 88054 busy=0.018% ping=29025ns
+[K1] tick 88054 busy=0.015% pongs=99055
+[K0] tick 88055 busy=0.018% ping=29675ns
+[K1] tick 88055 busy=0.015% pongs=99056
+[K0] tick 88056 busy=0.018% ping=30950ns
+[K1] tick 88056 busy=0.015% pongs=99057
+[K0] tick 88057 busy=0.018% ping=30400ns
+[K1] tick 88057 busy=0.015% pongs=99058
+[K0] tick 88058 busy=0.018% ping=29600ns
+[K1] tick 88058 busy=0.015% pongs=99059
+[K0] tick 88059 busy=0.018% ping=29525ns
+[K1] tick 88059 busy=0.015% pongs=99060
+[K0] tick 88060 busy=0.018% ping=29650ns
+[K1] tick 88060 busy=0.015% pongs=99061
+[K0] tick 88061 busy=0.018% ping=29500ns
+[K1] tick 88061 busy=0.015% pongs=99062
+[K0] tick 88062 busy=0.018% ping=29075ns
+[K1] tick 88062 busy=0.015% pongs=99063
+[K0] tick 88063 busy=0.018% ping=29275ns
+[K1] tick 88063 busy=0.015% pongs=99064
+[K0] tick 88064 busy=0.018% ping=29625ns
+[K1] tick 88064 busy=0.015% pongs=99065
+[K0] tick 88065 busy=0.018% ping=29450ns
+[K1] tick 88065 busy=0.015% pongs=99066
+[K0] tick 88066 busy=0.018% ping=30700ns
+[K1] tick 88066 busy=0.015% pongs=99067
+[K0] tick 88067 busy=0.018% ping=30125ns
+[K1] tick 88067 busy=0.015% pongs=99068
+[K0] tick 88068 busy=0.018% ping=29250ns
+[K1] tick 88068 busy=0.015% pongs=99069
+[K0] tick 88069 busy=0.018% ping=29200ns
+[K1] tick 88069 busy=0.015% pongs=99070
+[K0] tick 88070 busy=0.018% ping=30175ns
+[K1] tick 88070 busy=0.015% pongs=99071
+[K0] tick 88071 busy=0.018% ping=29225ns
+[K1] tick 88071 busy=0.015% pongs=99072
+[K0] tick 88072 busy=0.018% ping=29175ns
+[K1] tick 88072 busy=0.015% pongs=99073
+[K0] tick 88073 busy=0.018% ping=29775ns
+[K1] tick 88073 busy=0.015% pongs=99074
+[K0] tick 88074 busy=0.018% ping=29450ns
+[K1] tick 88074 busy=0.015% pongs=99075
+[K0] tick 88075 busy=0.018% ping=29725ns
+[K1] tick 88075 busy=0.015% pongs=99076
+[K0] tick 88076 busy=0.018% ping=30700ns
+[K1] tick 88076 busy=0.015% pongs=99077
+[K0] tick 88077 busy=0.018% ping=29225ns
+[K1] tick 88077 busy=0.015% pongs=99078
+[K0] tick 88078 busy=0.018% ping=30425ns
+[K1] tick 88078 busy=0.015% pongs=99079
+[K0] tick 88079 busy=0.018% ping=30050ns
+[K1] tick 88079 busy=0.015% pongs=99080
+[K0] tick 88080 busy=0.018% ping=30400ns
+[K1] tick 88080 busy=0.015% pongs=99081
+[K0] tick 88081 busy=0.018% ping=29050ns
+[K1] tick 88081 busy=0.015% pongs=99082
+[K0] tick 88082 busy=0.018% ping=29575ns
+[K1] tick 88082 busy=0.015% pongs=99083
+[K0] tick 88083 busy=0.018% ping=29175ns
+[K1] tick 88083 busy=0.015% pongs=99084
+[K0] tick 88084 busy=0.018% ping=29925ns
+[K1] tick 88084 busy=0.015% pongs=99085
+[K0] tick 88085 busy=0.018% ping=29900ns
+[K1] tick 88085 busy=0.015% pongs=99086
+[K0] tick 88086 busy=0.018% ping=29375ns
+[K1] tick 88086 busy=0.015% pongs=99087
+[K0] tick 88087 busy=0.018% ping=29375ns
+[K1] tick 88087 busy=0.015% pongs=99088
+[K0] tick 88088 busy=0.018% ping=31000ns
+[K1] tick 88088 busy=0.015% pongs=99089
+[K0] tick 88089 busy=0.018% ping=29650ns
+[K1] tick 88089 busy=0.015% pongs=99090
+[K0] tick 88090 busy=0.018% ping=29425ns
+[K1] tick 88090 busy=0.015% pongs=99091
+[K0] tick 88091 busy=0.018% ping=29800ns
+[K1] tick 88091 busy=0.015% pongs=99092
+[K0] tick 88092 busy=0.018% ping=29900ns
+[K1] tick 88092 busy=0.015% pongs=99093
+[K0] tick 88093 busy=0.018% ping=29125ns
+[K1] tick 88093 busy=0.015% pongs=99094
+[K0] tick 88094 busy=0.018% ping=29500ns
+[K1] tick 88094 busy=0.015% pongs=99095
+[K0] tick 88095 busy=0.018% ping=29325ns
+[K1] tick 88095 busy=0.015% pongs=99096
+[K0] tick 88096 busy=0.018% ping=29425ns
+[K1] tick 88096 busy=0.015% pongs=99097
+[K0] tick 88097 busy=0.018% ping=29425ns
+[K1] tick 88097 busy=0.015% pongs=99098
+[K0] tick 88098 busy=0.018% ping=29350ns
+[K1] tick 88098 busy=0.015% pongs=99099
+[K0] tick 88099 busy=0.018% ping=29475ns
+[K1] tick 88099 busy=0.015% pongs=99100
+[K0] tick 88100 busy=0.018% ping=29550ns
+[K1] tick 88100 busy=0.015% pongs=99101
+[K0] tick 88101 busy=0.018% ping=29650ns
+[K1] tick 88101 busy=0.015% pongs=99102
+[K0] tick 88102 busy=0.018% ping=30375ns
+[K1] tick 88102 busy=0.015% pongs=99103
+[K0] tick 88103 busy=0.018% ping=30350ns
+[K1] tick 88103 busy=0.015% pongs=99104
+[K0] tick 88104 busy=0.018% ping=29375ns
+[K1] tick 88104 busy=0.015% pongs=99105
+[K0] tick 88105 busy=0.018% ping=29675ns
+[K1] tick 88105 busy=0.015% pongs=99106
+[K0] tick 88106 busy=0.018% ping=29675ns
+[K1] tick 88106 busy=0.015% pongs=99107
+[K0] tick 88107 busy=0.018% ping=29075ns
+[K1] tick 88107 busy=0.015% pongs=99108
+[K0] tick 88108 busy=0.018% ping=29425ns
+[K1] tick 88108 busy=0.015% pongs=99109
+[K0] tick 88109 busy=0.018% ping=29050ns
+[K1] tick 88109 busy=0.015% pongs=99110
+[K0] tick 88110 busy=0.018% ping=29825ns
+[K1] tick 88110 busy=0.015% pongs=99111
+[K0] tick 88111 busy=0.018% ping=30225ns
+[K1] tick 88111 busy=0.015% pongs=99112
+[K0] tick 88112 busy=0.018% ping=29150ns
+[K1] tick 88112 busy=0.015% pongs=99113
+[K0] tick 88113 busy=0.018% ping=29575ns
+[K1] tick 88113 busy=0.015% pongs=99114
+[K0] tick 88114 busy=0.018% ping=30150ns
+[K1] tick 88114 busy=0.015% pongs=99115
+[K0] tick 88115 busy=0.018% ping=29800ns
+[K1] tick 88115 busy=0.015% pongs=99116
+[K0] tick 88116 busy=0.018% ping=30700ns
+[K1] tick 88116 busy=0.015% pongs=99117
+[K0] tick 88117 busy=0.018% ping=29975ns
+[K1] tick 88117 busy=0.015% pongs=99118
+[K0] tick 88118 busy=0.018% ping=29450ns
+[K1] tick 88118 busy=0.015% pongs=99119
+[K0] tick 88119 busy=0.018% ping=29200ns
+[K1] tick 88119 busy=0.015% pongs=99120
+[K0] tick 88120 busy=0.018% ping=29775ns
+[K1] tick 88120 busy=0.015% pongs=99121
+[K0] tick 88121 busy=0.018% ping=29650ns
+[K1] tick 88121 busy=0.015% pongs=99122
+[K0] tick 88122 busy=0.018% ping=29400ns
+[K1] tick 88122 busy=0.015% pongs=99123
+[K0] tick 88123 busy=0.018% ping=29500ns
+[K1] tick 88123 busy=0.015% pongs=99124
+[K0] tick 88124 busy=0.018% ping=29925ns
+[K1] tick 88124 busy=0.015% pongs=99125
+[K0] tick 88125 busy=0.018% ping=29625ns
+[K1] tick 88125 busy=0.015% pongs=99126
+[K0] tick 88126 busy=0.018% ping=29400ns
+[K1] tick 88126 busy=0.015% pongs=99127
+[K0] tick 88127 busy=0.018% ping=29525ns
+[K1] tick 88127 busy=0.015% pongs=99128
+[K0] tick 88128 busy=0.018% ping=29550ns
+[K1] tick 88128 busy=0.015% pongs=99129
+[K0] tick 88129 busy=0.018% ping=29775ns
+[K1] tick 88129 busy=0.015% pongs=99130
+[K0] tick 88130 busy=0.018% ping=29175ns
+[K1] tick 88130 busy=0.015% pongs=99131
+[K0] tick 88131 busy=0.018% ping=29475ns
+[K1] tick 88131 busy=0.015% pongs=99132
+[K0] tick 88132 busy=0.018% ping=29400ns
+[K1] tick 88132 busy=0.015% pongs=99133
+[K0] tick 88133 busy=0.018% ping=29150ns
+[K1] tick 88133 busy=0.015% pongs=99134
+[K0] tick 88134 busy=0.018% ping=29575ns
+[K1] tick 88134 busy=0.015% pongs=99135
+[K0] tick 88135 busy=0.018% ping=29725ns
+[K1] tick 88135 busy=0.015% pongs=99136
+[K0] tick 88136 busy=0.018% ping=29225ns
+[K1] tick 88136 busy=0.015% pongs=99137
+[K0] tick 88137 busy=0.018% ping=29750ns
+[K1] tick 88137 busy=0.015% pongs=99138
+[K0] tick 88138 busy=0.018% ping=30725ns
+[K1] tick 88138 busy=0.015% pongs=99139
+[K0] tick 88139 busy=0.018% ping=30350ns
+[K1] tick 88139 busy=0.015% pongs=99140
+[K0] tick 88140 busy=0.018% ping=29575ns
+[K1] tick 88140 busy=0.015% pongs=99141
+[K0] tick 88141 busy=0.018% ping=29275ns
+[K1] tick 88141 busy=0.015% pongs=99142
+[K0] tick 88142 busy=0.018% ping=30225ns
+[K1] tick 88142 busy=0.015% pongs=99143
+[K0] tick 88143 busy=0.018% ping=29725ns
+[K1] tick 88143 busy=0.015% pongs=99144
+[K0] tick 88144 busy=0.018% ping=29050ns
+[K1] tick 88144 busy=0.015% pongs=99145
+[K0] tick 88145 busy=0.018% ping=29450ns
+[K1] tick 88145 busy=0.015% pongs=99146
+[K0] tick 88146 busy=0.018% ping=29700ns
+[K1] tick 88146 busy=0.015% pongs=99147
+[K0] tick 88147 busy=0.018% ping=29700ns
+[K1] tick 88147 busy=0.015% pongs=99148
+[K0] tick 88148 busy=0.018% ping=29325ns
+[K1] tick 88148 busy=0.015% pongs=99149
+[K0] tick 88149 busy=0.018% ping=29425ns
+[K1] tick 88149 busy=0.015% pongs=99150
+[K0] tick 88150 busy=0.018% ping=29425ns
+[K1] tick 88150 busy=0.015% pongs=99151
+[K0] tick 88151 busy=0.018% ping=29125ns
+[K1] tick 88151 busy=0.015% pongs=99152
+[K0] tick 88152 busy=0.018% ping=30750ns
+[K1] tick 88152 busy=0.015% pongs=99153
+[K0] tick 88153 busy=0.018% ping=29775ns
+[K1] tick 88153 busy=0.015% pongs=99154
+[K0] tick 88154 busy=0.018% ping=29350ns
+[K1] tick 88154 busy=0.015% pongs=99155
+[K0] tick 88155 busy=0.018% ping=29250ns
+[K1] tick 88155 busy=0.015% pongs=99156
+[K0] tick 88156 busy=0.018% ping=29500ns
+[K1] tick 88156 busy=0.015% pongs=99157
+[K0] tick 88157 busy=0.018% ping=30075ns
+[K1] tick 88157 busy=0.015% pongs=99158
+[K0] tick 88158 busy=0.018% ping=30300ns
+[K1] tick 88158 busy=0.015% pongs=99159
+[K0] tick 88159 busy=0.018% ping=29250ns
+[K1] tick 88159 busy=0.015% pongs=99160
+[K0] tick 88160 busy=0.018% ping=29875ns
+[K1] tick 88160 busy=0.015% pongs=99161
+[K0] tick 88161 busy=0.018% ping=30700ns
+[K1] tick 88161 busy=0.015% pongs=99162
+[K0] tick 88162 busy=0.018% ping=29550ns
+[K1] tick 88162 busy=0.015% pongs=99163
+[K0] tick 88163 busy=0.018% ping=29475ns
+[K1] tick 88163 busy=0.015% pongs=99164
+[K0] tick 88164 busy=0.018% ping=29925ns
+[K1] tick 88164 busy=0.015% pongs=99165
+[K0] tick 88165 busy=0.018% ping=29250ns
+[K1] tick 88165 busy=0.015% pongs=99166
+[K0] tick 88166 busy=0.018% ping=29225ns
+[K1] tick 88166 busy=0.015% pongs=99167
+[K0] tick 88167 busy=0.018% ping=29325ns
+[K1] tick 88167 busy=0.015% pongs=99168
+[K0] tick 88168 busy=0.018% ping=29425ns
+[K1] tick 88168 busy=0.015% pongs=99169
+[K0] tick 88169 busy=0.018% ping=29200ns
+[K1] tick 88169 busy=0.015% pongs=99170
+[K0] tick 88170 busy=0.018% ping=29225ns
+[K1] tick 88170 busy=0.015% pongs=99171
+[K0] tick 88171 busy=0.018% ping=30125ns
+[K1] tick 88171 busy=0.015% pongs=99172
+[K0] tick 88172 busy=0.018% ping=29475ns
+[K1] tick 88172 busy=0.015% pongs=99173
+[K0] tick 88173 busy=0.018% ping=29275ns
+[K1] tick 88173 busy=0.015% pongs=99174
+[K0] tick 88174 busy=0.018% ping=29925ns
+[K1] tick 88174 busy=0.015% pongs=99175
+[K0] tick 88175 busy=0.018% ping=29850ns
+[K1] tick 88175 busy=0.015% pongs=99176
+[K0] tick 88176 busy=0.018% ping=29275ns
+[K1] tick 88176 busy=0.015% pongs=99177
+[K0] tick 88177 busy=0.018% ping=29350ns
+[K1] tick 88177 busy=0.015% pongs=99178
+[K0] tick 88178 busy=0.018% ping=29475ns
+[K1] tick 88178 busy=0.015% pongs=99179
+[K0] tick 88179 busy=0.018% ping=29500ns
+[K1] tick 88179 busy=0.015% pongs=99180
+[K0] tick 88180 busy=0.018% ping=29400ns
+[K1] tick 88180 busy=0.015% pongs=99181
+[K0] tick 88181 busy=0.018% ping=29850ns
+[K1] tick 88181 busy=0.015% pongs=99182
+[K0] tick 88182 busy=0.018% ping=29575ns
+[K1] tick 88182 busy=0.015% pongs=99183
+[K0] tick 88183 busy=0.018% ping=29575ns
+[K1] tick 88183 busy=0.015% pongs=99184
+[K0] tick 88184 busy=0.018% ping=29525ns
+[K1] tick 88184 busy=0.015% pongs=99185
+[K0] tick 88185 busy=0.018% ping=30000ns
+[K1] tick 88185 busy=0.015% pongs=99186
+[K0] tick 88186 busy=0.018% ping=29275ns
+[K1] tick 88186 busy=0.015% pongs=99187
+[K0] tick 88187 busy=0.018% ping=29775ns
+[K1] tick 88187 busy=0.015% pongs=99188
+[K0] tick 88188 busy=0.018% ping=29675ns
+[K1] tick 88188 busy=0.015% pongs=99189
+[K0] tick 88189 busy=0.018% ping=29225ns
+[K1] tick 88189 busy=0.015% pongs=99190
+[K0] tick 88190 busy=0.018% ping=29775ns
+[K1] tick 88190 busy=0.015% pongs=99191
+[K0] tick 88191 busy=0.018% ping=29100ns
+[K1] tick 88191 busy=0.015% pongs=99192
+[K0] tick 88192 busy=0.018% ping=29200ns
+[K1] tick 88192 busy=0.015% pongs=99193
+[K0] tick 88193 busy=0.018% ping=30075ns
+[K1] tick 88193 busy=0.015% pongs=99194
+[K0] tick 88194 busy=0.018% ping=29075ns
+[K1] tick 88194 busy=0.015% pongs=99195
+[K0] tick 88195 busy=0.018% ping=29475ns
+[K1] tick 88195 busy=0.015% pongs=99196
+[K0] tick 88196 busy=0.018% ping=30575ns
+[K1] tick 88196 busy=0.015% pongs=99197
+[K0] tick 88197 busy=0.018% ping=30050ns
+[K1] tick 88197 busy=0.015% pongs=99198
+[K0] tick 88198 busy=0.018% ping=29675ns
+[K1] tick 88198 busy=0.015% pongs=99199
+[K0] tick 88199 busy=0.018% ping=29675ns
+[K1] tick 88199 busy=0.015% pongs=99200
+[K0] tick 88200 busy=0.018% ping=29450ns
+[K1] tick 88200 busy=0.015% pongs=99201
+[K0] tick 88201 busy=0.018% ping=29600ns
+[K1] tick 88201 busy=0.015% pongs=99202
+[K0] tick 88202 busy=0.018% ping=29600ns
+[K1] tick 88202 busy=0.015% pongs=99203
+[K0] tick 88203 busy=0.018% ping=29725ns
+[K1] tick 88203 busy=0.015% pongs=99204
+[K0] tick 88204 busy=0.018% ping=29325ns
+[K1] tick 88204 busy=0.015% pongs=99205
+[K0] tick 88205 busy=0.018% ping=29475ns
+[K1] tick 88205 busy=0.015% pongs=99206
+[K0] tick 88206 busy=0.018% ping=29800ns
+[K1] tick 88206 busy=0.015% pongs=99207
+[K0] tick 88207 busy=0.018% ping=30200ns
+[K1] tick 88207 busy=0.015% pongs=99208
+[K0] tick 88208 busy=0.018% ping=29500ns
+[K1] tick 88208 busy=0.015% pongs=99209
+[K0] tick 88209 busy=0.018% ping=29750ns
+[K1] tick 88209 busy=0.015% pongs=99210
+[K0] tick 88210 busy=0.018% ping=29825ns
+[K1] tick 88210 busy=0.015% pongs=99211
+[K0] tick 88211 busy=0.018% ping=30125ns
+[K1] tick 88211 busy=0.015% pongs=99212
+[K0] tick 88212 busy=0.018% ping=29150ns
+[K1] tick 88212 busy=0.015% pongs=99213
+[K0] tick 88213 busy=0.018% ping=28825ns
+[K1] tick 88213 busy=0.015% pongs=99214
+[K0] tick 88214 busy=0.018% ping=29150ns
+[K1] tick 88214 busy=0.015% pongs=99215
+[K0] tick 88215 busy=0.018% ping=29200ns
+[K1] tick 88215 busy=0.015% pongs=99216
+[K0] tick 88216 busy=0.018% ping=29575ns
+[K1] tick 88216 busy=0.015% pongs=99217
+[K0] tick 88217 busy=0.018% ping=29500ns
+[K1] tick 88217 busy=0.015% pongs=99218
+[K0] tick 88218 busy=0.018% ping=29200ns
+[K1] tick 88218 busy=0.015% pongs=99219
+[K0] tick 88219 busy=0.018% ping=30625ns
+[K1] tick 88219 busy=0.015% pongs=99220
+[K0] tick 88220 busy=0.018% ping=29775ns
+[K1] tick 88220 busy=0.015% pongs=99221
+[K0] tick 88221 busy=0.018% ping=30475ns
+[K1] tick 88221 busy=0.015% pongs=99222
+[K0] tick 88222 busy=0.018% ping=29525ns
+[K1] tick 88222 busy=0.015% pongs=99223
+[K0] tick 88223 busy=0.018% ping=29125ns
+[K1] tick 88223 busy=0.015% pongs=99224
+[K0] tick 88224 busy=0.018% ping=29900ns
+[K1] tick 88224 busy=0.015% pongs=99225
+[K0] tick 88225 busy=0.018% ping=30600ns
+[K1] tick 88225 busy=0.015% pongs=99226
+[K0] tick 88226 busy=0.018% ping=29325ns
+[K1] tick 88226 busy=0.015% pongs=99227
+[K0] tick 88227 busy=0.018% ping=29425ns
+[K1] tick 88227 busy=0.015% pongs=99228
+[K0] tick 88228 busy=0.018% ping=30000ns
+[K1] tick 88228 busy=0.015% pongs=99229
+[K0] tick 88229 busy=0.018% ping=29775ns
+[K1] tick 88229 busy=0.015% pongs=99230
+[K0] tick 88230 busy=0.018% ping=29225ns
+[K1] tick 88230 busy=0.015% pongs=99231
+[K0] tick 88231 busy=0.018% ping=29825ns
+[K1] tick 88231 busy=0.015% pongs=99232
+[K0] tick 88232 busy=0.018% ping=30225ns
+[K1] tick 88232 busy=0.015% pongs=99233
+[K0] tick 88233 busy=0.018% ping=29850ns
+[K1] tick 88233 busy=0.015% pongs=99234
+[K0] tick 88234 busy=0.018% ping=30525ns
+[K1] tick 88234 busy=0.015% pongs=99235
+[K0] tick 88235 busy=0.018% ping=29700ns
+[K1] tick 88235 busy=0.015% pongs=99236
+[K0] tick 88236 busy=0.018% ping=29500ns
+[K1] tick 88236 busy=0.015% pongs=99237
+[K0] tick 88237 busy=0.018% ping=29400ns
+[K1] tick 88237 busy=0.015% pongs=99238
+[K0] tick 88238 busy=0.018% ping=29950ns
+[K1] tick 88238 busy=0.015% pongs=99239
+[K0] tick 88239 busy=0.018% ping=29475ns
+[K1] tick 88239 busy=0.015% pongs=99240
+[K0] tick 88240 busy=0.018% ping=29400ns
+[K1] tick 88240 busy=0.015% pongs=99241
+[K0] tick 88241 busy=0.018% ping=29100ns
+[K1] tick 88241 busy=0.015% pongs=99242
+[K0] tick 88242 busy=0.018% ping=30275ns
+[K1] tick 88242 busy=0.015% pongs=99243
+[K0] tick 88243 busy=0.018% ping=30300ns
+[K1] tick 88243 busy=0.015% pongs=99244
+[K0] tick 88244 busy=0.018% ping=29825ns
+[K1] tick 88244 busy=0.015% pongs=99245
+[K0] tick 88245 busy=0.018% ping=29525ns
+[K1] tick 88245 busy=0.015% pongs=99246
+[K0] tick 88246 busy=0.018% ping=30125ns
+[K1] tick 88246 busy=0.015% pongs=99247
+[K0] tick 88247 busy=0.018% ping=30125ns
+[K1] tick 88247 busy=0.015% pongs=99248
+[K0] tick 88248 busy=0.018% ping=29500ns
+[K1] tick 88248 busy=0.015% pongs=99249
+[K0] tick 88249 busy=0.018% ping=29575ns
+[K1] tick 88249 busy=0.015% pongs=99250
+[K0] tick 88250 busy=0.018% ping=29150ns
+[K1] tick 88250 busy=0.015% pongs=99251
+[K0] tick 88251 busy=0.018% ping=29500ns
+[K1] tick 88251 busy=0.015% pongs=99252
+[K0] tick 88252 busy=0.018% ping=29150ns
+[K1] tick 88252 busy=0.015% pongs=99253
+[K0] tick 88253 busy=0.018% ping=29675ns
+[K1] tick 88253 busy=0.015% pongs=99254
+[K0] tick 88254 busy=0.018% ping=29650ns
+[K1] tick 88254 busy=0.015% pongs=99255
+[K0] tick 88255 busy=0.018% ping=31225ns
+[K1] tick 88255 busy=0.015% pongs=99256
+[K0] tick 88256 busy=0.018% ping=30125ns
+[K1] tick 88256 busy=0.015% pongs=99257
+[K0] tick 88257 busy=0.018% ping=31050ns
+[K1] tick 88257 busy=0.015% pongs=99258
+[K0] tick 88258 busy=0.018% ping=29550ns
+[K1] tick 88258 busy=0.015% pongs=99259
+[K0] tick 88259 busy=0.018% ping=29475ns
+[K1] tick 88259 busy=0.015% pongs=99260
+[K0] tick 88260 busy=0.018% ping=30000ns
+[K1] tick 88260 busy=0.015% pongs=99261
+[K0] tick 88261 busy=0.018% ping=30050ns
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> ums 0 mmc 0
+UMS: LUN 0, dev mmc 0, hwpart 0, sector 0x0, count 0xe90000
+dwc3-generic-wrapper usb@48300000: configured in usb2 mode
+CTRL+C - Operation aborted
+=> NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 199 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18   7:24:42 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403b60
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=403690
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=403690 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1200000021 cycles/s
+[K0] no single device untyped covers 0x00000000ac000000
+[K0] FATAL: carve shared window err=6
+[K1] idle: cntfrq=40000000 Hz, cpu=1199999849 cycles/s
+[K1] no single device untyped covers 0x00000000ac000000
+[K1] FATAL: carve shared window err=6
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18   7:24:42 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403b60
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=403690
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=403690 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1199999994 cycles/s
+[K0] no single device untyped covers 0x00000000ac000000
+[K0] FATAL: carve shared window err=6
+[K1] idle: cntfrq=40000000 Hz, cpu=1199999765 cycles/s
+[K1] no single device untyped covers 0x00000000ac000000
+[K1] FATAL: carve shared window err=6
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18   7:24:42 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403b60
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=403690
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=403690 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1200000015 cycles/s
+[K0] no single device untyped covers 0x00000000ac000000
+[K0] FATAL: carve shared window err=6
+[K1] idle: cntfrq=40000000 Hz, cpu=1199999835 cycles/s
+[K1] no single device untyped covers 0x00000000ac000000
+[K1] FATAL: carve shared window err=6
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18   7:24:42 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403b60
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=403690
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=403690 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1199999994 cycles/s
+[K0] no single device untyped covers 0x00000000ac000000
+[K0] FATAL: carve shared window err=6
+[K1] idle: cntfrq=40000000 Hz, cpu=1199999813 cycles/s
+[K1] no single device untyped covers 0x00000000ac000000
+[K1] FATAL: carve shared window err=6
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18   7:24:42 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403b60
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=403690
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=403690 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

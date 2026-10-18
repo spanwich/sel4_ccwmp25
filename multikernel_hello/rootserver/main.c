@@ -334,18 +334,27 @@ static void carve(seL4_CPtr ut, uint64_t base, unsigned bits, uint64_t lo,
 
 static void carve_window(uint64_t lo, uint64_t hi, seL4_CPtr *frames)
 {
+    const unsigned n = (unsigned)((hi - lo) >> MK_FRAME_BITS);
+
+    /* The window sits between foreign-memory reservations, so it is covered
+     * by several device untypeds (e.g. 16 MiB + 4 MiB), not one. */
+    for (unsigned i = 0; i < n; i++) {
+        frames[i] = seL4_CapNull;
+    }
     for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
         const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
-        uint64_t end = d->paddr + (1ull << d->sizeBits);
-        if (d->isDevice && d->paddr <= lo && hi <= end) {
+        if (d->isDevice) {
             carve(ut, d->paddr, d->sizeBits, lo, hi, frames);
-            return;
         }
     }
-    put_str("no single device untyped covers ");
-    put_hex(lo);
-    put_str("\n");
-    halt("carve shared window", seL4_FailedLookup);
+    for (unsigned i = 0; i < n; i++) {
+        if (frames[i] == seL4_CapNull) {
+            put_str("no device untyped covers ");
+            put_hex(lo + ((uint64_t)i << MK_FRAME_BITS));
+            put_str("\n");
+            halt("carve shared window", seL4_FailedLookup);
+        }
+    }
 }
 
 /* Map a frame, creating whatever page tables are missing on the way. */
@@ -612,6 +621,7 @@ static uint64_t round_trip(uint64_t seq)
         st = mk_channel_recv_until(&channel, &m, deadline, channel_now,
                                    channel_wait_until);
         if (st == MK_CHANNEL_TIMEOUT) {
+            ptimer_arm(tick_next ? tick_next : UINT64_MAX);
             return 0;
         }
         if (st != MK_CHANNEL_OK) {
@@ -626,6 +636,8 @@ static uint64_t round_trip(uint64_t seq)
         break;
     }
     uint64_t t1 = cntpct();
+    /* Hand the timer back to the idle tick (it was armed at our deadline). */
+    ptimer_arm(tick_next ? tick_next : UINT64_MAX);
     if (!payload_valid(&m, MK_MSG_PONG, seq)) {
         halt("ping: bad PONG", seq);
     }
@@ -807,6 +819,12 @@ int main(void)
 #endif
         }
         if (!(badge & BADGE_TIMER) && !timer_pending) {
+            continue;
+        }
+        if (!timer_pending && cntpct() < next) {
+            /* Early (e.g. a channel deadline that was already serviced). */
+            ptimer_arm(next);
+            seL4_IRQHandler_Ack(timer_irq);
             continue;
         }
         timer_pending = 0;
