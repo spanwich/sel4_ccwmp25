@@ -1,5 +1,9 @@
 # M33-first boot (M33-TD) with DICE on the CCMP25-DVK: feasibility review
 
+**Status: PARKED (2026-10-18).** Feasible with caveats, but not pursued. If it
+is resumed, the next steps are: get Digi's STM32 U-Boot branch, settle the
+open questions below, and rehearse recovery before touching S1 or OTP.
+
 Date: 2026-10-18. Scope: paper review only. Nothing was built or flashed. S1, OTP
 and the eMMC were not touched.
 
