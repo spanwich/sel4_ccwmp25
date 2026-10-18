@@ -33,6 +33,31 @@
 		reg = <0x0 0x84000000 0x0 0x14000000>;
 	};
 
+	/* Memory this kernel must never hand out (seL4 multikernel patch:
+	 * "sel4,foreign-memory" ranges become neither RAM nor device untypeds).
+	 * 0xac000000..0xad400000 (inter-kernel channel) is deliberately absent:
+	 * the rootserver carves it from a device untyped. */
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		secure-fw@80000000 {
+			reg = <0x0 0x80000000 0x0 0x04000000>;
+			sel4,foreign-memory;
+		};
+
+		kernel1-ram@98000000 {
+			reg = <0x0 0x98000000 0x0 0x14000000>;
+			sel4,foreign-memory;
+		};
+
+		ddr-rest@ad400000 {
+			reg = <0x0 0xad400000 0x0 0x12c00000>;
+			sel4,foreign-memory;
+		};
+	};
+
 	intc: interrupt-controller@4ac10000 {
 		compatible = "arm,cortex-a7-gic";
 		#interrupt-cells = <3>;

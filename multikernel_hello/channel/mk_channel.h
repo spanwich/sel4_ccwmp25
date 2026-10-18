@@ -26,6 +26,7 @@ typedef enum mk_channel_status {
     MK_CHANNEL_CORRUPT = 5,
     MK_CHANNEL_WAIT_FAILED = 6,
     MK_CHANNEL_INVALID_ARGUMENT = 7,
+    MK_CHANNEL_TIMEOUT = 8,
 } mk_channel_status_t;
 
 typedef struct __attribute__((aligned(64))) mk_channel_control {
@@ -71,6 +72,10 @@ typedef struct mk_channel_message {
 
 typedef void (*mk_channel_notify_fn)(void *cookie);
 typedef int (*mk_channel_wait_fn)(void *cookie);
+/* Block until a doorbell or until the clock reaches deadline (whichever is
+ * first); spurious returns are allowed. Returns non-zero on failure. */
+typedef int (*mk_channel_wait_until_fn)(void *cookie, uint64_t deadline);
+typedef uint64_t (*mk_channel_now_fn)(void *cookie);
 
 typedef struct mk_channel {
     mk_channel_region_t *local;
@@ -108,4 +113,13 @@ mk_channel_status_t mk_channel_try_recv(mk_channel_t *channel,
                                         mk_channel_message_t *message);
 mk_channel_status_t mk_channel_recv(mk_channel_t *channel,
                                     mk_channel_message_t *message);
+
+/* As mk_channel_recv, but gives up with MK_CHANNEL_TIMEOUT once now() reaches
+ * deadline (same clock as now()). A dead or stalled peer then costs one
+ * timeout instead of a hang. */
+mk_channel_status_t mk_channel_recv_until(mk_channel_t *channel,
+                                          mk_channel_message_t *message,
+                                          uint64_t deadline,
+                                          mk_channel_now_fn now,
+                                          mk_channel_wait_until_fn wait_until);
 

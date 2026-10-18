@@ -28,7 +28,7 @@
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-channel-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-p1-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -48,6 +48,19 @@
 #define MK_MSG_PONG       2u
 #define MK_BENCH_WARMUP   1000u
 #define MK_BENCH_SAMPLES  10000u
+#define MK_RECV_TIMEOUT_DIV 100u /* round-trip deadline: 1/100 s = 10 ms */
+#ifndef MK_PROBE_DROP_PINGS
+#define MK_PROBE_DROP_PINGS 3u   /* K1 swallows this many idle pings (P1b probe) */
+#endif
+
+/* DDR this kernel must never be able to obtain (kernel DTS "sel4,foreign-memory"). */
+#define DDR_BASE        0x80000000ull
+#define DDR_END         0xc0000000ull
+#define K0_RAM_BASE     0x84000000ull
+#define K1_RAM_BASE     0x98000000ull
+#define KN_RAM_SIZE     0x14000000ull
+#define OWN_RAM_BASE    (KERNEL_ID ? K1_RAM_BASE : K0_RAM_BASE)
+#define PEER_RAM_BASE   (KERNEL_ID ? K0_RAM_BASE : K1_RAM_BASE)
 
 /* Notification badges: one notification, two interrupt sources. */
 #define BADGE_TIMER 1u
@@ -238,6 +251,52 @@ static seL4_CPtr alloc_object(seL4_Word type, seL4_Word size_bits, const char *w
 }
 
 /*
+ * P1a check: every untyped must lie in our own RAM, in the channel window, or
+ * outside DDR (MMIO). Anything else (peer RAM, secure firmware, the rest of
+ * DDR) means the foreign-memory reservation did not take effect.
+ */
+static void untyped_audit(void)
+{
+    unsigned n = 0, device = 0, overlap = 0, peer = 0;
+    const uint64_t win_lo = MK_SHARED_BASE;
+    const uint64_t win_hi = MK_SHARED_BASE + 2ull * MK_CHANNEL_REGION_SIZE;
+
+    for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
+        const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
+        uint64_t lo = d->paddr, hi = d->paddr + (1ull << d->sizeBits);
+        n++;
+        device += d->isDevice;
+        if (hi <= DDR_BASE || lo >= DDR_END) {
+            continue;
+        }
+        if (lo >= OWN_RAM_BASE && hi <= OWN_RAM_BASE + KN_RAM_SIZE) {
+            continue;
+        }
+        if (lo >= win_lo && hi <= win_hi) {
+            continue;
+        }
+        overlap++;
+        if (lo < PEER_RAM_BASE + KN_RAM_SIZE && hi > PEER_RAM_BASE) {
+            peer++;
+        }
+        put_str("untyped-audit: FOREIGN ");
+        put_hex(lo);
+        put_str("..");
+        put_hex(hi);
+        put_str(d->isDevice ? " device\n" : " ram\n");
+    }
+    put_str("untyped-audit: untypeds=");
+    put_dec(n);
+    put_str(" device=");
+    put_dec(device);
+    put_str(" overlap=");
+    put_dec(overlap);
+    put_str(" peer-ram=");
+    put_dec(peer);
+    put_str(overlap ? " FAIL\n" : " PASS\n");
+}
+
+/*
  * Turn the device-untyped span [lo, hi) into large-page frames, written to
  * frames[(paddr - lo) >> MK_FRAME_BITS]. Splits the covering untyped in halves
  * down to frame size, so frames land at exact physical addresses without an
@@ -351,6 +410,7 @@ static mk_channel_t channel;
 static mk_channel_region_t *local_ring;
 static const mk_channel_region_t *peer_ring;
 static int timer_pending;
+static uint64_t tick_next; /* next idle-tick deadline; 0 before the idle loop */
 
 static void channel_notify(void *cookie)
 {
@@ -368,6 +428,38 @@ static int channel_wait(void *cookie)
     seL4_Wait(ntfn, &badge);
     if (badge & BADGE_TIMER) {
         timer_pending = 1;
+    }
+    if (badge & BADGE_SGI) {
+        return seL4_IRQHandler_Ack(sgi_irq);
+    }
+    return 0;
+}
+
+static uint64_t channel_now(void *cookie)
+{
+    (void)cookie;
+    return cntpct();
+}
+
+/*
+ * Bounded wait for mk_channel_recv_until. The EL1 physical timer (PPI 30) is
+ * shared with the idle tick, so it is armed at whichever comes first. A tick
+ * that falls due here is recorded in timer_pending for the idle loop.
+ */
+static int channel_wait_until(void *cookie, uint64_t deadline)
+{
+    seL4_Word badge = 0;
+
+    (void)cookie;
+    ptimer_arm(tick_next && tick_next < deadline ? tick_next : deadline);
+    seL4_Wait(ntfn, &badge);
+    if (badge & BADGE_TIMER) {
+        if (tick_next && cntpct() >= tick_next) {
+            timer_pending = 1;
+        }
+        /* A future deadline drops the level-triggered line before the ack. */
+        ptimer_arm(tick_next && !timer_pending ? tick_next : UINT64_MAX);
+        seL4_IRQHandler_Ack(timer_irq);
     }
     if (badge & BADGE_SGI) {
         return seL4_IRQHandler_Ack(sgi_irq);
@@ -495,7 +587,14 @@ static void echo(const mk_channel_message_t *m)
     }
 }
 
-/* K0: one validated round trip; returns its duration in counter ticks. */
+static uint64_t freq_hz;
+static uint64_t stale_pongs;
+
+/*
+ * K0: one validated round trip with a 10 ms deadline. Returns its duration in
+ * counter ticks, or 0 on timeout. PONGs that arrive after their own deadline
+ * are recognised by sequence number and dropped.
+ */
 static uint64_t round_trip(uint64_t seq)
 {
     uint8_t payload[MK_CHANNEL_PAYLOAD_SIZE];
@@ -503,16 +602,30 @@ static uint64_t round_trip(uint64_t seq)
 
     make_payload(payload, seq);
     uint64_t t0 = cntpct();
+    uint64_t deadline = t0 + freq_hz / MK_RECV_TIMEOUT_DIV;
     mk_channel_status_t st = mk_channel_try_send(&channel, MK_MSG_PING, 0,
                                                  payload, sizeof(payload), NULL);
     if (st != MK_CHANNEL_OK) {
         halt("ping: send", st);
     }
-    st = mk_channel_recv(&channel, &m);
-    uint64_t t1 = cntpct();
-    if (st != MK_CHANNEL_OK) {
-        halt("ping: recv", st);
+    for (;;) {
+        st = mk_channel_recv_until(&channel, &m, deadline, channel_now,
+                                   channel_wait_until);
+        if (st == MK_CHANNEL_TIMEOUT) {
+            return 0;
+        }
+        if (st != MK_CHANNEL_OK) {
+            halt("ping: recv", st);
+        }
+        uint64_t got;
+        memcpy(&got, m.payload, sizeof(got));
+        if (m.type == MK_MSG_PONG && got < seq) {
+            stale_pongs++;
+            continue;
+        }
+        break;
     }
+    uint64_t t1 = cntpct();
     if (!payload_valid(&m, MK_MSG_PONG, seq)) {
         halt("ping: bad PONG", seq);
     }
@@ -543,6 +656,9 @@ static void benchmark(uint64_t freq)
             start = cntpct();
         }
         uint64_t dt = round_trip(seq);
+        if (dt == 0) {
+            halt("bench: round trip timed out", seq);
+        }
         if (seq == 0) {
             put_str("bench: first PONG received\n");
         }
@@ -610,9 +726,15 @@ int main(void)
 {
     uint64_t freq, cyc_per_sec, next, prev_cyc, tick = 0;
     uint64_t ping_seq = 1000000; /* idle-loop pings, distinct from the bench */
+    uint64_t timeouts = 0;
+    (void)timeouts;
+#if KERNEL_ID == 1
+    unsigned dropped = 0;
+#endif
 
     bi = sel4runtime_bootinfo();
     put_str("rootserver up, build " ROOTSERVER_BUILD_ID "\n");
+    untyped_audit();
 
 #if KERNEL_ID == 0
     pet_watchdog();
@@ -620,6 +742,7 @@ int main(void)
 #endif
 
     freq = cntfrq();
+    freq_hz = freq;
     pmu_init();
 
     /* Calibrate before allocating anything: on K0 this also gives core 1 a
@@ -640,19 +763,24 @@ int main(void)
     ntfn = alloc_object(seL4_NotificationObject, seL4_NotificationBits,
                         "notification");
 
+    /* The timer also bounds channel receives, so bind it before the channel. */
+    timer_irq = bind_irq(PTIMER_IRQ, badged(ntfn, BADGE_TIMER));
+    ptimer_arm(UINT64_MAX);
+    seL4_IRQHandler_Ack(timer_irq);
+
     pet_watchdog();
     setup_channel(freq);
     pet_watchdog();
     benchmark(freq);
     pet_watchdog();
 
-    timer_irq = bind_irq(PTIMER_IRQ, badged(ntfn, BADGE_TIMER));
     put_str("idle: blocking on PPI 30 + SGI ");
     put_dec(MK_CHANNEL_SGI);
     put_str("\n");
 
     /* K0 ticks on whole seconds, K1 on half seconds: no shared-UART collisions. */
     next = (cntpct() / freq + 1) * freq + (KERNEL_ID ? freq / 2 : 0);
+    tick_next = next;
     ptimer_arm(next);
     seL4_IRQHandler_Ack(timer_irq);
     prev_cyc = pmccntr();
@@ -670,6 +798,10 @@ int main(void)
 #if KERNEL_ID == 1
             mk_channel_message_t m;
             while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
+                if (dropped < MK_PROBE_DROP_PINGS) {
+                    dropped++; /* P1b probe: K0 must time out, not hang */
+                    continue;
+                }
                 echo(&m);
             }
 #endif
@@ -681,12 +813,14 @@ int main(void)
 
         /* A future deadline drops the level-triggered line before the ack. */
         next += freq;
+        tick_next = next;
         ptimer_arm(next);
         seL4_IRQHandler_Ack(timer_irq);
 
 #if KERNEL_ID == 0
         pet_watchdog();
         rtt = round_trip(ping_seq++);
+        timeouts += (rtt == 0);
 #endif
         now_cyc = pmccntr();
         busy_ppm = (now_cyc - prev_cyc) * 1000000ull / cyc_per_sec;
@@ -698,10 +832,15 @@ int main(void)
 #if KERNEL_ID == 0
         put_str(" ping=");
         put_dec(ticks_to_ns(rtt, freq));
-        put_str("ns");
+        put_str("ns timeouts=");
+        put_dec(timeouts);
+        put_str(" stale=");
+        put_dec(stale_pongs);
 #else
         put_str(" pongs=");
         put_dec(((const volatile mk_channel_control_t *)&local_ring->control)->sent);
+        put_str(" dropped=");
+        put_dec(dropped);
 #endif
         put_str("\n");
 

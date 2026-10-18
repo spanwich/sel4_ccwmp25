@@ -231,3 +231,26 @@ mk_channel_status_t mk_channel_recv(mk_channel_t *channel,
         }
     }
 }
+
+mk_channel_status_t mk_channel_recv_until(mk_channel_t *channel,
+                                          mk_channel_message_t *message,
+                                          uint64_t deadline,
+                                          mk_channel_now_fn now,
+                                          mk_channel_wait_until_fn wait_until)
+{
+    if (now == NULL || wait_until == NULL) {
+        return MK_CHANNEL_INVALID_ARGUMENT;
+    }
+    for (;;) {
+        mk_channel_status_t status = mk_channel_try_recv(channel, message);
+        if (status != MK_CHANNEL_EMPTY) {
+            return status;
+        }
+        if (now(channel->callback_cookie) >= deadline) {
+            return MK_CHANNEL_TIMEOUT;
+        }
+        if (wait_until(channel->callback_cookie, deadline) != 0) {
+            return MK_CHANNEL_WAIT_FAILED;
+        }
+    }
+}
