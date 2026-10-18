@@ -28,7 +28,13 @@ set(KernelSel4Arch "aarch64" CACHE STRING "" FORCE)
 set(AARCH64 ON CACHE BOOL "" FORCE)
 set(CCWMP25HelloHypervisor ON CACHE BOOL "Build the hello kernels as EL2 hypervisors (OFF = plain EL1 kernels)")
 set(KernelArmHypervisorSupport ${CCWMP25HelloHypervisor} CACHE BOOL "" FORCE)
-set(KernelAllowSMCCalls ON CACHE BOOL "" FORCE)
+# Only K0 talks to the secure world (IWDG pet, PSCI, SCMI). K1 is network-facing
+# and gets no SMC capability at all.
+if("${MK_KERNEL_ID}" STREQUAL "1")
+    set(KernelAllowSMCCalls OFF CACHE BOOL "" FORCE)
+else()
+    set(KernelAllowSMCCalls ON CACHE BOOL "" FORCE)
+endif()
 
 # Idle: each rootserver blocks on the per-core EL1 physical timer (PPI 30),
 # which the EL2 kernel does not use (it uses CNTHP / PPI 26).

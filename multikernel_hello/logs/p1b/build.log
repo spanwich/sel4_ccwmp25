@@ -8,18 +8,151 @@
 -- Configuring done (0.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1
-[1/6] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
-[2/6] Linking C executable rootserver/rootserver_hello
+[1/138] Creating C input file for preprocessor
+[2/138] Creating C input file for preprocessor
+[3/138] Building C object util_libs/libutils/CMakeFiles/utils.dir/src/arch/arm/stack.c.obj
+[4/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/local_time_manager.c.obj
+[5/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/generic_timer.c.obj
+[6/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/plat/stm32mp2/ltimer.c.obj
+[7/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/io.c.obj
+[8/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/delay.c.obj
+[9/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/plat/stm32mp2/serial.c.obj
+[10/138] Building C object util_libs/libutils/CMakeFiles/utils.dir/src/debug.c.obj
+[11/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/irqchip/gicv3.c.obj
+[12/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/i2c_bitbang.c.obj
+[13/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/irqchip/omap3.c.obj
+[14/138] Building C object libsel4/CMakeFiles/libsel4_sel4_arch_types_gen_pbf_temp_lib.dir/libsel4_sel4_arch_types_gen_pbf_temp.c.obj
+[15/138] Building C object libsel4/CMakeFiles/libsel4_shared_types_gen_pbf_temp_lib.dir/libsel4_shared_types_gen_pbf_temp.c.obj
+[16/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/dma330.c.obj
+[17/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/plat/stm32mp2/timer.c.obj
+[18/138] Generating include/sel4/shared_types.pbf
+[19/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/i2c.c.obj
+[20/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/irqchip/gic.c.obj
+[21/138] Generating sel4_arch_include/aarch64/sel4/sel4_arch/types.pbf
+[22/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/fdt.c.obj
+[23/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/plat/stm32mp2/chardev.c.obj
+[24/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/serial.c.obj
+[25/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/tqueue.c.obj
+[26/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/irqchip/tegra.c.obj
+[27/138] Building C object util_libs/libplatsupport/CMakeFiles/platsupport.dir/src/arch/arm/clock.c.obj
+[28/138] Generating generated/invocations_all.json
+[29/138] Linking C static library util_libs/libutils/libutils.a
+[30/138] Generating from /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1/libsel4/include/sel4/shared_types.pbf
+[31/138] Creating C input file for preprocessor
+[32/138] Creating C input file for preprocessor
+[33/138] Building C object kernel/CMakeFiles/kernel_bf_gen_target_1_pbf_temp_lib.dir/kernel_bf_gen_target_1_pbf_temp.c.obj
+[34/138] Generating generated/arch/object/structures.bf.pbf
+[35/138] Generating from /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1/libsel4/sel4_arch_include/aarch64/sel4/sel4_arch/types.pbf
+[36/138] Building C object kernel/CMakeFiles/kernel_all_pp_prune_wrapper_temp_lib.dir/kernel_all_pp_prune_wrapper_temp.c.obj
+[37/138] Linking C static library util_libs/libplatsupport/libplatsupport.a
+[38/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/alloc.c.obj
+[39/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/iommu_dma.c.obj
+[40/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/printf.c.obj
+[41/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/backtrace.c.obj
+[42/138] Building C object libsel4/CMakeFiles/sel4.dir/src/sel4_bootinfo.c.obj
+[43/138] Generating kernel_all_pp_prune.c
+[44/138] Building C object sel4runtime/CMakeFiles/sel4runtime.dir/src/env.c.obj
+[45/138] Building C object seL4_libs/libsel4vka/CMakeFiles/sel4vka.dir/src/debug-vka.c.obj
+[46/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/bootinfo.c.obj
+[47/138] Building C object sel4runtime/CMakeFiles/sel4runtime.dir/src/start.c.obj
+[48/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/caps.c.obj
+[49/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/register_dump.c.obj
+[50/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/mapping.c.obj
+[51/138] Building C object seL4_libs/libsel4debug/CMakeFiles/sel4debug.dir/src/trace.c.obj
+[52/138] Building C object seL4_libs/libsel4vka/CMakeFiles/sel4vka.dir/src/null-vka.c.obj
+[53/138] Building C object sel4runtime/CMakeFiles/sel4runtime.dir/src/crt1.c.obj
+[54/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/sel4_arch/aarch64/arch.c.obj
+[55/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/strerror.c.obj
+[56/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/profile.c.obj
+[57/138] Building C object sel4runtime/CMakeFiles/sel4runtime.dir/src/start_root.c.obj
+[58/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/process.c.obj
+[59/138] Building C object seL4_libs/libsel4vspace/CMakeFiles/sel4vspace.dir/src/arch/arm/mapping.c.obj
+[60/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/elf.c.obj
+[61/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/page_dma.c.obj
+[62/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/stack.c.obj
+[63/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/thread.c.obj
+[64/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/vspace/bootstrap.c.obj
+[65/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/slab.c.obj
+[66/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/time_server/client.c.obj
+[67/138] Linking C static library libsel4/libsel4.a
+[68/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/arch/arm/device.c.obj
+[69/138] Building ASM object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/sel4_arch/aarch64/crt0.S.obj
+[70/138] Building C object seL4_libs/libsel4vspace/CMakeFiles/sel4vspace.dir/src/vspace.c.obj
+[71/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/vspace/vspace.c.obj
+[72/138] Building C object seL4_libs/libsel4vspace/CMakeFiles/sel4vspace.dir/src/sel4_arch/aarch64/mapping.c.obj
+[73/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/arch/arm/io_port_ops.c.obj
+[74/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/bootinfo.c.obj
+[75/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/arch/arm/pmem.c.obj
+[76/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/io.c.obj
+[77/138] Building C object seL4_libs/libsel4muslcsys/CMakeFiles/sel4muslcsys.dir/src/sys_yield.c.obj
+[78/138] Building C object seL4_libs/libsel4simple/CMakeFiles/sel4simple.dir/src/simple.c.obj
+[79/138] Building C object seL4_libs/libsel4simple-default/CMakeFiles/sel4simple-default.dir/src/arch/arm/default.c.obj
+[80/138] Building C object seL4_libs/libsel4muslcsys/CMakeFiles/sel4muslcsys.dir/src/sys_exit.c.obj
+[81/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/common.c.obj
+[82/138] Building C object seL4_libs/libsel4muslcsys/CMakeFiles/sel4muslcsys.dir/src/vsyscall.c.obj
+[83/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/timer.c.obj
+[84/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/serial.c.obj
+[85/138] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[86/138] Building C object seL4_libs/libsel4muslcsys/CMakeFiles/sel4muslcsys.dir/src/sys_morecore.c.obj
+[87/138] Building C object seL4_libs/libsel4utils/CMakeFiles/sel4utils.dir/src/irq_server/irq_server.c.obj
+[88/138] Building C object seL4_libs/libsel4muslcsys/CMakeFiles/sel4muslcsys.dir/src/sys_io.c.obj
+[89/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/irq.c.obj
+[90/138] Linking C static library sel4runtime/libsel4runtime.a
+[91/138] Building C object seL4_libs/libsel4platsupport/CMakeFiles/sel4platsupport.dir/src/device.c.obj
+[92/138] Linking C static library seL4_libs/libsel4debug/libsel4debug.a
+[93/138] Generating from generated/arch/object/structures.bf.pbf
+[94/138] Creating C input file for preprocessor
+[95/138] Building C object kernel/CMakeFiles/kernel_bf_gen_target_11_pbf_temp_lib.dir/kernel_bf_gen_target_11_pbf_temp.c.obj
+[96/138] Generating generated/sel4/shared_types.bf.pbf
+[97/138] Linking C static library seL4_libs/libsel4vka/libsel4vka.a
+[98/138] Building C object seL4_libs/libsel4simple-default/CMakeFiles/sel4simple-default.dir/src/libsel4simple-default.c.obj
+[99/138] Linking C static library seL4_libs/libsel4simple/libsel4simple.a
+[100/138] Linking C static library seL4_libs/libsel4vspace/libsel4vspace.a
+[101/138] Generating from generated/sel4/shared_types.bf.pbf
+[102/138] Creating C input file for preprocessor
+[103/138] Creating C input file for preprocessor
+[104/138] Linking C static library seL4_libs/libsel4simple-default/libsel4simple-default.a
+[105/138] Building C object kernel/CMakeFiles/linker_ld_wrapper_temp_lib.dir/linker_ld_wrapper_temp.c.obj
+[106/138] Generating linker.lds_pp
+[107/138] Building C object kernel/CMakeFiles/kernel_i_wrapper_temp_lib.dir/kernel_all_copy.c.obj
+[108/138] Generating kernel_all.i
+[109/138] Linking C static library seL4_libs/libsel4platsupport/libsel4platsupport.a
+[110/138] Generating circular_includes_valid
+[111/138] Building ASM object kernel/CMakeFiles/kernel.elf.dir/src/arch/arm/64/head.S.obj
+[112/138] Building ASM object kernel/CMakeFiles/kernel.elf.dir/src/arch/arm/64/traps.S.obj
+[113/138] Linking C static library seL4_libs/libsel4utils/libsel4utils.a
+[114/138] Linking C static library seL4_libs/libsel4muslcsys/libsel4muslcsys.a
+[115/138] Linking C executable rootserver/rootserver_hello
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
-[3/6] Generating rootserver
-[4/6] Generate CPIO archive archive.o
-[5/6] Linking C executable elfloader-tool/elfloader
+[116/138] Building C object kernel/CMakeFiles/kernel.elf.dir/kernel_all.c.obj
+[117/138] Linking C executable kernel/kernel.elf
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: kernel/kernel.elf has a LOAD segment with RWX permissions
+[118/138] Generating rootserver
+[119/138] Generating kernel.elf
+[120/138] Generate CPIO archive archive.o
+[121/138] Building ASM object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/64/crt0.S.obj
+[122/138] Building ASM object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/armv/armv8-a/64/mmu-hyp.S.obj
+[123/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/64/mmu.c.obj
+[124/138] Building ASM object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/armv/armv8-a/64/mmu.S.obj
+[125/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/drivers/smp-psci.c.obj
+[126/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/drivers/smp-spin-table.c.obj
+[127/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/drivers/smp-imx6.c.obj
+[128/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/armv/armv8-a/64/smp.c.obj
+[129/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/scu.c.obj
+[130/138] Building ASM object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/64/multikernel_trampoline.S.obj
+[131/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/smp_boot.c.obj
+[132/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/multikernel.c.obj
+[133/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/common.c.obj
+[134/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/psci.c.obj
+[135/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/drivers/smp-zynq7000.c.obj
+[136/138] Building C object elfloader-tool/CMakeFiles/elfloader.dir/src/arch-arm/sys_boot.c.obj
+[137/138] Linking C executable elfloader-tool/elfloader
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
-[6/6] Generating images/rootserver_hello-image-arm-stm32mp2
+[138/138] Generating images/rootserver_hello-image-arm-stm32mp2
 Image Name:   
-Created:      Mon Oct 19 11:23:25 2026
+Created:      Mon Oct 19 11:25:43 2026
 Image Type:   AArch64 Linux Kernel Image (uncompressed)
-Data Size:    413712 Bytes = 404.02 KiB = 0.39 MiB
+Data Size:    411664 Bytes = 402.02 KiB = 0.39 MiB
 Load Address: 88000000
 Entry Point:  88000000
 ==> Configure/build K0 bundle and derive its linked K1 trampoline address
@@ -33,19 +166,20 @@ Entry Point:  88000000
 -- Configuring done (0.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0
-[1/7] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
-[2/7] Linking C executable rootserver/rootserver_hello
+[1/8] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[2/8] Linking C executable rootserver/rootserver_hello
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
-[3/7] Generating rootserver
-[4/7] Generating rootserver_1
-[5/7] Generate CPIO archive archive.o
-[6/7] Linking C executable elfloader-tool/elfloader
+[3/8] Generating kernel_1.elf
+[4/8] Generating rootserver
+[5/8] Generating rootserver_1
+[6/8] Generate CPIO archive archive.o
+[7/8] Linking C executable elfloader-tool/elfloader
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
-[7/7] Generating images/rootserver_hello-image-arm-stm32mp2
+[8/8] Generating images/rootserver_hello-image-arm-stm32mp2
 Image Name:   
-Created:      Mon Oct 19 11:23:26 2026
+Created:      Mon Oct 19 11:25:44 2026
 Image Type:   AArch64 Linux Kernel Image (uncompressed)
-Data Size:    801920 Bytes = 783.12 KiB = 0.76 MiB
+Data Size:    799872 Bytes = 781.12 KiB = 0.76 MiB
 Load Address: 88000000
 Entry Point:  88000000
     linked mk_core1_trampoline=0x00000000880050a0
@@ -68,13 +202,13 @@ Entry Point:  88000000
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
 [6/6] Generating images/rootserver_hello-image-arm-stm32mp2
 Image Name:   
-Created:      Mon Oct 19 11:23:27 2026
+Created:      Mon Oct 19 11:25:45 2026
 Image Type:   AArch64 Linux Kernel Image (uncompressed)
-Data Size:    801920 Bytes = 783.12 KiB = 0.76 MiB
+Data Size:    799872 Bytes = 781.12 KiB = 0.76 MiB
 Load Address: 88000000
 Entry Point:  88000000
     linked mk_core1_trampoline=0x00000000880050a0
 
 Final image: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2
 K1 trampoline handoff: 0x00000000880050a0 (derived and verified)
--rw-rw-r-- 1 iamfo470 iamfo470 784K Oct 19 11:23 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2
+-rw-rw-r-- 1 iamfo470 iamfo470 782K Oct 19 11:25 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2
