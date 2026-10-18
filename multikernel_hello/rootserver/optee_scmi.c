@@ -253,6 +253,12 @@ void eth1_clocks_enable(void)
     clock_on(CK_SCMI_ICN_LS_MCU, "ICN_LS_MCU");
     clock_on(CK_SCMI_FLEXGEN_54, "FLEXGEN_54/ETH1_KER");
     clock_on(CK_SCMI_FLEXGEN_56, "FLEXGEN_56/ETH1_PTP");
+    /* GPIO banks used by the ETH1 RGMII/MDIO pins and the PHY reset (PB2) */
+    clock_on(89, "GPIOA");
+    clock_on(90, "GPIOB");
+    clock_on(91, "GPIOC");
+    clock_on(94, "GPIOF");
+    clock_on(96, "GPIOH");
 
     /* Only this one register of the RCC page is touched: most of RCC is
      * secure, and a stray access would raise an IAC (OP-TEE panics). */

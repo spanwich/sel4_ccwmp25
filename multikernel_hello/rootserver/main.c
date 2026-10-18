@@ -23,13 +23,14 @@
 
 #include "mk_channel.h"
 #include "rs.h"
+#include "dwmac.h"
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n1-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n2-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -888,6 +889,22 @@ int main(void)
     pet_watchdog();
     benchmark(freq);
     pet_watchdog();
+#if KERNEL_ID == 1
+    /* N2: K0 turned the ETH1 clocks on before its ring went READY. */
+    if (eth1_probe() == 0) {
+        unsigned speed = 0, full = 0;
+        uint64_t until = cntpct() + 5 * freq;
+        while (!eth1_link(&speed, &full) && cntpct() < until) {
+        }
+        if (eth1_link(&speed, &full)) {
+            put_str("phy: link up ");
+            put_dec(speed);
+            put_str(full ? "/full\n" : "/half\n");
+        } else {
+            put_str("phy: no link (is J22 cabled?)\n");
+        }
+    }
+#endif
 
     put_str("idle: blocking on PPI 30 + SGI ");
     put_dec(MK_CHANNEL_SGI);
