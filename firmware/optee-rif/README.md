@@ -1,0 +1,165 @@
+# OP-TEE/FIP with ETH1 DMA confined by RIF (N5): build and recovery
+
+Status (2026-10-19): **built, NOT flashed.** Flashing needs the user's explicit
+approval. The recovery procedure below has **not been rehearsed**.
+
+## What changes
+
+The patch is `0001-ccmp25-dvk-confine-ETH1-DMA-with-RIF-seL4-multikerne.patch`
+(OP-TEE `7733e885`, branch `ccmp25-eth-rif`, worktree `~/phd/ccwmp255/optee_os-eth`).
+It sits on top of Digi `4.0.0/stm/maint` `b4059ef30`, which is the exact OP-TEE
+revision the board prints (`OP-TEE: revision 4.0 (b4059ef3)`). It changes only
+two device-tree files:
+
+- **RIMU 6 (ETH1 DMA master):** `RIF_CID4`, `RIF_CIDSEL_M`. It was
+  `CIDSEL_P` with no CID.
+- **RISAF4 (DDR) layout:** the old region 9 (`linuxkernel1`, 872 MiB,
+  CID0|CID1) is split into three regions.
+
+  | Region | Range | Allowed CIDs | Content |
+  |---|---|---|---|
+  | 9 | `0x84000000..0xab800000` | CID0, CID1 | K0 RAM + K1 RAM below the window |
+  | **11** | `0xab800000..0xac000000` | **CID1, CID4** | **ETH1 DMA window**, top 8 MiB of K1 RAM |
+  | 12 | `0xac000000..0xba800000` | CID0, CID1 | channel + spare |
+
+  ETH1 (CID4) can therefore reach only region 11. An ETH1 DMA access outside
+  it is a RISAF illegal access, which raises an IAC event. With the stock
+  `CFG_STM32_PANIC_ON_IAC_EVENT=y`, OP-TEE then panics and the board resets
+  (fail-secure, but a K1-triggerable reset).
+
+- **No clock change.** RCC_ETH1CFGR follows RIFSC ID 60 (non-secure), and
+  FLEXGEN 54/56 are available to the non-secure agent over SCMI. See
+  `docs/rcc_clock_investigation.md`.
+
+**Side effect:** with this FIP, stock Linux or U-Boot networking only works if
+its DMA buffers lie in region 11. seL4 is unaffected apart from K1 needing its
+NIC buffers there.
+
+## Build (reproducible)
+
+```
+cd ~/phd/ccwmp255/optee_os-eth        # 7733e885
+make O=~/phd/ccmp25-fw-build/optee-rif PLATFORM=stm32mp2 \
+  CFG_EMBED_DTB_SOURCE_FILE=ccmp25-dvk.dts ARCH=arm CFG_ARM64_core=y \
+  CROSS_COMPILE_core=aarch64-linux-gnu- CROSS_COMPILE_ta_arm64=aarch64-linux-gnu- \
+  NOWERROR=1 LDFLAGS= CFG_TEE_CORE_LOG_LEVEL=1 CFG_TEE_CORE_DEBUG=y
+cp <stock>/fip-ccmp25-dvk-optee-emmc.bin fip-ccmp25-dvk-optee-emmc-rif.bin
+fiptool update --tos-fw optee-rif/core/tee-header_v2.bin \
+  --tos-fw-extra1 optee-rif/core/tee-pager_v2.bin fip-ccmp25-dvk-optee-emmc-rif.bin
+```
+
+- **Flags:** taken from meta-st `optee-os-stm32mp-common.inc` and meta-digi
+  `ccmp2.inc` (log level 1, core debug y).
+- **Toolchain:** GCC 13.3 (Ubuntu). Stock was GCC 13.4 (Yocto).
+- **FIP contents:** BL31, U-Boot, the configs and the blob are **byte-identical**
+  to stock (`fiptool unpack` + `cmp`); only `tos-fw` and `tos-fw-extra1`
+  differ. `fiptool` rewrites the table of contents 40 B shorter (offset `0x178`
+  instead of `0x1A0`); TF-A locates entries by UUID.
+- **Control image:** `fip-ccmp25-dvk-optee-emmc-baseline.bin` is the same
+  procedure with the *unpatched* `b4059ef30`. It isolates "our OP-TEE build
+  works" from "the RIF change works", if a two-step flash is preferred.
+- **Hashes:** `SHA256SUMS`. The images live in `~/phd/ccmp25-fw-build/`.
+
+| File | SHA-256 |
+|---|---|
+| `fip-ccmp25-dvk-optee-emmc-rif.bin` | `8dfa487319c216d31a6deb241436fc8ea5891beebe3065d78beb524f59c8a3f4` |
+| `fip-ccmp25-dvk-optee-emmc-baseline.bin` | `49576a0904f23352ef27d00f08af729756e563a164f98a0a30f51aff46117def` |
+| stock `fip-ccmp25-dvk-optee-emmc.bin` (known good) | `d1200dcad96ed85527a0bca45b1ed9f00c8c45c78f6826c7643f1072b49fe953` |
+
+## Known-good firmware (verified 2026-10-19, read-only)
+
+The Digi DEY 5.0-r3 installer is at `~/Documents/ccmp25-dvk-webkit-installer/`
+(see `SHA256SUMS`). The board's current firmware **is that installer's
+firmware**. U-Boot `mmc read` + `crc32` (`board_crc_check_uboot.log`) gives:
+
+| eMMC area | CRC32 on board | Installer file | CRC32 of file |
+|---|---|---|---|
+| boot1 / boot2 (hw partitions) | `3933ec36` / `3933ec36` | `tf-a-ccmp25-dvk-optee-emmc.stm32` | `3933ec36` |
+| fip-a (LBA `0x1800`) / fip-b (LBA `0x3000`) | `eb895904` / `eb895904` | `fip-ccmp25-dvk-optee-emmc.bin` | `eb895904` |
+
+- **Metadata:** v2, active=0, previous=1, both banks ACCEPTED (`0xFC`),
+  identical to `metadata-ccmp25-dvk.bin`.
+- **Partitions:** GPT — metadata1/2 at LBA `0x1000`/`0x1400`, fip-a/b at
+  `0x1800`/`0x3000` (3 MiB each), linux_a = partition 5.
+- **Re-running the check:** `deploy/backup_fw_ums.sh OUTDIR` is read-only and
+  repeats it.
+
+## Proposed flash: trial boot in fip-b (stock stays in fip-a)
+
+TF-A BL2 has PSA FWU trial booting (`plat/st/common/bl2_io_storage.c:790`):
+- If the active bank is VALID but not ACCEPTED, BL2 boots it and decrements a
+  TAMP backup-register counter (`FWU_MAX_TRIAL_REBOOT`=4). The counter
+  survives NRST.
+- After about 3 unaccepted boots, BL2 boots the other bank.
+
+So:
+- **Stock stays in fip-a**, and the new FIP goes only into fip-b.
+- **The metadata is switched to "trial fip-b"**
+  (`metadata-trial-fip-b.bin`, generated by `make_fwu_metadata.py`).
+
+If the new FIP fails, **about 3 remote NRST pulses (`deploy/reset.sh`) bring the
+board back on the stock fip-a, with no boot-switch change.**
+
+**Flash steps (each needs the user's approval):**
+1. `deploy/flash_ums.sh`-style UMS session: copy
+   `fip-ccmp25-dvk-optee-emmc-rif.bin` and `metadata-trial-fip-b.bin` to the
+   vfat partition 5, then end UMS.
+2. In U-Boot:
+   ```
+   load mmc 0:5 0x90000000 fip-ccmp25-dvk-optee-emmc-rif.bin
+   mmc write 0x90000000 0x3000 0x1633        # fip-b, 2909288 B
+   load mmc 0:5 0x90000000 metadata-trial-fip-b.bin
+   mmc write 0x90000000 0x1000 0x1           # metadata1
+   mmc write 0x90000000 0x1400 0x1           # metadata2
+   ```
+3. Read back with `crc32` and compare. Reset and watch for `BL2: ... fip-b`
+   and OP-TEE's RIF/RISAF output.
+4. **If it works:** write `metadata-accept-fip-b.bin` the same way. Otherwise
+   the trial counter expires and stock fip-a boots again. **A good trial that
+   is never accepted also reverts after about 3 reboots.**
+
+**Inferred, not verified:**
+- That stock BL2 was built with `PSA_FWU_SUPPORT=1`. The fip-a/fip-b layout
+  and metadata strongly suggest it, but the NOTICE-level log does not show it.
+- That Digi U-Boot does not rewrite the metadata during a trial boot.
+- That an OP-TEE panic before IWDG start is cleared by NRST. NRST is a pin
+  reset, which also resets the A35s, so it should be.
+
+## Recovery for a bad FIP (if trial fallback does not work)
+
+This follows Digi's "Recover your device" page for ccmp25 DEY 5.0
+(https://docs.digi.com/resources/documentation/digidocs/embedded/dey/5.0/ccmp25/yocto-recover-device_t_stm.html).
+**It needs someone at the board.**
+
+1. **Hands-on:** set S1 to **UART/USB serial boot: Open, Close, Open, Open**
+   (S1.1–S1.4; normal eMMC boot is all Open). Connect USB-C J25 (USBC) and the
+   console (J19). Power-cycle.
+2. Load TF-A and U-Boot into RAM over USB DFU (`apt install dfu-util`), with
+   the r3 installer file names:
+   ```
+   dfu-util -a 0 -D tf-a-ccmp25-dvk-optee-usb.stm32 ; dfu-util -a 0 -e ; sleep 1
+   dfu-util -a 0 -D fip-ccmp25-dvk-ddr-optee-usb.bin ; dfu-util -a 0 -e ; sleep 1
+   dfu-util -a 1 -D fip-ccmp25-dvk-optee-usb.bin    ; dfu-util -a 0 -e
+   ```
+3. When U-Boot runs from RAM, press Ctrl-C at the prompt (it would otherwise
+   start fastboot). Then run `fastboot 0`, and on the host as root:
+   ```
+   uuu FB: flash boot1     tf-a-ccmp25-dvk-optee-emmc.stm32
+   uuu FB: flash boot2     tf-a-ccmp25-dvk-optee-emmc.stm32
+   uuu FB: flash metadata1 metadata-ccmp25-dvk.bin
+   uuu FB: flash metadata2 metadata-ccmp25-dvk.bin
+   uuu FB: flash fip-a     fip-ccmp25-dvk-optee-emmc.bin
+   uuu FB: flash fip-b     fip-ccmp25-dvk-optee-emmc.bin
+   ```
+   - Digi's page also runs `env default -a; run partition_mmc_linux; saveenv`.
+     **Skip that**: the GPT is intact and that step would repartition.
+   - The seL4 `boot.scr`/`sel4.bin` on partition 5 is untouched.
+4. **Hands-on:** set S1 back to all Open and power-cycle. Verify with
+   `deploy/backup_fw_ums.sh` (expect CRCs `3933ec36` and `eb895904`).
+
+**Rehearsed: no.**
+- `uuu` is installed on this host (`/usr/bin/uuu`); `dfu-util` is not (it needs root to install).
+- The USB serial-boot step has never been run on this board.
+- Recommended before the first FIP flash: one dry run of steps 1–2 (boot
+  U-Boot from USB and stop at the prompt, **writing nothing**), then switch S1
+  back. That proves the hands-on path while the eMMC is still stock.

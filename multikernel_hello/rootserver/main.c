@@ -28,7 +28,7 @@
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-p1-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-p1b-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -49,6 +49,7 @@
 #define MK_BENCH_WARMUP   1000u
 #define MK_BENCH_SAMPLES  10000u
 #define MK_RECV_TIMEOUT_DIV 100u /* round-trip deadline: 1/100 s = 10 ms */
+#define MK_K1_BENCH_TIMEOUT 2u    /* seconds K1 waits for each benchmark PING */
 #ifndef MK_PROBE_DROP_PINGS
 #define MK_PROBE_DROP_PINGS 3u   /* K1 swallows this many idle pings (P1b probe) */
 #endif
@@ -706,7 +707,13 @@ static void benchmark(uint64_t freq)
 #else
     mk_channel_message_t m;
     for (uint64_t seq = 0; seq < total; seq++) {
-        mk_channel_status_t st = mk_channel_recv(&channel, &m);
+        /* Bounded like K0's side: a stalled K0 ends the benchmark visibly. */
+        mk_channel_status_t st = mk_channel_recv_until(&channel, &m,
+                                                       cntpct() + freq * MK_K1_BENCH_TIMEOUT,
+                                                       channel_now, channel_wait_until);
+        if (st == MK_CHANNEL_TIMEOUT) {
+            halt("bench: no PING from K0 (timeout)", seq);
+        }
         if (st != MK_CHANNEL_OK) {
             halt("bench: recv", st);
         }

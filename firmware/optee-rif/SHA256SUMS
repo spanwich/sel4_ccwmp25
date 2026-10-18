@@ -1,0 +1,14 @@
+49576a0904f23352ef27d00f08af729756e563a164f98a0a30f51aff46117def  fip-ccmp25-dvk-optee-emmc-baseline.bin
+8dfa487319c216d31a6deb241436fc8ea5891beebe3065d78beb524f59c8a3f4  fip-ccmp25-dvk-optee-emmc-rif.bin
+d06d69e407ffcbd2c4b168099c7c4d2720ee80b90463fa0b27bb5d9d7afc96b5  metadata-accept-fip-b.bin
+32459e68f2dd19a9d988722f4da391fce8bb592ff0e4d541766caa1e7a9c1ece  metadata-trial-fip-b.bin
+4bc18c5e09f5e1cb525d4bb150df04fd99abc5a5835586e8cd0370c54ac3ee27  optee-baseline/core/tee-header_v2.bin
+4bc18c5e09f5e1cb525d4bb150df04fd99abc5a5835586e8cd0370c54ac3ee27  optee-rif/core/tee-header_v2.bin
+1096974806c75a715f89ede5aba866fe8ffbaa0819f17f1242025691c753a57d  optee-baseline/core/tee-pager_v2.bin
+3971799e21f693e6fc4225b279b2ab67452e4ccb503f82f477fdd1f1a24905d5  optee-rif/core/tee-pager_v2.bin
+d1200dcad96ed85527a0bca45b1ed9f00c8c45c78f6826c7643f1072b49fe953  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/fip-ccmp25-dvk-optee-emmc.bin
+c1de837a4c686e9a4877c6ff3e3057264c6c42a99ac35490e52041c2f351d335  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/metadata-ccmp25-dvk.bin
+0b75cf5c4f13e58e731aab2436c62a9909c56089a00ab161955052b2045eb5fe  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/tf-a-ccmp25-dvk-optee-emmc.stm32
+20058a9a397b70feaa60b7270a2be60f977a82d3c651e054ac4b3a08cf82178a  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/tf-a-ccmp25-dvk-optee-usb.stm32
+b864217d550dc79b65c38ae70d16ca9c95f74ef443c0a309f8b96891a0615342  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/fip-ccmp25-dvk-ddr-optee-usb.bin
+ceadef6d7984ef4b9c66f0764ebe8d46c1e7235811afed31ba1191f73725db9f  /home/iamfo470/Documents/ccmp25-dvk-webkit-installer/fip-ccmp25-dvk-optee-usb.bin

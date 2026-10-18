@@ -1,0 +1,321 @@
+[K1] tick 580 busy=0.016% pongs=11578 dropped=3
+[K0] tick 581 busy=0.019% ping=31025ns timeouts=3 stale=0
+[K1] tick 581 busy=0.016% pongs=11579 dropped=3
+[K0] tick 582 busy=0.019% ping=31725ns timeouts=3 stale=0
+[K1] tick 582 busy=0.016% pongs=11580 dropped=3
+[K0] tick 583 busy=0.019% ping=30225ns timeouts=3 stale=0
+[K1] tick 583 busy=0.016% pongs=11581 dropped=3
+[K0] tick 584 busy=0.019% ping=29525ns timeouts=3 stale=0
+[K1] tick 584 busy=0.016% pongs=11582 dropped=3
+[K0] tick 585 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 585 busy=0.016% pongs=11583 dropped=3
+[K0] tick 586 busy=0.019% ping=29975ns timeouts=3 stale=0
+[K1] tick 586 busy=0.016% pongs=11584 dropped=3
+[K0] tick 587 busy=0.019% ping=29800ns timeouts=3 stale=0
+[K1] tick 587 busy=0.016% pongs=11585 dropped=3
+[K0] tick 588 busy=0.019% ping=29100ns timeouts=3 stale=0
+[K1] tick 588 busy=0.016% pongs=11586 dropped=3
+[K0] tick 589 busy=0.019% ping=29075ns timeouts=3 stale=0
+[K1] tick 589 busy=0.016% pongs=11587 dropped=3
+[K0] tick 590 busy=0.019% ping=29800ns timeouts=3 stale=0
+[K1] tick 590 busy=0.016% pongs=11588 dropped=3
+[K0] tick 591 busy=0.019% ping=29900ns timeouts=3 stale=0
+[K1] tick 591 busy=0.016% pongs=11589 dropped=3
+[K0] tick 592 busy=0.019% ping=29925ns timeouts=3 stale=0
+[K1] tick 592 busy=0.016% pongs=11590 dropped=3
+[K0] tick 593 busy=0.019% ping=29975ns timeouts=3 stale=0
+[K1] tick 593 busy=0.016% pongs=11591 dropped=3
+[K0] tick 594 busy=0.019% ping=29475ns timeouts=3 stale=0
+[K1] tick 594 busy=0.016% pongs=11592 dropped=3
+[K0] tick 595 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 595 busy=0.016% pongs=11593 dropped=3
+[K0] tick 596 busy=0.019% ping=31300ns timeouts=3 stale=0
+[K1] tick 596 busy=0.016% pongs=11594 dropped=3
+[K0] tick 597 busy=0.019% ping=29900ns timeouts=3 stale=0
+[K1] tick 597 busy=0.016% pongs=11595 dropped=3
+[K0] tick 598 busy=0.019% ping=29475ns timeouts=3 stale=0
+[K1] tick 598 busy=0.016% pongs=11596 dropped=3
+[K0] tick 599 busy=0.019% ping=29425ns timeouts=3 stale=0
+[K1] tick 599 busy=0.016% pongs=11597 dropped=3
+[K0] tick 600 busy=0.019% ping=30225ns timeouts=3 stale=0
+[K1] tick 600 busy=0.016% pongs=11598 dropped=3
+[K0] tick 601 busy=0.019% ping=29375ns timeouts=3 stale=0
+[K1] tick 601 busy=0.016% pongs=11599 dropped=3
+[K0] tick 602 busy=0.019% ping=29575ns timeouts=3 stale=0
+[K1] tick 602 busy=0.016% pongs=11600 dropped=3
+[K0] tick 603 busy=0.019% ping=29525ns timeouts=3 stale=0
+[K1] tick 603 busy=0.016% pongs=11601 dropped=3
+[K0] tick 604 busy=0.019% ping=30225ns timeouts=3 stale=0
+[K1] tick 604 busy=0.016% pongs=11602 dropped=3
+[K0] tick 605 busy=0.019% ping=29675ns timeouts=3 stale=0
+[K1] tick 605 busy=0.016% pongs=11603 dropped=3
+[K0] tick 606 busy=0.019% ping=29850ns timeouts=3 stale=0
+[K1] tick 606 busy=0.016% pongs=11604 dropped=3
+[K0] tick 607 busy=0.019% ping=29975ns timeouts=3 stale=0
+[K1] tick 607 busy=0.016% pongs=11605 dropped=3
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> ums 0 mmc 0
+UMS: LUN 0, dev mmc 0, hwpart 0, sector 0x0, count 0xe90000
+dwc3-generic-wrapper usb@48300000: configured in usb2 mode
+CTRL+C - Operation aborted
+=> NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+801984 bytes read in 208 ms (3.7 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-18  22:23:27 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    801920 Bytes = 783.1 KiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880d329f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..843a0fff]
+  vaddr=[400000..559fff]
+  virt_entry=403c50
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98390fff]
+  vaddr=[400000..549fff]
+  virt_entry=4037b8
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98391000] uentry=4037b8 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..80843a1000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-p1b-v16
+[K0] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ac000000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098391000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-p1b-v16
+[K1] untyped-audit: untypeds=69 device=39 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1199999843 cycles/s
+[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] idle: cntfrq=40000000 Hz, cpu=1200000000 cycles/s
+[K1] channel: local 0x00000000aca00000 rw, peer 0x00000000ac000000 ro, DeReceived disabled IRQ: 1
+[K1] vice, SGI 1
+[K1] channel: READY abi=2 epoch=0x101700010e0c4f02
+[K0] channel: READY abi=2 epoch=0x101700010e0c4f02
+[K1] bench: first PING received
+[K0] bench: first PONG received
+[K1] bench: echoed 11000 PINGs
+[K1] bench: sent=11000 received=11000 full=0 corrupt=0
+[K1] idle: blocking on PPI 30 + SGI 1
+[K0] bench: 10000 round trips x 512 B: min=42875ns p50=43800ns p99=44950ns max=45675ns mean=43840ns rate=14408 rt/s
+[K0] bench: sent=11000 received=11000 full=0 corrupt=0
+[K0] idle: blocking on PPI 30 + SGI 1
+[K0] tick 0 busy=0.005% ping=0ns timeouts=1 stale=0
+[K1] tick 0 busy=0.011% pongs=11000 dropped=1
+[K0] tick 1 busy=0.016% ping=0ns timeouts=2 stale=0
+[K1] tick 1 busy=0.015% pongs=11000 dropped=2
+[K0] tick 2 busy=0.016% ping=0ns timeouts=3 stale=0
+[K1] tick 2 busy=0.015% pongs=11000 dropped=3
+[K0] tick 3 busy=0.019% ping=29325ns timeouts=3 stale=0
+[K1] tick 3 busy=0.016% pongs=11001 dropped=3
+[K0] tick 4 busy=0.019% ping=29675ns timeouts=3 stale=0
+[K1] tick 4 busy=0.016% pongs=11002 dropped=3
+[K0] tick 5 busy=0.019% ping=29225ns timeouts=3 stale=0
+[K1] tick 5 busy=0.016% pongs=11003 dropped=3
+[K0] tick 6 busy=0.019% ping=29975ns timeouts=3 stale=0
+[K1] tick 6 busy=0.016% pongs=11004 dropped=3
+[K0] tick 7 busy=0.019% ping=29475ns timeouts=3 stale=0
+[K1] tick 7 busy=0.016% pongs=11005 dropped=3
+[K0] tick 8 busy=0.019% ping=29175ns timeouts=3 stale=0
+[K1] tick 8 busy=0.016% pongs=11006 dropped=3
+[K0] tick 9 busy=0.019% ping=29575ns timeouts=3 stale=0
+[K1] tick 9 busy=0.016% pongs=11007 dropped=3
+[K0] tick 10 busy=0.019% ping=30375ns timeouts=3 stale=0
+[K1] tick 10 busy=0.016% pongs=11008 dropped=3
+[K0] tick 11 busy=0.019% ping=30150ns timeouts=3 stale=0
+[K1] tick 11 busy=0.016% pongs=11009 dropped=3
+[K0] tick 12 busy=0.019% ping=30050ns timeouts=3 stale=0
+[K1] tick 12 busy=0.016% pongs=11010 dropped=3
+[K0] tick 13 busy=0.019% ping=29925ns timeouts=3 stale=0
+[K1] tick 13 busy=0.016% pongs=11011 dropped=3
+[K0] tick 14 busy=0.019% ping=30500ns timeouts=3 stale=0
+[K1] tick 14 busy=0.016% pongs=11012 dropped=3
+[K0] tick 15 busy=0.019% ping=30150ns timeouts=3 stale=0
+[K1] tick 15 busy=0.016% pongs=11013 dropped=3
+[K0] tick 16 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 16 busy=0.016% pongs=11014 dropped=3
+[K0] tick 17 busy=0.019% ping=29725ns timeouts=3 stale=0
+[K1] tick 17 busy=0.016% pongs=11015 dropped=3
+[K0] tick 18 busy=0.019% ping=29400ns timeouts=3 stale=0
+[K1] tick 18 busy=0.016% pongs=11016 dropped=3
+[K0] tick 19 busy=0.019% ping=29400ns timeouts=3 stale=0
+[K1] tick 19 busy=0.016% pongs=11017 dropped=3
+[K0] tick 20 busy=0.019% ping=29625ns timeouts=3 stale=0
+[K1] tick 20 busy=0.016% pongs=11018 dropped=3
+[K0] tick 21 busy=0.019% ping=30025ns timeouts=3 stale=0
+[K1] tick 21 busy=0.016% pongs=11019 dropped=3
+[K0] tick 22 busy=0.019% ping=29100ns timeouts=3 stale=0
+[K1] tick 22 busy=0.016% pongs=11020 dropped=3
+[K0] tick 23 busy=0.019% ping=29400ns timeouts=3 stale=0
+[K1] tick 23 busy=0.016% pongs=11021 dropped=3
+[K0] tick 24 busy=0.019% ping=29675ns timeouts=3 stale=0
+[K1] tick 24 busy=0.016% pongs=11022 dropped=3
+[K0] tick 25 busy=0.019% ping=30250ns timeouts=3 stale=0
+[K1] tick 25 busy=0.016% pongs=11023 dropped=3
+[K0] tick 26 busy=0.019% ping=29525ns timeouts=3 stale=0
+[K1] tick 26 busy=0.016% pongs=11024 dropped=3
+[K0] tick 27 busy=0.019% ping=29600ns timeouts=3 stale=0
+[K1] tick 27 busy=0.016% pongs=11025 dropped=3
+[K0] tick 28 busy=0.019% ping=29900ns timeouts=3 stale=0
+[K1] tick 28 busy=0.016% pongs=11026 dropped=3
+[K0] tick 29 busy=0.019% ping=29775ns timeouts=3 stale=0
+[K1] tick 29 busy=0.016% pongs=11027 dropped=3
+[K0] tick 30 busy=0.019% ping=29950ns timeouts=3 stale=0
+[K1] tick 30 busy=0.016% pongs=11028 dropped=3
+[K0] tick 31 busy=0.019% ping=29775ns timeouts=3 stale=0
+[K1] tick 31 busy=0.016% pongs=11029 dropped=3
+[K0] tick 32 busy=0.019% ping=29225ns timeouts=3 stale=0
+[K1] tick 32 busy=0.016% pongs=11030 dropped=3
+[K0] tick 33 busy=0.019% ping=30225ns timeouts=3 stale=0
+[K1] tick 33 busy=0.016% pongs=11031 dropped=3
+[K0] tick 34 busy=0.019% ping=29525ns timeouts=3 stale=0
+[K1] tick 34 busy=0.016% pongs=11032 dropped=3
+[K0] tick 35 busy=0.019% ping=29375ns timeouts=3 stale=0
+[K1] tick 35 busy=0.016% pongs=11033 dropped=3
+[K0] tick 36 busy=0.019% ping=30625ns timeouts=3 stale=0
+[K1] tick 36 busy=0.016% pongs=11034 dropped=3
+[K0] tick 37 busy=0.019% ping=29850ns timeouts=3 stale=0
+[K1] tick 37 busy=0.016% pongs=11035 dropped=3
+[K0] tick 38 busy=0.019% ping=29775ns timeouts=3 stale=0
+[K1] tick 38 busy=0.016% pongs=11036 dropped=3
+[K0] tick 39 busy=0.019% ping=29950ns timeouts=3 stale=0
+[K1] tick 39 busy=0.016% pongs=11037 dropped=3
+[K0] tick 40 busy=0.019% ping=30050ns timeouts=3 stale=0
+[K1] tick 40 busy=0.016% pongs=11038 dropped=3
+[K0] tick 41 busy=0.019% ping=29500ns timeouts=3 stale=0
+[K1] tick 41 busy=0.016% pongs=11039 dropped=3
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

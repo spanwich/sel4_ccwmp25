@@ -1,0 +1,430 @@
+=> version
+[K0] tick 52115 busy=0.019% ping=30075ns timeouts=3 stale=0
+[K1] tick 52115 busy=0.016% pongs=63113 dropped=3
+[K0] tick 52116 busy=0.019% ping=29250ns timeouts=3 stale=0
+[K1] tick 52116 busy=0.016% pongs=63114 dropped=3
+[K0] tick 52117 busy=0.019% ping=29525ns timeouts=3 stale=0
+[K1] tick 52117 busy=0.016% pongs=63115 dropped=3
+[K0] tick 52118 busy=0.019% ping=30300ns timeouts=3 stale=0
+[K1] tick 52118 busy=0.016% pongs=63116 dropped=3
+[K0] tick 52119 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52119 busy=0.016% pongs=63117 dropped=3
+[K0] tick 52120 busy=0.019% ping=29950ns timeouts=3 stale=0
+[K1] tick 52120 busy=0.016% pongs=63118 dropped=3
+[K0] tick 52121 busy=0.019% ping=29750ns timeouts=3 stale=0
+[K1] tick 52121 busy=0.016% pongs=63119 dropped=3
+[K0] tick 52122 busy=0.019% ping=29175ns timeouts=3 stale=0
+[K1] tick 52122 busy=0.016% pongs=63120 dropped=3
+[K0] tick 52123 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52123 busy=0.016% pongs=63121 dropped=3
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> version
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+aarch64-dey-linux-gcc (GCC) 13.4.0
+GNU ld (GNU Binutils) 2.42.0.20240723
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0
+=> mmc dev 0
+[K1] tick 52117 busy=0.016% pongs=63115 dropped=3
+[K0] tick 52118 busy=0.019% ping=30300ns timeouts=3 stale=0
+[K1] tick 52118 busy=0.016% pongs=63116 dropped=3
+[K0] tick 52119 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52119 busy=0.016% pongs=63117 dropped=3
+[K0] tick 52120 busy=0.019% ping=29950ns timeouts=3 stale=0
+[K1] tick 52120 busy=0.016% pongs=63118 dropped=3
+[K0] tick 52121 busy=0.019% ping=29750ns timeouts=3 stale=0
+[K1] tick 52121 busy=0.016% pongs=63119 dropped=3
+[K0] tick 52122 busy=0.019% ping=29175ns timeouts=3 stale=0
+[K1] tick 52122 busy=0.016% pongs=63120 dropped=3
+[K0] tick 52123 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52123 busy=0.016% pongs=63121 dropped=3
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> version
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+aarch64-dey-linux-gcc (GCC) 13.4.0
+GNU ld (GNU Binutils) 2.42.0.20240723
+=> mmc dev 0
+switch to partitions #0, OK
+mmc0(part 0) is current device
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0
+=> mmc info
+[K0] tick 52119 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52119 busy=0.016% pongs=63117 dropped=3
+[K0] tick 52120 busy=0.019% ping=29950ns timeouts=3 stale=0
+[K1] tick 52120 busy=0.016% pongs=63118 dropped=3
+[K0] tick 52121 busy=0.019% ping=29750ns timeouts=3 stale=0
+[K1] tick 52121 busy=0.016% pongs=63119 dropped=3
+[K0] tick 52122 busy=0.019% ping=29175ns timeouts=3 stale=0
+[K1] tick 52122 busy=0.016% pongs=63120 dropped=3
+[K0] tick 52123 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 52123 busy=0.016% pongs=63121 dropped=3
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> version
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+aarch64-dey-linux-gcc (GCC) 13.4.0
+GNU ld (GNU Binutils) 2.42.0.20240723
+=> mmc dev 0
+switch to partitions #0, OK
+mmc0(part 0) is current device
+=> mmc info
+Device: STM32 SD/MMC
+Manufacturer ID: d6
+OEM: 3
+Name: 88A398
+Bus Speed: 52000000
+Mode: MMC DDR52 (52MHz)
+Rd Block Len: 512
+MMC version 5.1
+High Capacity: Yes
+Capacity: 7.3 GiB
+Bus Width: 8-bit DDR
+Erase Group Size: 512 KiB
+HC WP Group Size: 8 MiB
+User Capacity: 7.3 GiB WRREL
+Boot Capacity: 4 MiB ENH
+RPMB Capacity: 4 MiB ENH
+Boot area 0 is not write protected
+Boot area 1 is not write protected
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0
+=> part list mmc 0
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> version
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+aarch64-dey-linux-gcc (GCC) 13.4.0
+GNU ld (GNU Binutils) 2.42.0.20240723
+=> mmc dev 0
+switch to partitions #0, OK
+mmc0(part 0) is current device
+=> mmc info
+Device: STM32 SD/MMC
+Manufacturer ID: d6
+OEM: 3
+Name: 88A398
+Bus Speed: 52000000
+Mode: MMC DDR52 (52MHz)
+Rd Block Len: 512
+MMC version 5.1
+High Capacity: Yes
+Capacity: 7.3 GiB
+Bus Width: 8-bit DDR
+Erase Group Size: 512 KiB
+HC WP Group Size: 8 MiB
+User Capacity: 7.3 GiB WRREL
+Boot Capacity: 4 MiB ENH
+RPMB Capacity: 4 MiB ENH
+Boot area 0 is not write protected
+Boot area 1 is not write protected
+=> part list mmc 0
+Partition Map for MMC device 0  --   Partition Type: EFI
+Part    Start LBA       End LBA         Name
+        Attributes
+        Type GUID
+        Partition GUID
+  1     0x00001000      0x000013ff      "metadata1"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   43f1961b-ce4c-4e6c-8f22-2230c5d532bd
+  2     0x00001400      0x000017ff      "metadata2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   f241b915-4241-47fd-b4de-ab5af832a0f6
+  3     0x00001800      0x00002fff      "fip-a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   1c606ef5-f1ac-43b9-9bb5-d5c578580b6b
+  4     0x00003000      0x000047ff      "fip-b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   c7d8648b-76f7-4e2b-b829-e95a83cc7b32
+  5     0x00004800      0x000247ff      "linux_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   ebae5694-6e56-497c-83c6-c4455e12d727
+  6     0x00024800      0x000447ff      "linux_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3845c9fc-e581-49f3-999f-86c9bab515ef
+  7     0x00044800      0x006447ff      "rootfs_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3fcf7bf1-b6fe-419d-9a14-f87950727bc0
+  8     0x00644800      0x00c447ff      "rootfs_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   12c08a28-fb40-430a-a5bc-7b4f015b0b3c
+  9     0x00c44800      0x00c4c7ff      "safe"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   dc83dea8-c467-45dc-84eb-5e913daec17e
+ 10     0x00c4c800      0x00c547ff      "safe2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   df0dba76-d5e0-11e8-9f8b-f2801f1b9fd1
+ 11     0x00c54800      0x00e8ffde      "data"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   cded334e-6922-11ef-8f09-ab1e4c9f0d5f
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0
+=> fwu_mdata_read
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   43f1961b-ce4c-4e6c-8f22-2230c5d532bd
+  2     0x00001400      0x000017ff      "metadata2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   f241b915-4241-47fd-b4de-ab5af832a0f6
+  3     0x00001800      0x00002fff      "fip-a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   1c606ef5-f1ac-43b9-9bb5-d5c578580b6b
+  4     0x00003000      0x000047ff      "fip-b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   c7d8648b-76f7-4e2b-b829-e95a83cc7b32
+  5     0x00004800      0x000247ff      "linux_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   ebae5694-6e56-497c-83c6-c4455e12d727
+  6     0x00024800      0x000447ff      "linux_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3845c9fc-e581-49f3-999f-86c9bab515ef
+  7     0x00044800      0x006447ff      "rootfs_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3fcf7bf1-b6fe-419d-9a14-f87950727bc0
+  8     0x00644800      0x00c447ff      "rootfs_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   12c08a28-fb40-430a-a5bc-7b4f015b0b3c
+  9     0x00c44800      0x00c4c7ff      "safe"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   dc83dea8-c467-45dc-84eb-5e913daec17e
+ 10     0x00c4c800      0x00c547ff      "safe2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   df0dba76-d5e0-11e8-9f8b-f2801f1b9fd1
+ 11     0x00c54800      0x00e8ffde      "data"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   cded334e-6922-11ef-8f09-ab1e4c9f0d5f
+=> fwu_mdata_read
+        FWU Metadata
+crc32: 0x0
+version: 0x0
+active_index: 0x0
+previous_active_index: 0x0
+        Image Info
+Image Type Guid: 00000000-0000-0000-0000-000000000000
+Location Guid: 00000000-0000-0000-0000-000000000000
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0
+=> printenv boot_targets bootcmd forced_update
+  4     0x00003000      0x000047ff      "fip-b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   c7d8648b-76f7-4e2b-b829-e95a83cc7b32
+  5     0x00004800      0x000247ff      "linux_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   ebae5694-6e56-497c-83c6-c4455e12d727
+  6     0x00024800      0x000447ff      "linux_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3845c9fc-e581-49f3-999f-86c9bab515ef
+  7     0x00044800      0x006447ff      "rootfs_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3fcf7bf1-b6fe-419d-9a14-f87950727bc0
+  8     0x00644800      0x00c447ff      "rootfs_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   12c08a28-fb40-430a-a5bc-7b4f015b0b3c
+  9     0x00c44800      0x00c4c7ff      "safe"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   dc83dea8-c467-45dc-84eb-5e913daec17e
+ 10     0x00c4c800      0x00c547ff      "safe2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   df0dba76-d5e0-11e8-9f8b-f2801f1b9fd1
+ 11     0x00c54800      0x00e8ffde      "data"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   cded334e-6922-11ef-8f09-ab1e4c9f0d5f
+=> fwu_mdata_read
+        FWU Metadata
+crc32: 0x0
+version: 0x0
+active_index: 0x0
+previous_active_index: 0x0
+        Image Info
+Image Type Guid: 00000000-0000-0000-0000-000000000000
+Location Guid: 00000000-0000-0000-0000-000000000000
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+=> printenv boot_targets bootcmd forced_update
+boot_targets=mmc1 mmc0 mmc2 usb0 pxe
+bootcmd=if run loadscript; then if test "${dboot_kernel_var}" = fitimage; then source ${source_fit_script};else source ${loadaddr};fi;fi;
+## Error: "forced_update" not defined
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

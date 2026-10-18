@@ -4,6 +4,42 @@
 **Platform**: Digi CCMP25-DVK (STM32MP255CAL, dual Cortex-A35, AArch64)
 **Purpose**: Determine if seL4 at EL2 can directly access RCC to enable DWMAC clocks
 
+## CORRECTION (2026-10-19): ETH clocks need no OP-TEE change
+
+The analysis below mapped the ETH1 gates to **RCC RIF resource 60** and
+concluded that the non-secure world cannot open them. **That is wrong.** The
+"60" that guards them is the **RIFSC peripheral ID 60 (ETH1)**, not an RCC
+resource.
+
+- **The gates are non-secure.** Linux `drivers/clk/stm32/clk-stm32mp25.c:1991`
+  (CK_BUS_ETH1) and `:2180-2194` (CK_KER_ETH1, ETH1_STP, ETH1PTP, ETH1_MAC/TX/RX)
+  tag them `SEC_RIFSC(60)`, i.e. the RIFSC ID. OP-TEE's
+  `ccmp25-dvk-rif.dtsi` (`STM32MP25_RIFSC_ETH1_ID`) sets that ID
+  `RIF_NSEC, RIF_NPRIV, RIF_CFDIS`. So the enable bits in `RCC_ETH1CFGR`
+  (RCC+0x7F0: bits 1, 4, 5, 8, 10, reset bit 0) are writable from the
+  non-secure side directly.
+- **Their parent kernel clocks are secure but exported.**
+  - FLEXGEN 54 (`ck_ker_eth1`, PLL6) and 56 (PTP) are RCC RIF resources 54/56
+    (secure). They are already configured by OP-TEE (`ccmp25-dvk-rcc.dtsi`
+    `st,flexgen`).
+  - OP-TEE exports them to the non-secure A35 agent over **SCMI**:
+    `stm32mp25-st-scmi-cfg.dtsi` agent@1 (`linaro,scmi-optee`, channel 0)
+    `reg = <CK_SCMI_FLEXGEN_54>` (:434), and FLEXGEN_56 likewise.
+  - Linux `stm32mp251.dtsi:2633/2635` uses `<&scmi_clk CK_SCMI_FLEXGEN_54/56>`.
+    The bus clock parent is `CK_SCMI_ICN_LS_MCU`.
+- **Transport:** SCMI over OP-TEE. That means the OP-TEE SMC ABI, then an
+  open session to the SCMI PTA, then a message channel with TEE shared memory.
+  It is not a raw SiP SMC like the IWDG pet (`0xbc000000`).
+- **New plan (N1, seL4 only, no FIP):**
+  1. K0 (the only SMC-capable kernel) enables `CK_SCMI_FLEXGEN_54` (and 56 for
+     PTP), plus `CK_SCMI_ICN_LS_MCU` if it is off, through SCMI.
+  2. K0 maps only the RCC page that holds `RCC_ETH1CFGR` as a device frame,
+     sets the gates and deasserts reset.
+  3. K0 then starts K1, which owns the NIC.
+
+Options C and D below are superseded. Ruling out Option A applies only to the
+secure flexgen and XBAR registers, not to the ETH1 gates.
+
 ## RCC RIFSC Status
 
 ### Is RCC at 0x44200000 accessible from non-secure EL2? **NO**

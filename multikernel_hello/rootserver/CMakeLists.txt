@@ -1,5 +1,5 @@
 if(NOT DEFINED ROOTSERVER_BUILD_ID)
-    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-p1-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
+    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-p1b-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
 endif()
 
 add_library(mk_channel STATIC EXCLUDE_FROM_ALL ../channel/mk_channel.c)

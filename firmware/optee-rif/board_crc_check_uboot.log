@@ -1,0 +1,98 @@
+  4     0x00003000      0x000047ff      "fip-b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   c7d8648b-76f7-4e2b-b829-e95a83cc7b32
+  5     0x00004800      0x000247ff      "linux_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   ebae5694-6e56-497c-83c6-c4455e12d727
+  6     0x00024800      0x000447ff      "linux_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3845c9fc-e581-49f3-999f-86c9bab515ef
+  7     0x00044800      0x006447ff      "rootfs_a"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   3fcf7bf1-b6fe-419d-9a14-f87950727bc0
+  8     0x00644800      0x00c447ff      "rootfs_b"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   12c08a28-fb40-430a-a5bc-7b4f015b0b3c
+  9     0x00c44800      0x00c4c7ff      "safe"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   dc83dea8-c467-45dc-84eb-5e913daec17e
+ 10     0x00c4c800      0x00c547ff      "safe2"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   df0dba76-d5e0-11e8-9f8b-f2801f1b9fd1
+ 11     0x00c54800      0x00e8ffde      "data"
+        attrs:  0x0000000000000000
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+                (data)
+        guid:   cded334e-6922-11ef-8f09-ab1e4c9f0d5f
+=> fwu_mdata_read
+        FWU Metadata
+crc32: 0x0
+version: 0x0
+active_index: 0x0
+previous_active_index: 0x0
+        Image Info
+Image Type Guid: 00000000-0000-0000-0000-000000000000
+Location Guid: 00000000-0000-0000-0000-000000000000
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+Image Guid:  00000000-0000-0000-0000-000000000000
+Image Acceptance: no
+=> printenv boot_targets bootcmd forced_update
+boot_targets=mmc1 mmc0 mmc2 usb0 pxe
+bootcmd=if run loadscript; then if test "${dboot_kernel_var}" = fitimage; then source ${source_fit_script};else source ${loadaddr};fi;fi;
+## Error: "forced_update" not defined
+=> ums 0 mmc 0
+UMS: LUN 0, dev mmc 0, hwpart 0, sector 0x0, count 0xe90000
+dwc3-generic-wrapper usb@48300000: configured in usb2 mode
+CTRL+C - Operation aborted
+=> mmc dev 0
+switch to partitions #0, OK
+mmc0(part 0) is current device
+=> mmc read 0x90000000 0x1800 0x163b
+MMC read: dev # 0, block # 6144, count 5691 ... 5691 blocks read: OK
+=> crc32 0x90000000 0x2c7490
+crc32 for 90000000 ... 902c748f ==> eb895904
+=> mmc read 0x90000000 0x3000 0x163b
+MMC read: dev # 0, block # 12288, count 5691 ... 5691 blocks read: OK
+=> crc32 0x90000000 0x2c7490
+crc32 for 90000000 ... 902c748f ==> eb895904
+=> mmc read 0x90000000 0x1000 0x1
+MMC read: dev # 0, block # 4096, count 1 ... 1 blocks read: OK
+=> md.b 0x90000000 0x40
+90000000: ff 6c 1a c1 02 00 00 00 00 00 00 00 01 00 00 00  .l..............
+90000010: 78 00 00 00 20 00 00 00 fc fc ff ff 00 00 00 00  x... ...........
+90000020: 02 00 01 00 50 00 18 00 83 df d5 19 b0 11 7b 45  ....P.........{E
+90000030: be 2c 75 59 c1 31 42 a5 a0 84 7a 8a 87 83 f6 40  .,uY.1B...z....@
+=> mmc dev 0 1
+switch to partitions #1, OK
+mmc0(part 1) is current device
+=> mmc read 0x90000000 0 0x177
+MMC read: dev # 0, block # 0, count 375 ... 375 blocks read: OK
+=> crc32 0x90000000 0x2ec01
+crc32 for 90000000 ... 9002ec00 ==> 3933ec36
+=> mmc dev 0 2
+switch to partitions #2, OK
+mmc0(part 2) is current device
+=> mmc read 0x90000000 0 0x177
+MMC read: dev # 0, block # 0, count 375 ... 375 blocks read: OK
+=> crc32 0x90000000 0x2ec01
+crc32 for 90000000 ... 9002ec00 ==> 3933ec36
+=> mmc dev 0 0
+switch to partitions #0, OK
+mmc0(part 0) is current device
+=>
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

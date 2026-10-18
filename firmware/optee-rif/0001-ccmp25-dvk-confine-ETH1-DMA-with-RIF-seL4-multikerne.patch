@@ -1,0 +1,91 @@
+From 7733e885e051c668bfcdeda0fcad5a7938b53cf1 Mon Sep 17 00:00:00 2001
+From: spanwich <iam.saranachon@gmail.com>
+Date: Mon, 19 Oct 2026 11:19:28 +1300
+Subject: [PATCH] ccmp25-dvk: confine ETH1 DMA with RIF (seL4 multikernel)
+
+- RIMU 6 (ETH1) gets CID4 with CIDSEL_M (was CIDSEL_P).
+- RISAF4: linuxkernel1 split into region 9 (0x84000000..0xab800000),
+  region 11 eth1-dma (0xab800000..0xac000000, CID1|CID4 only) and
+  region 12 (0xac000000..0xba800000). ETH1 DMA can reach only region 11.
+
+ETH clocks need no OP-TEE change: RCC_ETH1CFGR gates follow RIFSC ID 60
+(non-secure) and FLEXGEN 54/56 are exported to the non-secure agent via SCMI.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ core/arch/arm/dts/ccmp25-dvk-resmem.dtsi | 20 +++++++++++++++++++-
+ core/arch/arm/dts/ccmp25-dvk-rif.dtsi    | 13 +++++++++++--
+ 2 files changed, 30 insertions(+), 3 deletions(-)
+
+diff --git a/core/arch/arm/dts/ccmp25-dvk-resmem.dtsi b/core/arch/arm/dts/ccmp25-dvk-resmem.dtsi
+index b68e40216..102fabc5e 100644
+--- a/core/arch/arm/dts/ccmp25-dvk-resmem.dtsi
++++ b/core/arch/arm/dts/ccmp25-dvk-resmem.dtsi
+@@ -120,8 +120,26 @@
+ 			no-map;
+ 		};
+ 
++		/*
++		 * seL4 multikernel: the former 872 MiB linuxkernel1 region is
++		 * split so that the ETH1 DMA master (own CID, see -rif.dtsi)
++		 * can reach only an 8 MiB window at the top of K1's RAM.
++		 *   0x84000000..0xab800000  K0 RAM + K1 RAM below the window
++		 *   0xab800000..0xac000000  ETH1 DMA window (in K1 RAM)
++		 *   0xac000000..0xba800000  inter-kernel channel + spare
++		 */
+ 		linuxkernel1: linuxkernel1@84000000 {
+-			reg = <0x0 0x84000000 0x0 0x36800000>; /* 872 MiB */
++			reg = <0x0 0x84000000 0x0 0x27800000>; /* 632 MiB */
++			no-map;
++		};
++
++		eth1_dma: eth1-dma@ab800000 {
++			reg = <0x0 0xab800000 0x0 0x800000>; /* 8 MiB */
++			no-map;
++		};
++
++		linuxkernel1_hi: linuxkernel1-hi@ac000000 {
++			reg = <0x0 0xac000000 0x0 0xe800000>; /* 232 MiB */
+ 			no-map;
+ 		};
+ 
+diff --git a/core/arch/arm/dts/ccmp25-dvk-rif.dtsi b/core/arch/arm/dts/ccmp25-dvk-rif.dtsi
+index f2f31dcdf..14dcd56bd 100644
+--- a/core/arch/arm/dts/ccmp25-dvk-rif.dtsi
++++ b/core/arch/arm/dts/ccmp25-dvk-rif.dtsi
+@@ -629,7 +629,8 @@
+ 		RIMUPROT(RIMU_ID(3), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+ 		RIMUPROT(RIMU_ID(4), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+ 		RIMUPROT(RIMU_ID(5), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+-		RIMUPROT(RIMU_ID(6), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
++		/* ETH1 DMA: own CID 4 (seL4 multikernel), RISAF4 region 11 only */
++		RIMUPROT(RIMU_ID(6), RIF_CID4, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_M)
+ 		RIMUPROT(RIMU_ID(7), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+ 		RIMUPROT(RIMU_ID(8), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+ 		RIMUPROT(RIMU_ID(9), RIF_UNUSED, RIF_NSEC, RIF_PRIV, RIF_CIDSEL_P)
+@@ -982,6 +983,14 @@
+ 	st,protreg = <RISAFPROT(RISAF_REG_ID(9), RIF_CID0_BF|RIF_CID1_BF, RIF_CID0_BF|RIF_CID1_BF, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
+ };
+ 
++&eth1_dma {
++	st,protreg = <RISAFPROT(RISAF_REG_ID(11), RIF_CID1_BF|RIF_CID4_BF, RIF_CID1_BF|RIF_CID4_BF, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
++};
++
++&linuxkernel1_hi {
++	st,protreg = <RISAFPROT(RISAF_REG_ID(12), RIF_CID0_BF|RIF_CID1_BF, RIF_CID0_BF|RIF_CID1_BF, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
++};
++
+ &gpu_reserved {
+ 	st,protreg = <RISAFPROT(RISAF_REG_ID(10), RIF_CID0_BF|RIF_CID1_BF, RIF_CID0_BF|RIF_CID1_BF, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
+ };
+@@ -995,6 +1004,6 @@
+ };
+ 
+ &risaf4 {
+-	memory-region= <&tfm_code>, <&cm33_cube_fw>, <&tfm_data>, <&cm33_cube_data>, <&ipc_shmem>, <&spare1>, <&bl31_context>, <&op_tee>, <&linuxkernel1>, <&gpu_reserved>, <&ltdc_sec_layer>, <&ltdc_sec_rotation>;
++	memory-region= <&tfm_code>, <&cm33_cube_fw>, <&tfm_data>, <&cm33_cube_data>, <&ipc_shmem>, <&spare1>, <&bl31_context>, <&op_tee>, <&linuxkernel1>, <&eth1_dma>, <&linuxkernel1_hi>, <&gpu_reserved>, <&ltdc_sec_layer>, <&ltdc_sec_rotation>;
+ };
+ 
+-- 
+2.43.0
+
