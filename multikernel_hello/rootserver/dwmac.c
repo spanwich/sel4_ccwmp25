@@ -12,6 +12,8 @@
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
+#include <string.h>
+
 #include "rs.h"
 #include "dwmac.h"
 
@@ -234,6 +236,213 @@ int eth1_link(unsigned *speed, unsigned *full)
     *speed = ((s >> 14) & 3) == 2 ? 1000 : ((s >> 14) & 3) == 1 ? 100 : 10;
     *full = (s >> 13) & 1;
     return 1;
+}
+
+
+/* ---- N3: DMA rings in the ETH1 DMA window (K1 RAM top 8 MiB) ----
+ *
+ * The window 0xab800000..0xac000000 is outside K1's DTS memory, so it is a
+ * device untyped carved at exact addresses and mapped Device-nGnRnE: the CPU
+ * and the DMA always agree, and only aligned 32-bit accesses are used. With
+ * the N5 firmware, RISAF4 region 11 is the only DDR ETH1 (CID4) may reach.
+ */
+#define N_TX 32
+#define N_RX 64
+#define BUF_SZ 2048u
+#define DESC_TX_OFF 0x0000u
+#define DESC_RX_OFF 0x1000u
+#define RXBUF_OFF   0x10000u
+#define TXBUF_OFF   0x40000u
+
+#define DES3_OWN   (1u << 31)
+#define RDES3_IOC  (1u << 30)
+#define RDES3_BUF1V (1u << 24)
+#define RDES3_FD   (1u << 29)
+#define RDES3_LD   (1u << 28)
+#define RDES3_ES   (1u << 15)
+#define RDES3_PL   0x7fffu
+#define TDES2_IOC  (1u << 31)
+#define TDES3_FD   (1u << 29)
+#define TDES3_LD   (1u << 28)
+
+static volatile uint32_t *dma_va;
+static uint64_t dma_pa;
+static unsigned rx_next, tx_next, tx_clean;
+struct eth1_stats eth1_stats;
+
+static inline volatile uint32_t *desc(uint32_t off, unsigned i)
+{
+    return dma_va + (off + 16u * i) / 4;
+}
+
+void eth1_dma_init(void *va, uint64_t pa, const uint8_t mac[6])
+{
+    dma_va = va;
+    dma_pa = pa;
+
+    /* 88E1512 rgmii-id: PHY adds RX and TX clock delays (page 2, reg 21,
+     * bits 5/4), as Linux m88e1121_config_aneg_rgmii_delays does. */
+    mdio_write(22, 2);
+    int mscr = mdio_read(21);
+    mdio_write(21, (uint16_t)((mscr < 0 ? 0 : mscr) | (1u << 5) | (1u << 4)));
+    mdio_write(22, 0);
+    mdio_write(0, 0x9140); /* BMCR: reset + autoneg + 1000/full advertised */
+
+    wr(DMA_MODE, 1); /* software reset; needs the RGMII RX clock from the PHY */
+    uint64_t until = rs_cntpct() + rs_cntfrq();
+    while ((rd(DMA_MODE) & 1) && rs_cntpct() < until) {
+    }
+    put_str((rd(DMA_MODE) & 1) ? "eth: DMA reset TIMEOUT\n" : "eth: DMA reset done\n");
+
+    wr(DMA_SYSBUS_MODE, (1u << 12) | 0xe); /* AAL, BLEN 4/8/16 */
+    for (unsigned i = 0; i < N_TX; i++) {
+        volatile uint32_t *d = desc(DESC_TX_OFF, i);
+        d[0] = d[1] = d[2] = d[3] = 0;
+    }
+    for (unsigned i = 0; i < N_RX; i++) {
+        volatile uint32_t *d = desc(DESC_RX_OFF, i);
+        d[0] = (uint32_t)(dma_pa + RXBUF_OFF + i * BUF_SZ);
+        d[1] = 0;
+        d[2] = 0;
+        d[3] = DES3_OWN | RDES3_IOC | RDES3_BUF1V;
+    }
+    __asm__ volatile("dsb sy" ::: "memory");
+    wr(DMA_CH0_TX_CONTROL, 16u << 16);
+    wr(DMA_CH0_RX_CONTROL, (16u << 16) | (BUF_SZ << 1));
+    wr(DMA_CH0_TXDESC_RING, N_TX - 1);
+    wr(DMA_CH0_RXDESC_RING, N_RX - 1);
+    wr(DMA_CH0_TXDESC_HI, (uint32_t)((dma_pa + DESC_TX_OFF) >> 32));
+    wr(DMA_CH0_TXDESC_LO, (uint32_t)(dma_pa + DESC_TX_OFF));
+    wr(DMA_CH0_RXDESC_HI, (uint32_t)((dma_pa + DESC_RX_OFF) >> 32));
+    wr(DMA_CH0_RXDESC_LO, (uint32_t)(dma_pa + DESC_RX_OFF));
+    wr(DMA_CH0_TXDESC_TAIL, (uint32_t)(dma_pa + DESC_TX_OFF));
+    wr(DMA_CH0_RXDESC_TAIL, (uint32_t)(dma_pa + DESC_RX_OFF + 16u * N_RX));
+
+    /* MTL queue 0: store-and-forward, sized from HW_FEATURE1 FIFO sizes */
+    uint32_t hw1 = rd(MAC_HW_FEATURE1);
+    uint32_t rxfifo = 128u << (hw1 & 0x1f), txfifo = 128u << ((hw1 >> 6) & 0x1f);
+    wr(MTL_TXQ0_OP_MODE, ((txfifo / 256 - 1) << 16) | (2u << 2) | (1u << 1));
+    wr(MTL_RXQ0_OP_MODE, ((rxfifo / 256 - 1) << 20) | (1u << 5));
+    wr(MAC_RXQ_CTRL0, 2); /* RX queue 0 enabled (generic) */
+
+    wr(MAC_ADDR_HIGH0, (1u << 31) | ((uint32_t)mac[5] << 8) | mac[4]);
+    wr(MAC_ADDR_LOW0, ((uint32_t)mac[3] << 24) | ((uint32_t)mac[2] << 16) |
+       ((uint32_t)mac[1] << 8) | mac[0]);
+    wr(MAC_PACKET_FILTER, 0); /* perfect filter + broadcast */
+
+    wr(DMA_CH0_STATUS, 0xffffffffu);
+    wr(DMA_CH0_INTR_ENA, (1u << 15) | (1u << 6) | (1u << 0)); /* NIE, RIE, TIE */
+    wr(DMA_CH0_TX_CONTROL, rd(DMA_CH0_TX_CONTROL) | 1); /* ST */
+    wr(DMA_CH0_RX_CONTROL, rd(DMA_CH0_RX_CONTROL) | 1); /* SR */
+    put_str("eth: rx fifo ");
+    put_dec(rxfifo);
+    put_str(" B, tx fifo ");
+    put_dec(txfifo);
+    put_str(" B, rings at ");
+    put_hex(dma_pa);
+    put_str("\n");
+}
+
+/* Program MAC speed/duplex for the PHY's link and enable TX/RX. */
+void eth1_mac_link(unsigned speed, unsigned full)
+{
+    uint32_t c = rd(MAC_CONFIG) & ~((1u << 15) | (1u << 14) | (1u << 13));
+    if (speed == 100) {
+        c |= (1u << 15) | (1u << 14);
+    } else if (speed == 10) {
+        c |= 1u << 15;
+    }
+    if (full) {
+        c |= 1u << 13;
+    }
+    c |= (1u << 21) | (1u << 20) | 3u; /* CST, ACS: strip FCS/pad; TE, RE */
+    wr(MAC_CONFIG, c);
+}
+
+/* Aligned word copies between private memory and the Device-mapped window. */
+static void to_dma(volatile uint32_t *dst, const uint8_t *src, unsigned len)
+{
+    for (unsigned i = 0; i < len; i += 4) {
+        uint32_t w = 0;
+        memcpy(&w, src + i, len - i >= 4 ? 4 : len - i);
+        dst[i / 4] = w;
+    }
+}
+
+static void from_dma(uint8_t *dst, const volatile uint32_t *src, unsigned len)
+{
+    for (unsigned i = 0; i < len; i += 4) {
+        uint32_t w = src[i / 4];
+        memcpy(dst + i, &w, len - i >= 4 ? 4 : len - i);
+    }
+}
+
+int eth1_tx(const uint8_t *frame, unsigned len)
+{
+    if (len > BUF_SZ) {
+        eth1_stats.tx_err++;
+        return -1;
+    }
+    /* reclaim completed descriptors */
+    while (tx_clean != tx_next && !(desc(DESC_TX_OFF, tx_clean % N_TX)[3] & DES3_OWN)) {
+        tx_clean++;
+    }
+    if (tx_next - tx_clean >= N_TX) {
+        eth1_stats.tx_full++;
+        return -1;
+    }
+    unsigned i = tx_next % N_TX;
+    volatile uint32_t *buf = dma_va + (TXBUF_OFF + i * BUF_SZ) / 4;
+    to_dma(buf, frame, len);
+    volatile uint32_t *d = desc(DESC_TX_OFF, i);
+    d[0] = (uint32_t)(dma_pa + TXBUF_OFF + i * BUF_SZ);
+    d[1] = 0;
+    d[2] = len & 0x3fffu;
+    __asm__ volatile("dsb sy" ::: "memory");
+    d[3] = DES3_OWN | TDES3_FD | TDES3_LD | len;
+    __asm__ volatile("dsb sy" ::: "memory");
+    tx_next++;
+    wr(DMA_CH0_TXDESC_TAIL, (uint32_t)(dma_pa + DESC_TX_OFF + 16u * ((tx_next) % N_TX)));
+    eth1_stats.tx++;
+    return 0;
+}
+
+/* Deliver every completed RX frame to cb; returns the number delivered. */
+unsigned eth1_rx(void (*cb)(const uint8_t *frame, unsigned len))
+{
+    static uint8_t frame[BUF_SZ];
+    unsigned n = 0;
+
+    uint32_t st = rd(DMA_CH0_STATUS);
+    wr(DMA_CH0_STATUS, st); /* W1C */
+    if (st & ((1u << 13) | (1u << 12))) { /* FBE / ETI-class bus errors */
+        eth1_stats.dma_err++;
+    }
+    for (;;) {
+        unsigned i = rx_next % N_RX;
+        volatile uint32_t *d = desc(DESC_RX_OFF, i);
+        uint32_t d3 = d[3];
+        if (d3 & DES3_OWN) {
+            break;
+        }
+        unsigned len = d3 & RDES3_PL;
+        if ((d3 & RDES3_ES) || !(d3 & RDES3_FD) || !(d3 & RDES3_LD) || len > BUF_SZ) {
+            eth1_stats.rx_err++;
+        } else {
+            from_dma(frame, dma_va + (RXBUF_OFF + i * BUF_SZ) / 4, len);
+            eth1_stats.rx++;
+            cb(frame, len);
+            n++;
+        }
+        d[0] = (uint32_t)(dma_pa + RXBUF_OFF + i * BUF_SZ);
+        d[1] = 0;
+        d[2] = 0;
+        __asm__ volatile("dsb sy" ::: "memory");
+        d[3] = DES3_OWN | RDES3_IOC | RDES3_BUF1V;
+        rx_next++;
+        wr(DMA_CH0_RXDESC_TAIL, (uint32_t)(dma_pa + DESC_RX_OFF + 16u * (i + 1)));
+    }
+    return n;
 }
 
 #endif /* KERNEL_ID == 1 */

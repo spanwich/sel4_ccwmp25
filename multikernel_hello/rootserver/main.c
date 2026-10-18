@@ -24,13 +24,14 @@
 #include "mk_channel.h"
 #include "rs.h"
 #include "dwmac.h"
+#include "net.h"
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n2-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n4-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -68,6 +69,13 @@
 /* Notification badges: one notification, two interrupt sources. */
 #define BADGE_TIMER 1u
 #define BADGE_SGI   2u
+#define BADGE_ETH   4u
+
+/* K1: ETH1 DMA window (outside K1's DTS memory; RISAF4 region 11 under N5) */
+#define ETH_DMA_BASE  0xab800000ull
+#define ETH_DMA_END   0xac000000ull
+#define ETH_DMA_VADDR 0x50000000ul
+#define ETH1_IRQ      (32 + 130) /* SPI 130 */
 
 _Static_assert(MK_CHANNEL_REGION_SIZE % (1u << MK_FRAME_BITS) == 0,
                "ring must be a whole number of large pages");
@@ -282,6 +290,9 @@ static void untyped_audit(void)
         }
         if (lo >= win_lo && hi <= win_hi) {
             continue;
+        }
+        if (KERNEL_ID == 1 && d->isDevice && lo >= ETH_DMA_BASE && hi <= ETH_DMA_END) {
+            continue; /* K1's own ETH1 DMA window */
         }
         overlap++;
         if (lo < PEER_RAM_BASE + KN_RAM_SIZE && hi > PEER_RAM_BASE) {
@@ -833,6 +844,13 @@ static void benchmark(uint64_t freq)
     put_str("\n");
 }
 
+#if KERNEL_ID == 1
+static uint64_t k1_pongs(void)
+{
+    return ((const volatile mk_channel_control_t *)&local_ring->control)->sent;
+}
+#endif
+
 int main(void)
 {
     uint64_t freq, cyc_per_sec, next, prev_cyc, tick = 0;
@@ -890,19 +908,15 @@ int main(void)
     benchmark(freq);
     pet_watchdog();
 #if KERNEL_ID == 1
-    /* N2: K0 turned the ETH1 clocks on before its ring went READY. */
+    /* N2-N4: K0 turned the ETH1 clocks on before its ring went READY. */
+    seL4_CPtr eth_irq = seL4_CapNull;
     if (eth1_probe() == 0) {
-        unsigned speed = 0, full = 0;
-        uint64_t until = cntpct() + 5 * freq;
-        while (!eth1_link(&speed, &full) && cntpct() < until) {
-        }
-        if (eth1_link(&speed, &full)) {
-            put_str("phy: link up ");
-            put_dec(speed);
-            put_str(full ? "/full\n" : "/half\n");
-        } else {
-            put_str("phy: no link (is J22 cabled?)\n");
-        }
+        seL4_CPtr dma_frames[(ETH_DMA_END - ETH_DMA_BASE) >> MK_FRAME_BITS];
+        carve_window(ETH_DMA_BASE, ETH_DMA_END, dma_frames);
+        map_frame(dma_frames[0], ETH_DMA_VADDR, seL4_ReadWrite); /* rings+buffers: 2 MiB */
+        net_init((void *)ETH_DMA_VADDR, ETH_DMA_BASE, ROOTSERVER_BUILD_ID, k1_pongs);
+        eth_irq = bind_irq(ETH1_IRQ, badged(ntfn, BADGE_ETH));
+        seL4_IRQHandler_Ack(eth_irq);
     }
 #endif
 
@@ -913,7 +927,7 @@ int main(void)
     /* K0 ticks on whole seconds, K1 on half seconds: no shared-UART collisions. */
     next = (cntpct() / freq + 1) * freq + (KERNEL_ID ? freq / 2 : 0);
     tick_next = next;
-    ptimer_arm(next);
+    ptimer_arm(KERNEL_ID == 1 ? cntpct() + freq / 10 : next); /* K1: 100 ms net poll */
     seL4_IRQHandler_Ack(timer_irq);
     prev_cyc = pmccntr();
 
@@ -925,6 +939,15 @@ int main(void)
             seL4_Wait(ntfn, &badge);
         }
 
+#if KERNEL_ID == 1
+        if (eth_irq != seL4_CapNull &&
+            (badge & (BADGE_ETH | BADGE_TIMER) || timer_pending)) {
+            net_poll();
+            if (badge & BADGE_ETH) {
+                seL4_IRQHandler_Ack(eth_irq);
+            }
+        }
+#endif
         if (badge & BADGE_SGI) {
             seL4_IRQHandler_Ack(sgi_irq);
 #if KERNEL_ID == 1
@@ -942,8 +965,13 @@ int main(void)
             continue;
         }
         if (!timer_pending && cntpct() < next) {
-            /* Early (e.g. a channel deadline that was already serviced). */
+            /* Early: a serviced channel deadline, or (K1) the 100 ms net poll. */
+#if KERNEL_ID == 1
+            uint64_t poll = cntpct() + freq / 10;
+            ptimer_arm(poll < next ? poll : next);
+#else
             ptimer_arm(next);
+#endif
             seL4_IRQHandler_Ack(timer_irq);
             continue;
         }
@@ -952,7 +980,7 @@ int main(void)
         /* A future deadline drops the level-triggered line before the ack. */
         next += freq;
         tick_next = next;
-        ptimer_arm(next);
+        ptimer_arm(KERNEL_ID == 1 ? cntpct() + freq / 10 : next);
         seL4_IRQHandler_Ack(timer_irq);
 
 #if KERNEL_ID == 0

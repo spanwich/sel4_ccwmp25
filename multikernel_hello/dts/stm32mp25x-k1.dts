@@ -30,7 +30,7 @@
 
 	memory@98000000 {
 		device_type = "memory";
-		reg = <0x0 0x98000000 0x0 0x14000000>;
+		reg = <0x0 0x98000000 0x0 0x13800000>; /* top 8 MiB = ETH1 DMA window */
 	};
 
 	/* Memory this kernel must never hand out (seL4 multikernel patch:
