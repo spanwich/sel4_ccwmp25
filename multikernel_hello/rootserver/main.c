@@ -22,13 +22,14 @@
 #include <sel4runtime.h>
 
 #include "mk_channel.h"
+#include "rs.h"
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-p1b-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n1-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -70,14 +71,14 @@
 _Static_assert(MK_CHANNEL_REGION_SIZE % (1u << MK_FRAME_BITS) == 0,
                "ring must be a whole number of large pages");
 
-static void put_str(const char *s)
+void put_str(const char *s)
 {
     while (*s) {
         seL4_DebugPutChar(*s++);
     }
 }
 
-static void put_dec(uint64_t n)
+void put_dec(uint64_t n)
 {
     char buf[24];
     int i = 0;
@@ -95,7 +96,7 @@ static void put_dec(uint64_t n)
     }
 }
 
-static void put_hex(uint64_t n)
+void put_hex(uint64_t n)
 {
     put_str("0x");
     for (int i = 60; i >= 0; i -= 4) {
@@ -117,7 +118,7 @@ static void put_ppm_as_pct(uint64_t ppm)
     seL4_DebugPutChar('%');
 }
 
-static void halt(const char *why, uint64_t err)
+void halt(const char *why, uint64_t err)
 {
     put_str("FATAL: ");
     put_str(why);
@@ -187,12 +188,17 @@ static inline uint64_t pmccntr(void)
 #define SMCWD_FUNC_ID       0xbc000000ull
 #define SMCWD_PET           3ull
 
+void smc_call(const seL4_ARM_SMCContext *req, seL4_ARM_SMCContext *resp)
+{
+    seL4_ARM_SMC_Call(seL4_CapSMC, (seL4_ARM_SMCContext *)req, resp);
+}
+
 static uint64_t smc(uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3)
 {
     seL4_ARM_SMCContext req = { .x0 = x0, .x1 = x1, .x2 = x2, .x3 = x3 };
     seL4_ARM_SMCContext resp = {0};
 
-    seL4_ARM_SMC_Call(seL4_CapSMC, &req, &resp);
+    smc_call(&req, &resp);
     return resp.x0;
 }
 
@@ -221,10 +227,10 @@ static void pet_watchdog(void)
 
 /* ---- capability setup ---- */
 
-static const seL4_BootInfo *bi;
+const seL4_BootInfo *bi;
 static seL4_CPtr next_free_slot;
 
-static seL4_CPtr alloc_slot(void)
+seL4_CPtr alloc_slot(void)
 {
     if (next_free_slot >= bi->empty.end) {
         halt("out of cslots", seL4_NotEnoughMemory);
@@ -233,7 +239,7 @@ static seL4_CPtr alloc_slot(void)
 }
 
 /* Retype one kernel object from the first RAM untyped that has room. */
-static seL4_CPtr alloc_object(seL4_Word type, seL4_Word size_bits, const char *what)
+seL4_CPtr alloc_object(seL4_Word type, seL4_Word size_bits, const char *what)
 {
     seL4_CPtr slot = alloc_slot();
 
@@ -359,11 +365,9 @@ static void carve_window(uint64_t lo, uint64_t hi, seL4_CPtr *frames)
 }
 
 /* Map a frame, creating whatever page tables are missing on the way. */
-static void map_frame(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights)
+void map_frame_attr(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights,
+                    seL4_ARM_VMAttributes attr)
 {
-    /* Not cacheable: unicore kernels map cacheable pages non-shareable. */
-    seL4_ARM_VMAttributes attr = seL4_ARM_ExecuteNever;
-
     for (int level = 0; level < 4; level++) {
         seL4_Error err = seL4_ARM_Page_Map(frame, seL4_CapInitThreadVSpace,
                                            vaddr, rights, attr);
@@ -371,7 +375,7 @@ static void map_frame(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights)
             return;
         }
         if (err != seL4_FailedLookup) {
-            halt("Page_Map shared frame", err);
+            halt("Page_Map", err);
         }
         seL4_CPtr pt = alloc_object(seL4_ARM_PageTableObject,
                                     seL4_PageTableBits, "page table");
@@ -382,6 +386,93 @@ static void map_frame(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights)
         }
     }
     halt("Page_Map: too many levels", seL4_FailedLookup);
+}
+
+/* Not cacheable: unicore kernels map cacheable pages non-shareable. */
+static void map_frame(seL4_CPtr frame, seL4_Word vaddr, seL4_CapRights_t rights)
+{
+    map_frame_attr(frame, vaddr, rights, seL4_ARM_ExecuteNever);
+}
+
+/*
+ * Device MMIO pages for drivers. Device untypeds are split on demand; the half
+ * not containing the wanted page is kept in frag[] so later pages that share
+ * the same boot untyped can still be carved.
+ */
+#define MAX_DEV_FRAGS 128
+static struct {
+    seL4_CPtr cap;
+    uint64_t paddr;
+    unsigned bits;
+} frag[MAX_DEV_FRAGS];
+static unsigned n_frag;
+static int frag_seeded;
+
+static void frag_push(seL4_CPtr cap, uint64_t paddr, unsigned bits)
+{
+    if (n_frag == MAX_DEV_FRAGS) {
+        halt("device fragment table full", n_frag);
+    }
+    frag[n_frag].cap = cap;
+    frag[n_frag].paddr = paddr;
+    frag[n_frag].bits = bits;
+    n_frag++;
+}
+
+void *map_device_page(uint64_t paddr, seL4_Word vaddr)
+{
+    paddr &= ~(uint64_t)((1u << seL4_PageBits) - 1);
+    if (!frag_seeded) {
+        /* Only MMIO (outside DDR); the channel window is carved separately. */
+        for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
+            const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
+            if (d->isDevice && d->paddr + (1ull << d->sizeBits) <= DDR_BASE) {
+                frag_push(ut, d->paddr, d->sizeBits);
+            }
+        }
+        frag_seeded = 1;
+    }
+    for (unsigned i = 0; i < n_frag; i++) {
+        if (paddr < frag[i].paddr || paddr >= frag[i].paddr + (1ull << frag[i].bits)) {
+            continue;
+        }
+        seL4_CPtr ut = frag[i].cap;
+        uint64_t base = frag[i].paddr;
+        unsigned bits = frag[i].bits;
+        frag[i] = frag[--n_frag];
+        while (bits > seL4_PageBits) {
+            seL4_CPtr halves = alloc_slot();
+            (void)alloc_slot();
+            seL4_Error err = seL4_Untyped_Retype(ut, seL4_UntypedObject, bits - 1,
+                                                 seL4_CapInitThreadCNode, 0, 0,
+                                                 halves, 2);
+            if (err) {
+                halt("split device untyped (page)", err);
+            }
+            bits--;
+            if (paddr >= base + (1ull << bits)) {
+                frag_push(halves, base, bits);
+                base += 1ull << bits;
+                ut = halves + 1;
+            } else {
+                frag_push(halves + 1, base + (1ull << bits), bits);
+                ut = halves;
+            }
+        }
+        seL4_CPtr frame = alloc_slot();
+        seL4_Error err = seL4_Untyped_Retype(ut, seL4_ARM_SmallPageObject, 0,
+                                             seL4_CapInitThreadCNode, 0, 0, frame, 1);
+        if (err) {
+            halt("retype device page", err);
+        }
+        map_frame_attr(frame, vaddr, seL4_ReadWrite, seL4_ARM_ExecuteNever);
+        return (void *)(uintptr_t)vaddr;
+    }
+    put_str("no device untyped covers ");
+    put_hex(paddr);
+    put_str("\n");
+    halt("map_device_page", seL4_FailedLookup);
+    return NULL;
 }
 
 static seL4_CPtr badged(seL4_CPtr ntfn, seL4_Word badge)
@@ -787,6 +878,11 @@ int main(void)
     ptimer_arm(UINT64_MAX);
     seL4_IRQHandler_Ack(timer_irq);
 
+#if KERNEL_ID == 0
+    /* N1: ETH1 clocks on before K0's ring says READY, i.e. before K1 can
+     * touch the NIC (K1 attaches only after the handshake). */
+    eth1_clocks_enable();
+#endif
     pet_watchdog();
     setup_channel(freq);
     pet_watchdog();
