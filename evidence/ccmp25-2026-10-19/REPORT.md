@@ -1,3 +1,15 @@
+> **SUPERSEDED (2026-10-19).** This campaign did not implement the paper's gate.
+> - K1 parsed HTTP itself (`rootserver/net.c`). It mapped `Bearer admin|operator` to
+>   role/scope, took the rate count from `X-Rate`, and sent finished `DecisionInput`s.
+> - K0 ran only `engine_decide`/`engine_update`.
+> - The F\* extractor, the authenticator and the verified rate counter were absent.
+>
+> The engine-level results still hold: C1 equivalence, C2 `engine_decide` cycles, and the
+> C4 update-gate outcomes. The C0/C3 end-to-end latencies describe the superseded pipeline.
+> The **C6 forged-role finding does not apply** to the paper's design: there K1 forwards raw
+> bytes and K0 authenticates. See `studies/ccmp25-board/CORRECTED_DESIGN.md` and the
+> corrected evidence directory. SHA256SUMS was updated only for this note (REPORT.md line).
+
 # CCMP25-DVK board experiments: Cedar vs EverParse on two seL4 kernels
 
 Date: 2026-10-19. Board: Digi CCMP25-DVK, STM32MP255CAL (2× Cortex-A35 at 1.2 GHz,
