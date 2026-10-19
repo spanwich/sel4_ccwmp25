@@ -1,0 +1,1133 @@
+[K0] tick 2567 busy=0.019% ping=30200ns timeouts=3 stale=0
+[K1] tick 2567 busy=0.059% pongs=13565 dropped=3
+[K0] tick 2568 busy=0.019% ping=29675ns timeouts=3 stale=0
+[K1] tick 2568 busy=0.059% pongs=13566 dropped=3
+[K0] tick 2569 busy=0.019% ping=30400ns timeouts=3 stale=0
+[K1] tick 2569 busy=0.059% pongs=13567 dropped=3
+[K0] tick 2570 busy=0.019% ping=30300ns timeouts=3 stale=0
+[K1] tick 2570 busy=0.059% pongs=13568 dropped=3
+[K0] tick 2571 busy=0.019% ping=29900ns timeouts=3 stale=0
+[K1] tick 2571 busy=0.059% pongs=13569 dropped=3
+[K0] tick 2572 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 2572 busy=0.059% pongs=13570 dropped=3
+[K0] tick 2573 busy=0.019% ping=29625ns timeouts=3 stale=0
+[K1] tick 2573 busy=0.059% pongs=13571 dropped=3
+[K0] tick 2574 busy=0.019% ping=30075ns timeouts=3 stale=0
+[K1] tick 2574 busy=0.059% pongs=13572 dropped=3
+[K0] tick 2575 busy=0.019% ping=30125ns timeouts=3 stale=0
+[K1] tick 2575 busy=0.059% pongs=13573 dropped=3
+[K0] tick 2576 busy=0.019% ping=30625ns timeouts=3 stale=0
+[K1] tick 2576 busy=0.059% pongs=13574 dropped=3
+[K0] tick 2577 busy=0.019% ping=30175ns timeouts=3 stale=0
+[K1] tick 2577 busy=0.059% pongs=13575 dropped=3
+[K0] tick 2578 busy=0.019% ping=29775ns timeouts=3 stale=0
+[K1] tick 2578 busy=0.059% pongs=13576 dropped=3
+[K0] tick 2579 busy=0.019% ping=30175ns timeouts=3 stale=0
+[K1] tick 2579 busy=0.059% pongs=13577 dropped=3
+[K0] tick 2580 busy=0.019% ping=30250ns timeouts=3 stale=0
+[K1] tick 2580 busy=0.059% pongs=13578 dropped=3
+[K0] tick 2581 busy=0.019% ping=30000ns timeouts=3 stale=0
+[K1] tick 2581 busy=0.059% pongs=13579 dropped=3
+[K0] tick 2582 busy=0.019% ping=29550ns timeouts=3 stale=0
+[K1] tick 2582 busy=0.059% pongs=13580 dropped=3
+[K0] tick 2583 busy=0.019% ping=30625ns timeouts=3 stale=0
+[K1] tick 2583 busy=0.059% pongs=13581 dropped=3
+[K0] tick 2584 busy=0.019% ping=29725ns timeouts=3 stale=0
+[K1] tick 2584 busy=0.059% pongs=13582 dropped=3
+[K0] tick 2585 busy=0.019% ping=29375ns timeouts=3 stale=0
+[K1] tick 2585 busy=0.059% pongs=13583 dropped=3
+[K0] tick 2586 busy=0.019% ping=30050ns timeouts=3 stale=0
+[K1] tick 2586 busy=0.059% pongs=13584 dropped=3
+[K0] tick 2587 busy=0.019% ping=30000ns timeouts=3 stale=0
+[K1] tick 2587 busy=0.059% pongs=13585 dropped=3
+[K0] tick 2588 busy=0.019% ping=29750ns timeouts=3 stale=0
+[K1] tick 2588 busy=0.059% pongs=13586 dropped=3
+[K0] tick 2589 busy=0.019% ping=30975ns timeouts=3 stale=0
+[K1] tick 2589 busy=0.059% pongs=13587 dropped=3
+[K0] tick 2590 busy=0.019% ping=30100ns timeouts=3 stale=0
+[K1] tick 2590 busy=0.059% pongs=13588 dropped=3
+[K0] tick 2591 busy=0.019% ping=29975ns timeouts=3 stale=0
+[K1] tick 2591 busy=0.059% pongs=13589 dropped=3
+[K0] tick 2592 busy=0.019% ping=30250ns timeouts=3 stale=0
+[K1] tick 2592 busy=0.059% pongs=13590 dropped=3
+[K0] tick 2593 busy=0.019% ping=30050ns timeouts=3 stale=0
+[K1] tick 2593 busy=0.059% pongs=13591 dropped=3
+[K0] tick 2594 busy=0.019% ping=29875ns timeouts=3 stale=0
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> ums 0 mmc 0
+UMS: LUN 0, dev mmc 0, hwpart 0, sector 0x0, count 0xe90000
+dwc3-generic-wrapper usb@48300000: configured in usb2 mode
+CTRL+C - Operation aborted
+=> NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 199 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 199 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 199 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 252 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 201 ms (609.4 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 199 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 252 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+E/TC:0   Panic 'Watchdog' at /usr/src/debug/optee-os-stm32mp/4.0.0-stm32mp-r2/core/drivers/stm32_iwdg.c:218 <stm32_iwdg_it_handler>
+E/TC:0   TEE load address @ 0x82000000
+E/TC:0   Call stack:
+E/TC:0    0x82007e30
+E/TC:0    0x82043420
+E/TC:0    0x8201c144
+E/TC:0    0x82040ef4
+E/TC:0    0x820141e8
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: IWDG system reset (iwdgX_out_rst) (0x2104)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+965 bytes read in 198 ms (3.9 KiB/s)
+## Executing script at 84000000
+seL4 boot - CCMP25-DVK (STM32MP255)
+Loading sel4.bin from mmc 0:5...
+4737728 bytes read in 253 ms (17.9 MiB/s)
+Loading DTB (required by bootm)...
+125581 bytes read in 200 ms (612.3 KiB/s)
+Starting seL4 via bootm...
+## Booting kernel from Legacy Image at 90000000 ...
+   Image Name:
+   Created:      2026-10-19   3:22:41 UTC
+   Image Type:   AArch64 Linux Kernel Image (uncompressed)
+   Data Size:    4737664 Bytes = 4.5 MiB
+   Load Address: 88000000
+   Entry Point:  88000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at b0000000
+   Booting using the fdt blob at 0xb0000000
+Working FDT set to b0000000
+   Loading Kernel Image
+   Loading Device Tree to 00000000b800a000, end 00000000b802ba8c ... OK
+Working FDT set to b800a000
+Unable to update property /wireless:mac-address, err=FDT_ERR_NOTFOUND
+Unable to update property /bluetooth:mac-address, err=FDT_ERR_NOTFOUND
+
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8849429f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..86641fff]
+  vaddr=[400000..27fafff]
+  virt_entry=6a75a0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=41cd68
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=41cd68 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8086642000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] ERROR: can't add another cap, all 4096 (=2^CONFIG_ROOT_CNODE_SIZE_BITS) slots used
+[K0] ERROR: could not create all userland image frames
+[K0] seL4 called fail at /home/iamfo470/phd/camkes-vm-examples/kernel/src/arch/arm/kernel/boot.c:683 in function init_kernel, saying "ERROR: kernel init failed"
+[K0] halting...
+[K0] Kernel entry via Unknown (0)
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

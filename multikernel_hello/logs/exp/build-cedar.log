@@ -1,0 +1,85 @@
+==> Configure/build K1 hello rootserver
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k1.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1
+ninja: no work to do.
+==> Configure/build K0 bundle and derive its linked K1 trampoline address
+    trampoline link pass 1: rootserver expects 0x0
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k0.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar
+[1/16] Building ASM object sel4runtime/CMakeFiles/sel4runtime_crt_obj.dir/crt/sel4_arch/aarch64/sel4_crt0.S.obj
+[2/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[3/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
+[4/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
+[5/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[6/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[7/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
+[8/16] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[9/16] Building ASM object sel4runtime/CMakeFiles/sel4runtime.dir/crt/sel4_arch/aarch64/sel4_crt0.S.obj
+[10/16] Building C object sel4runtime/CMakeFiles/sel4runtime.dir/src/env.c.obj
+[11/16] Linking C static library sel4runtime/libsel4runtime.a
+[12/16] Linking C executable rootserver/rootserver_hello
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
+[13/16] Generating rootserver
+[14/16] Generate CPIO archive archive.o
+[15/16] Linking C executable elfloader-tool/elfloader
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
+[16/16] Generating images/rootserver_hello-image-arm-stm32mp2
+Image Name:   
+Created:      Mon Oct 19 16:44:05 2026
+Image Type:   AArch64 Linux Kernel Image (uncompressed)
+Data Size:    4733568 Bytes = 4622.62 KiB = 4.51 MiB
+Load Address: 88000000
+Entry Point:  88000000
+    linked mk_core1_trampoline=0x00000000880050a0
+    trampoline link pass 2: rootserver expects 0x00000000880050a0
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k0.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar
+[1/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[2/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
+[3/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[4/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
+[5/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[6/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
+[7/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[8/12] Linking C executable rootserver/rootserver_hello
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
+[9/12] Generating rootserver
+[10/12] Generate CPIO archive archive.o
+[11/12] Linking C executable elfloader-tool/elfloader
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
+[12/12] Generating images/rootserver_hello-image-arm-stm32mp2
+Image Name:   
+Created:      Mon Oct 19 16:44:07 2026
+Image Type:   AArch64 Linux Kernel Image (uncompressed)
+Data Size:    4729472 Bytes = 4618.62 KiB = 4.51 MiB
+Load Address: 88000000
+Entry Point:  88000000
+    linked mk_core1_trampoline=0x00000000880050a0
+
+Final image: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar/images/rootserver_hello-image-arm-stm32mp2
+K1 trampoline handoff: 0x00000000880050a0 (derived and verified)
+-rw-rw-r-- 1 iamfo470 iamfo470 4.6M Oct 19 16:44 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar/images/rootserver_hello-image-arm-stm32mp2

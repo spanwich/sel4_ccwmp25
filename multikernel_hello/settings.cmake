@@ -50,7 +50,13 @@ set(KernelEnableSMPSupport OFF CACHE BOOL "" FORCE)
 
 set(KernelPrinting ON CACHE BOOL "" FORCE)
 set(KernelDebugBuild ON CACHE BOOL "" FORCE)
-set(KernelRootCNodeSizeBits 12 CACHE STRING "" FORCE)
+# K0 hosts the paper's access-control engines; Cedar's heap makes the
+# rootserver image need more than 2^12 frame caps.
+if("${MK_KERNEL_ID}" STREQUAL "0")
+    set(KernelRootCNodeSizeBits 16 CACHE STRING "" FORCE)
+else()
+    set(KernelRootCNodeSizeBits 12 CACHE STRING "" FORCE)
+endif()
 set(SIMULATION OFF CACHE BOOL "" FORCE)
 set(LibUSB OFF CACHE BOOL "" FORCE)
 set(CCWMP25HelloMultikernel OFF CACHE BOOL "Bundle independent per-core CCMP25 hello kernels")

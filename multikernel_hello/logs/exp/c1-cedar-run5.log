@@ -1,0 +1,107 @@
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098421000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-c1-v16
+[K1] untyped-audit: untypeds=71 device=40 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1200000014 cycles/s
+[K0] optee: SCMI PTA session 1, shm pa 0x0000000084001000
+[K0] scmi: clock ICN_LS_MCU (64) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_54/ETH1_KER (54) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_56/ETH1_PTP (56) attr_status=0 enabled 0 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOA (89) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+dle:[cnt rq=40000000 GP, Cpu=1199999856 cysl0sesd 1 -> enable status=0 -> enab[K1]
+l[d 1 c> enablelscal sx0 00000abce0 000 rw,K0]es mi: clock GP0O00(9 r , te_ice, S=I en
+                                                                                      bled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOH (96) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] rcc: ETH1CFGR 0x0000000000000f66 -> 0x0000000000000f76 (gates on, out of reset)
+[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1
+[K1] channel: READY abi=2 epoch=0x101700011c152212
+[K0] channel: READY abi=2 epoch=0x101700011c152212
+[K1] bench: first PING received
+[K0] bench: first PONG received
+[K1] bench: echoed 11000 PINGs
+[K1] bench: sent=11000 received=11000 full=0 corrupt=0
+[K1] eth: MAC_VERSION=0x0000000000001a53
+[K1] eth: SYSCFG_ETH1CR 0x0000000000000010 -> 0x0000000000000010
+[K1] phy: id=0x0000000001410dd1 (Marvell 88E1512)
+[K1] eth: DMA reset done
+[K1] eth: rx fifoK0] beB,htx1fifo 81u2dB,riingx 5t 0B: min=42a50n0 000
+                                                                      4K1] net: 992.068n4 max=424 mac 02:cc439:0n: ra0e=14ttp :t/s
+
+ full=0 corrupt=0                                                                                                                 K1]  denchb sent=g on  rIceived=G100
+[K0] c1: start engine=cedar
+[K0]
+[K0] Warning: using printf before serial is set up. This only works as your
+[K0] printf is backed by seL4_Debug_PutChar()
+[K0] sys_munmap@sys_morecore.c:379 sys_munmap is unsupported. This may have been called due to a large malloc'd region being free'd.
+[K0] sys_munmap@sys_morecore.c:379 sys_munmap is unsupported. This may have been called due to a large malloc'd region being free'd.
+[K0] sys_munmap@sys_morecore.c:379 sys_munmap is unsupported. This may have been called due to a large malloc'd region being free'd.
+[K0] sys_munmap@sys_morecore.c:379 sys_munmap is unsupported. This may have been called due to a large malloc'd region being free'd.
+[K0] sys_munmap@sys_morecore.c:379 sys_munmap is unsupported. This may have been called due to a large malloc'd region being free'd.
+[K0] Assertion failed: !"not implemented" (/home/iamfo470/phd/camkes-vm-examples/projects/seL4_libs/libsel4muslcsys/src/sys_morecore.c: sys_mremap: 85)
+[K0] seL4 root server abort()ed
+[K0] Debug halt syscall from user thread 0x8097e19400 "rootserver"
+[K0] halting...
+[K0] Kernel entry via Unknown syscall, word: 1309825[K1] tick 0 busy=0.055% pongs=11000 dropped=0
+[K1] tick 1 busy=0.058% pongs=11000 dropped=0
+[K1] tick 2 busy=0.057% pongs=11000 dropped=0
+[K1] phy: link up 1000/full
+[K1] tick 3 busy=0.060% pongs=11000 dropped=0
+[K1] tick 4 busy=0.057% pongs=11000 dropped=0
+NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+
+U-Boot dub-2023.10-r3.2 (Dec 17 2025 - 08:09:17 +0000)
+
+CPU: STM32MP255CAL Rev.Y
+DRAM:  1 GiB
+optee optee: OP-TEE: revision 4.0 (b4059ef3)
+Core:  421 devices, 39 uclasses, devicetree: board
+WDT:   Started watchdog with servicing every 1000ms (32s timeout)
+MMC:   STM32 SD/MMC: 0, STM32 SD/MMC: 2
+In:    serial
+Out:   serial
+Err:   serial
+Model: Digi International ConnectCore MP25 Development Kit
+ConnectCore MP25 SOM variant 0x03: 1 GiB DDR4, Wi-Fi, Bluetooth
+  Board version 5, ID undefined
+Boot:  MMC
+Net:   eth0: eth1@482c0000, eth1: eth2@482d0000
+MMC: no card present
+No EFI system partition
+No EFI system partition
+Failed to persist EFI variables
+Normal Boot
+Hit any key to stop autoboot:  0
+=>
+=> ums 0 mmc 0
+UMS: LUN 0, dev mmc 0, hwpart 0, sector 0x0, count 0xe90000
+dwc3-generic-wrapper usb@48300000: configured in usb2 mode
+CTRL+C - Operation aborted
+=> NOTICE:  CPU: STM32MP255CAL Rev.Y
+NOTICE:  Model: Digi International ConnectCore MP25 Development Kit
+NOTICE:  Reset reason: Pin reset from NRST (0x2034)
+NOTICE:  BL2: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL2: Built : 08:09:17, Dec 17 2025
+NOTICE:  BL2: Booting BL31
+NOTICE:  BL31: v2.10-stm32mp2-r2.0(release):dey-5.0-r3.1-v2.10-stm-dirty(20bd9eb9)
+NOTICE:  BL31: Built : 08:09:17, Dec 17 2025
+[    0.000000] SCP-firmware 2.13.0-intree-optee-os-dey-5.0-r3.1-v4.0-stm
+[    0.000000]
+[    0.000000] [FWK] Module initialization complete!
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0

@@ -1,0 +1,2 @@
+Vendored from policy_gateway branch experiment/http-acl-x86-sp2027 @ e5461f3740a07a42649fcf5b340aa7df87348e3b
+(worktree /home/iamfo470/phd/paper-experiments/http-acl-x86/source), unchanged. Cedar staticlib is built from the same commit.

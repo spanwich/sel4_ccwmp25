@@ -25,13 +25,14 @@
 #include "rs.h"
 #include "dwmac.h"
 #include "net.h"
+#include "gateway_k0.h"
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n4c-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-c1-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -907,6 +908,10 @@ int main(void)
     pet_watchdog();
     benchmark(freq);
     pet_watchdog();
+#if KERNEL_ID == 0
+    gw_equivalence(); /* C1 (paper experiments) */
+    pet_watchdog();
+#endif
 #if KERNEL_ID == 1
     /* N2-N4: K0 turned the ETH1 clocks on before its ring went READY. */
     seL4_CPtr eth_irq = seL4_CapNull;

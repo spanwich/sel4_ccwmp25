@@ -10,8 +10,13 @@ if [ ! -f "$VENV/bin/activate" ] &&
 fi
 
 K1_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k1"
+# Paper experiments: K0 engine (none | everparse | cedar); K1 is engine-agnostic.
+MK_ENGINE="${MK_ENGINE:-none}"
 K0_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k0"
-ROOTSERVER_BUILD_ID="ccwmp25-mk-n4c-v16"
+[ "$MK_ENGINE" = "none" ] || K0_BUILD="$K0_BUILD-$MK_ENGINE"
+MK_CEDAR_STATICLIB="${MK_CEDAR_STATICLIB:-$HOME/phd/ccmp25-exp/cedar-target/aarch64-unknown-linux-musl/release/libcedar_gateway_staticlib.a}"
+MK_K0_HEAP_BYTES="${MK_K0_HEAP_BYTES:-1048576}" # musl morecore for K0 (Cedar heap)
+ROOTSERVER_BUILD_ID="ccwmp25-mk-c1-v16"
 CROSS_PREFIX="aarch64-linux-gnu-"
 NM="${CROSS_PREFIX}nm"
 MAX_TRAMPOLINE_PASSES=3
@@ -128,6 +133,10 @@ K0_CONFIG_ARGS=(
     -DMULTIKERNEL_K1_KERNEL_ELF="$K1_KERNEL_ELF"
     -DMULTIKERNEL_K1_ROOTSERVER="$K1_ROOTSERVER"
     -DMULTIKERNEL_K1_DTB="$K1_DTB"
+    -DMK_ENGINE="$MK_ENGINE"
+    -DMK_CEDAR_STATICLIB="$MK_CEDAR_STATICLIB"
+    -DLibSel4MuslcSysMorecoreBytes="$MK_K0_HEAP_BYTES"
+    -DSel4RuntimeRootStack="${MK_K0_STACK_BYTES:-8388608}" # Cedar typechecker recursion
 )
 
 trampoline_paddr=0x0

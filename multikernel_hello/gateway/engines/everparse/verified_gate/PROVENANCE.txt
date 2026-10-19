@@ -1,0 +1,5 @@
+Verified composed gate from the papers repo, experiments/verified-combiner (commit f3daaef).
+Gate.c, Gate.h, internal/*.h: KaRaMeL extraction of the Low* gate (extracted/).
+Partition8.c/.h, UniversalRate.c/.h, EverParse*.h: the EverParse-generated validators the
+gate is verified against (generated/), byte-identical to benchmarks/compat scaling copies.
+Copied verbatim; do not edit.
