@@ -1,0 +1,5 @@
+2026-10-19T02:37:04Z
+ccwmp25 seL4 multikernel K1 ccwmp25-mk-n4b-v16
+  [http 200 0.000437s]
+{"build":"ccwmp25-mk-n4b-v16","uptime_s":16,"rx":29,"tx":27,"rx_err":0,"tx_err":0,"dma_err":0,"http":2,"pongs":11014}
+  [http 200]

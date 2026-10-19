@@ -31,7 +31,7 @@
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n4-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-n4b-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */

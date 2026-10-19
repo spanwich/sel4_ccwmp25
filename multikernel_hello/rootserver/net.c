@@ -2,7 +2,7 @@
  * K1 only: lwIP (NO_SYS, raw API) on ETH1 plus a minimal HTTP/1.1 front end.
  *   GET /        -> 200, build ID
  *   GET /health  -> 200, JSON counters (serial-free check, brief V6)
- * Static IP 192.168.25.10/24, MAC 02:cc:25:00:00:01 (locally administered).
+ * Static IP 192.168.40.60/24, MAC 02:cc:25:00:00:01 (locally administered).
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
@@ -167,7 +167,7 @@ void net_init(void *dma_va, uint64_t dma_pa, const char *build, uint64_t (*pongs
     pongs_fn = pongs;
     eth1_dma_init(dma_va, dma_pa, mac);
     lwip_init();
-    IP4_ADDR(&ip, 192, 168, 25, 10);
+    IP4_ADDR(&ip, 192, 168, 40, 60);
     IP4_ADDR(&mask, 255, 255, 255, 0);
     IP4_ADDR(&gw, 0, 0, 0, 0);
     netif_add(&nif, &ip, &mask, &gw, NULL, nif_init, ethernet_input);
@@ -178,7 +178,7 @@ void net_init(void *dma_va, uint64_t dma_pa, const char *build, uint64_t (*pongs
     tcp_bind(l, IP_ANY_TYPE, 80);
     l = tcp_listen(l);
     tcp_accept(l, http_accept);
-    put_str("net: 192.168.25.10/24 mac 02:cc:25:00:00:01, http :80\n");
+    put_str("net: 192.168.40.60/24 mac 02:cc:25:00:00:01, http :80\n");
 }
 
 static int link_state;
