@@ -1,0 +1,92 @@
+==> Configure/build K1 hello rootserver
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k1.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1
+[1/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[2/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[3/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[4/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[5/9] Linking C executable rootserver/rootserver_hello
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
+[6/9] Generating rootserver
+[7/9] Generate CPIO archive archive.o
+[8/9] Linking C executable elfloader-tool/elfloader
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
+[9/9] Generating images/rootserver_hello-image-arm-stm32mp2
+Image Name:   
+Created:      Mon Oct 19 15:39:17 2026
+Image Type:   AArch64 Linux Kernel Image (uncompressed)
+Data Size:    534544 Bytes = 522.02 KiB = 0.51 MiB
+Load Address: 88000000
+Entry Point:  88000000
+==> Configure/build K0 bundle and derive its linked K1 trampoline address
+    trampoline link pass 1: rootserver expects 0x0
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k0.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0
+[1/10] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[2/10] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[3/10] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[4/10] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[5/10] Linking C executable rootserver/rootserver_hello
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
+[6/10] Generating rootserver
+[7/10] Generating rootserver_1
+[8/10] Generate CPIO archive archive.o
+[9/10] Linking C executable elfloader-tool/elfloader
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
+[10/10] Generating images/rootserver_hello-image-arm-stm32mp2
+Image Name:   
+Created:      Mon Oct 19 15:39:18 2026
+Image Type:   AArch64 Linux Kernel Image (uncompressed)
+Data Size:    930944 Bytes = 909.12 KiB = 0.89 MiB
+Load Address: 88000000
+Entry Point:  88000000
+    linked mk_core1_trampoline=0x00000000880050a0
+    trampoline link pass 2: rootserver expects 0x00000000880050a0
+-- KernelARMPlatform is ccmp25-dvk
+-- KernelARMPlatform is ccmp25-dvk
+-- Using custom /home/iamfo470/phd/camkes-vm-examples/projects/sel4_ccwmp25/multikernel_hello/dts/stm32mp25x-k0.dts device tree, ignoring default dts and overlays
+-- libmuslc architecture: 'aarch64' (from KernelSel4Arch 'aarch64')
+-- Detecting cached version of: musllibc
+--   Found valid cache entry for musllibc
+Doxygen build started
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0
+[1/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[2/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[3/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[4/9] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[5/9] Linking C executable rootserver/rootserver_hello
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
+[6/9] Generating rootserver
+[7/9] Generate CPIO archive archive.o
+[8/9] Linking C executable elfloader-tool/elfloader
+/usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
+[9/9] Generating images/rootserver_hello-image-arm-stm32mp2
+Image Name:   
+Created:      Mon Oct 19 15:39:19 2026
+Image Type:   AArch64 Linux Kernel Image (uncompressed)
+Data Size:    930944 Bytes = 909.12 KiB = 0.89 MiB
+Load Address: 88000000
+Entry Point:  88000000
+    linked mk_core1_trampoline=0x00000000880050a0
+
+Final image: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2
+K1 trampoline handoff: 0x00000000880050a0 (derived and verified)
+-rw-rw-r-- 1 iamfo470 iamfo470 910K Oct 19 15:39 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0/images/rootserver_hello-image-arm-stm32mp2

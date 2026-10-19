@@ -1,0 +1,3 @@
+{"build": "ccwmp25-mk-n4c-v16", "uptime_s": 15, "rx": 28, "tx": 26, "rx_err": 0, "tx_err": 0, "dma_err": 0, "http": 2, "pongs": 11013}
+{"build": "ccwmp25-mk-n4c-v16", "uptime_s": 20, "rx": 32, "tx": 29, "rx_err": 0, "tx_err": 0, "dma_err": 0, "http": 3, "pongs": 11018}
+V6 PASS
