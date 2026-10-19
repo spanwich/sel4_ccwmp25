@@ -1,0 +1,436 @@
+{
+ "engine": "everparse",
+ "cases": [
+  {
+   "case": "valid",
+   "status": 200,
+   "expected": 200,
+   "body_len": 65,
+   "digest_before": "0929a14956a7712c",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "wrong_role_operator",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "zero_rules",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "nine_rules",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "bad_method_mask",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "bad_min_role",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "truncated_64B",
+   "status": 403,
+   "expected": 403,
+   "body_len": 64,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "oversize_2000B",
+   "status": 413,
+   "expected": 413,
+   "body_len": 2000,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "no_token",
+   "status": 401,
+   "expected": 401,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "unknown_token",
+   "status": 403,
+   "expected": 403,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "valid_again",
+   "status": 200,
+   "expected": 200,
+   "body_len": 65,
+   "digest_before": "93c6e234252523d4",
+   "digest_after": "93c6e234252523d4",
+   "pass": true
+  },
+  {
+   "case": "rate_ge_50",
+   "status": 403,
+   "expected": 403,
+   "requests_until_429": 15,
+   "digest_before": null,
+   "digest_after": null,
+   "pass": true
+  }
+ ],
+ "per_case_stats": [
+  {
+   "status": 200,
+   "k1": 10616,
+   "k0": 25753,
+   "gate": 17171,
+   "auth": 1439,
+   "app": 3727
+  },
+  {
+   "status": 200,
+   "k1": 27040,
+   "k0": 29480,
+   "gate": 20476,
+   "auth": 1476,
+   "app": 4094
+  },
+  {
+   "status": 403,
+   "k1": 10804,
+   "k0": 24790,
+   "gate": 15946,
+   "auth": 1762,
+   "app": 3819
+  },
+  {
+   "status": 200,
+   "k1": 26405,
+   "k0": 29184,
+   "gate": 20140,
+   "auth": 1502,
+   "app": 4044
+  },
+  {
+   "status": 403,
+   "k1": 10241,
+   "k0": 24157,
+   "gate": 15649,
+   "auth": 1441,
+   "app": 3565
+  },
+  {
+   "status": 200,
+   "k1": 26640,
+   "k0": 28784,
+   "gate": 19944,
+   "auth": 1430,
+   "app": 3977
+  },
+  {
+   "status": 403,
+   "k1": 10437,
+   "k0": 23873,
+   "gate": 15585,
+   "auth": 1432,
+   "app": 3371
+  },
+  {
+   "status": 200,
+   "k1": 25611,
+   "k0": 28992,
+   "gate": 19992,
+   "auth": 1484,
+   "app": 4096
+  },
+  {
+   "status": 403,
+   "k1": 10573,
+   "k0": 22578,
+   "gate": 14291,
+   "auth": 1475,
+   "app": 3517
+  },
+  {
+   "status": 200,
+   "k1": 26122,
+   "k0": 28487,
+   "gate": 19653,
+   "auth": 1401,
+   "app": 3966
+  },
+  {
+   "status": 403,
+   "k1": 10817,
+   "k0": 22699,
+   "gate": 14577,
+   "auth": 1456,
+   "app": 3343
+  },
+  {
+   "status": 200,
+   "k1": 25919,
+   "k0": 28519,
+   "gate": 19638,
+   "auth": 1471,
+   "app": 4077
+  },
+  {
+   "status": 403,
+   "k1": 10696,
+   "k0": 22197,
+   "gate": 13920,
+   "auth": 1415,
+   "app": 3412
+  },
+  {
+   "status": 200,
+   "k1": 26107,
+   "k0": 28974,
+   "gate": 19987,
+   "auth": 1451,
+   "app": 4175
+  },
+  {
+   "status": 413,
+   "k1": 20940,
+   "k0": 15407,
+   "gate": 8843,
+   "auth": 0,
+   "app": 3486
+  },
+  {
+   "status": 200,
+   "k1": 27116,
+   "k0": 28611,
+   "gate": 19692,
+   "auth": 1473,
+   "app": 4200
+  },
+  {
+   "status": 401,
+   "k1": 11267,
+   "k0": 16499,
+   "gate": 9954,
+   "auth": 0,
+   "app": 3399
+  },
+  {
+   "status": 200,
+   "k1": 26415,
+   "k0": 28576,
+   "gate": 19650,
+   "auth": 1504,
+   "app": 4069
+  },
+  {
+   "status": 403,
+   "k1": 10093,
+   "k0": 21755,
+   "gate": 13560,
+   "auth": 1487,
+   "app": 3473
+  },
+  {
+   "status": 200,
+   "k1": 26091,
+   "k0": 28541,
+   "gate": 19619,
+   "auth": 1484,
+   "app": 4077
+  },
+  {
+   "status": 200,
+   "k1": 10322,
+   "k0": 24144,
+   "gate": 15697,
+   "auth": 1421,
+   "app": 3517
+  },
+  {
+   "status": 200,
+   "k1": 26450,
+   "k0": 28834,
+   "gate": 20043,
+   "auth": 1524,
+   "app": 3856
+  }
+ ],
+ "valid_update_stats": [
+  {
+   "status": 200,
+   "k1": 10525,
+   "k0": 23759,
+   "gate": 15473,
+   "auth": 1437,
+   "app": 3469
+  },
+  {
+   "status": 200,
+   "k1": 10603,
+   "k0": 23484,
+   "gate": 15021,
+   "auth": 1540,
+   "app": 3489
+  },
+  {
+   "status": 200,
+   "k1": 10283,
+   "k0": 23246,
+   "gate": 14912,
+   "auth": 1454,
+   "app": 3520
+  },
+  {
+   "status": 200,
+   "k1": 10568,
+   "k0": 23056,
+   "gate": 14837,
+   "auth": 1405,
+   "app": 3508
+  },
+  {
+   "status": 200,
+   "k1": 10555,
+   "k0": 23219,
+   "gate": 14791,
+   "auth": 1525,
+   "app": 3531
+  },
+  {
+   "status": 200,
+   "k1": 10035,
+   "k0": 22906,
+   "gate": 14759,
+   "auth": 1486,
+   "app": 3407
+  },
+  {
+   "status": 200,
+   "k1": 10325,
+   "k0": 23165,
+   "gate": 15127,
+   "auth": 1542,
+   "app": 3259
+  },
+  {
+   "status": 200,
+   "k1": 9959,
+   "k0": 23139,
+   "gate": 14722,
+   "auth": 1454,
+   "app": 3520
+  },
+  {
+   "status": 200,
+   "k1": 10133,
+   "k0": 23053,
+   "gate": 14794,
+   "auth": 1458,
+   "app": 3416
+  },
+  {
+   "status": 200,
+   "k1": 10372,
+   "k0": 23303,
+   "gate": 14950,
+   "auth": 1472,
+   "app": 3473
+  },
+  {
+   "status": 200,
+   "k1": 9943,
+   "k0": 22779,
+   "gate": 14622,
+   "auth": 1527,
+   "app": 3308
+  },
+  {
+   "status": 200,
+   "k1": 10808,
+   "k0": 22977,
+   "gate": 14694,
+   "auth": 1487,
+   "app": 3461
+  },
+  {
+   "status": 200,
+   "k1": 10143,
+   "k0": 23243,
+   "gate": 14801,
+   "auth": 1538,
+   "app": 3537
+  },
+  {
+   "status": 200,
+   "k1": 10092,
+   "k0": 22824,
+   "gate": 14807,
+   "auth": 1413,
+   "app": 3380
+  },
+  {
+   "status": 200,
+   "k1": 10192,
+   "k0": 22801,
+   "gate": 14762,
+   "auth": 1460,
+   "app": 3327
+  },
+  {
+   "status": 200,
+   "k1": 10407,
+   "k0": 23098,
+   "gate": 14834,
+   "auth": 1492,
+   "app": 3300
+  }
+ ],
+ "health": {
+  "build": "ccwmp25-mk-d1-v16",
+  "uptime_s": 4,
+  "rx": 408,
+  "tx": 256,
+  "rx_err": 0,
+  "tx_err": 0,
+  "dma_err": 0,
+  "http": 59,
+  "k0_calls": 59,
+  "k0_timeouts": 0,
+  "refused": 0,
+  "oversize": 0
+ },
+ "serial_log": "Starting kernel ...\n\n\nELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0\n  paddr=[88000000..880f429f]\n  dtb=b800a000\nLooking for DTB in CPIO archive...found at 88045b90.\nLoaded DTB from 88045b90.\n   paddr=[84246000..84246fff]\nELF-loading image 'kernel' to 84000000\n  paddr=[84000000..84245fff]\n  vaddr=[8084000000..8084245fff]\n  virt_entry=8084000000\nELF-loading image 'rootserver' to 84247000\n  paddr=[84247000..84bacfff]\n  vaddr=[400000..d65fff]\n  virt_entry=40df30\nmultikernel: loading 2-kernel ARM bundle\nmultikernel: K1 wants phys [98000000..98246000)\nELF-loading image 'kernel_1' to 98000000\n  paddr=[98000000..98245fff]\n  vaddr=[8098000000..8098245fff]\n  virt_entry=8098000000\nmultikernel: K1 dtb at 98246000 (1696 bytes)\nELF-loading image 'rootserver_1' to 98247000\n  paddr=[98247000..98410fff]\n  vaddr=[400000..5c9fff]\n  virt_entry=4117d8\nmultikernel: K1 core1 stub staged at 98400000 (132 bytes)\nmultikernel: K1 loaded entry=8098000000 user=[98247000..98411000] uentry=4117d8 dtb=98246000/1696\nmultikernel: secondaries loaded, left for K0 to start\nEnabling hypervisor MMU and jumping to entry point...\n\n[K0] Bootstrapping kernel\n[K0] Available phys memory regions: 1\n[K0]   [84000000..98000000)\n[K0] Reserved virt address space regions: 6\n[K0]   [8080000000..8084000000)\n[K0]   [8084000000..8084246000)\n[K0]   [8084246000..80842466a0)\n[K0]   [8084247000..8084bad000)\n[K0]   [8098000000..80ac000000)\n[K0]   [80ad400000..80c0000000)\n[K0] Booting all finished, dropped to user space\n[K0] rootserver up, build ccwmp25-mk-d1-v16\n[K0] untyped-audit: untypeds=65 device=39 overlap=0 peer-ram=0 PASS\n[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0\n[K0] dispatch: PSCI CPU_ON ret=0\n[K1] Bootstrapping kernel\n[K1] Available phys memory regions: 1\n[K1]   [98000000..ab800000)\n[K1] Reserved virt address space regions: 6\n[K1]   [8080000000..8084000000)\n[K1]   [8084000000..8098000000)\n[K1]   [8098000000..8098246000)\n[K1]   [8098246000..80982466a0)\n[K1]   [8098247000..8098411000)\n[K1]   [80ad400000..80c0000000)\n[K1] Booting all finished, dropped to user space\n[K1] rootserver up, build ccwmp25-mk-d1-v16\n[K1] untyped-audit: untypeds=71 device=40 overlap=0 peer-ram=0 PASS\n[K0] idle: cntfrq=40000000 Hz, cpu=1200000012 cycles/s\n[K0] optee: SCMI PTA session 1, shm pa 0x0000000084001000\n[K0] scmi: clock ICN_LS_MCU (64) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock FLEXGEN_54/ETH1_KER (54) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock FLEXGEN_56/ETH1_PTP (56) attr_status=0 enabled 0 -> enable status=0 -> enabled 1\n[K0] scmi: clock GPIOA (89) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock GPIOB (90) attr_status=0 enabled 1 -> enable status=0 -> enab[ed] \nabled 1 -> enable status=0 -> enabled 1atus=I 1\n[K0] scmi: clock GPIOH (96) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] rcc: ETH1CFGR 0x0000000000000f66 -> 0x0000000000000f76 (gates on, out of reset)\n[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1\n[K1] channel: READY abi=2 epoch=0x1017000120f14c9f\n[K0] channel: READY abi=2 epoch=0x1017000120f14c9f\n[K1] bench: first PING received\n[K0] bench: first PONG received\n[K1] bench: echoed 11000 PINGs\n[K1] bench: sent=11000 received=11000 full=0 corrupt=0\n[K0] bench: 10000 round trips x 512 B: min=27225ns p50=28200ns p99=29550ns max=30325ns mean=28272ns rate=28382 rt/s\n[K0] bench: sent=11000 received=11000 full=0 corrupt=0\n[K0] HTTP_DEMO_COMPONENT,name=authenticator,mode=private_identity_oracle\n[K0] HTTP_DEMO_COMPONENT,name=protected_app\n[K0] gw: default policy installed, digest=0x1c87d388f42b17aa\n[K0] \n[K0] Warning: using printf before serial is set up. This only works as your\n[K0] printf is backed by seL4_Debug_PutChar()\n[K0] C2_RESULT,engine=everparse,case=empty_bracket,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=11,p50=11,p90=11,p99=11,max=18,mean=11,loop_cntpct_ticks=1050,cntfrq=40000000,mismatches=0\n[K0] C2_RESULT,engine=everparse,case=allow_first,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1027,p50=1029,p90=1029,p99=1029,max=1595,mean=1029,loop_cntpct_ticks=35059,cntfrq=40000000,mismatche0\n[K0] C2_RESULT,engine=everparse,case=allow_last,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1037,p50=1037,p90=1037,p99=1037,max=1045,mean=1037,loop_cntpct_ticks=35302,cntfrq=40000000,mismatches0\n[K0] C2_RESULT,engine=everparse,case=deny_path,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1053,p50=1053,p90=1053,p99=1053,max=1095,mean=1053,loop_cntpct_ticks=35838,cntfrq=40000000,mismatches=0\n[K0] d2: equivalence start engine=everparse\n[K0] EQUIVALENCE_OK,engine=everparse,comparisons=12527\n[K0] d2: equivalence rc=0 ms=18\n[K0] === extract_security_params test suite ===\n[K0] \n[K0] --- Known endpoints ---\n[K0]   PASS: GET /api/status (hash=0x33333333 method=1 body=0 olen=175)\n[K0]   PASS: GET /api/policy (hash=0x44444444 method=1 body=0 olen=175)\n[K0]   PASS: POST /api/login with body (hash=0x11111111 method=2 body=11 olen=186)\n[K0]   PASS: POST /api/logout (hash=0x22222222 method=2 body=0 olen=175)\n[K0]   PASS: PUT /api/policy with body (hash=0x44444444 method=4 body=5 olen=180)\n[K0]   PASS: GET /api/demo (hash=0x55555555 method=1 body=0 olen=175)\n[K0]   PASS: GET /api/reports (hash=0x66666666 method=1 body=0 olen=175)\n[K0] \n[K0] --- Dashboard ---\n[K0]   PASS: GET / (dashboard) (hash=0x00000000 method=1 body=0 olen=175)\n[K0] \n[K0] --- Error codes ---\n[K0]   PASS: no headers (incomplete) -> INCOMPLETE\n[K0]   PASS: DELETE /api/status (hash=0x33333333 method=8 body=0 olen=175)\n[K0]   PASS: HEAD /api/status (hash=0x33333333 method=32 body=0 olen=175)\n[K0]   PASS: path traversal -> PATH_TRAVERSAL\n[K0]   PASS: path traversal in api -> PATH_TRAVERSAL\n[K0]   PASS: unknown endpoint -> PATH_UNKNOWN\n[K0]   PASS: unknown short path -> PATH_UNKNOWN\n[K0]   PASS: null byte in path -> MALFORMED\n[K0]   PASS: body too large -> BODY_TOO_LARGE\n[K0]   PASS: body incomplete -> INCOMPLETE\n[K0] \n[K0] --- Wire format details ---\n[K0]   PASS: body bytes + zeroed region\n[K0] \n[K0] --- Edge cases ---\n[K0]   PASS: empty input -> INCOMPLETE\n[K0]   PASS: just CRLF -> METHOD_UNKNOWN\n[K0]   PASS: CL 0 no body (hash=0x33333333 method=1 body=0 olen=175)\n[K0]   PASS: path with query (hash=0x11111111 method=1 body=0 olen=175)\n[K0]   PASS: status with encoded query (hash=0x33333333 method=1 body=0 olen=175)\n[K0] \n[K0] --- Bearer token extraction ---\n[K0]   PASS: bearer token present (tlen=11)\n[K0]   PASS: no bearer token (tlen=0, region zeroed)\n[K0]   PASS: token truncated to 128 (tlen=128)\n[K0]   PASS: bearer + body (tlen=7 body=5)\n[K0] \n[K0] === Results: 28/28 passed ===\n[K0] D2_EXTRACTOR,EXTRACTOR_OK,rc=0\n[K0] gw: default policy installed, digest=0x1c87d388f42b17aa\n[K0] HTTP_DEMO_COMPONENT,name=policy_gate,engine=everparse\n[K0] gw: engine=everparse gate pipeline ready\n[K1] idle:0 ready, starting netwoGI 1[\n                                      1] eth: MAC_VERSION=0x0000000000001a53\n[K1] eth: SYSCFG_ETH1CR 0x0000000000000010 -> 0x0000000000000010\n[K1] phy: id=0x0000000001410dd1 (Marvell 88E1512)\n[K1] eth: DMA reset done\n[K1] eth: rx fifo 4096 B, tx fifo 8192 B, rings at 0x00000000ab800000\n[K1] net: 192.168.40.129/24 mac 02:cc:25:00:00:01, raw http :80 -> K0, control :81\n[K1] idle: blocking on PPI 30 + SGI 1\n[K0] tick 0 engine=everparse served=0 rejected_frames=0 busy=0.005% ping=0ns timeouts=0 stale=0\n[K1] tick 0 busy=0.053% pongs=11000 dropped=0\n[K0] tick 1 engine=everparse served=0 rejected_frames=0 busy=0.293% ping=0ns timeouts=0 stale=0\n[K1] tick 1 busy=0.056% pongs=11000 dropped=0\n[K0] tick 2 engine=everparse served=0 rejected_frames=0 busy=0.293% ping=0ns timeouts=0 stale=0\n[K1] tick 2 busy=0.056% pongs=11000 dropped=0\n[K1] phy: link up 1000/full\n[K0] tick 3 engine=everparse served=0 rejected_frames=0 busy=0.293% ping=0ns timeouts=0 stale=0\n[K1] tick 3 busy=0.058% pongs=11000 dropped=0\n\nCTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0                                                                                                                                 \n"
+}
