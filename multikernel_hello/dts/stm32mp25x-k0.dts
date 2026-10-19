@@ -56,6 +56,39 @@
 			reg = <0x0 0xad400000 0x0 0x12c00000>;
 			sel4,foreign-memory;
 		};
+
+		/* Peripheral ownership (allow-list): reserve every MMIO range K0
+		 * does not own, so it never becomes a device untyped K0 could hand
+		 * to attacker code. K0 owns only RCC (0x44200000, 64 KiB); the hole
+		 * below is the sole device untyped left over peripheral space.
+		 * OP-TEE/IWDG are reached by SMC; the GIC (0x4ac00000..0x4ad00000)
+		 * and the console UART are kernel devices left to the kernel, which
+		 * already reserves their live pages. The rootserver's untyped-audit
+		 * enforces the same allow-list in the image. */
+		mmio-low@0 {
+			reg = <0x0 0x0 0x0 0x40000000>;
+			sel4,foreign-memory;
+		};
+		mmio-per-a@40000000 {
+			reg = <0x0 0x40000000 0x0 0x04200000>; /* ..0x44200000 (RCC) */
+			sel4,foreign-memory;
+		};
+		mmio-per-b@44210000 {
+			reg = <0x0 0x44210000 0x0 0x05df0000>; /* 0x44210000..0x4a000000 */
+			sel4,foreign-memory;
+		};
+		mmio-pre-gic@4a000000 {
+			reg = <0x0 0x4a000000 0x0 0x00c00000>; /* ..0x4ac00000 (GIC area) */
+			sel4,foreign-memory;
+		};
+		mmio-post-gic@4ad00000 {
+			reg = <0x0 0x4ad00000 0x0 0x35300000>; /* 0x4ad00000..0x80000000 */
+			sel4,foreign-memory;
+		};
+		mmio-high@c0000000 {
+			reg = <0x0 0xc0000000 0xff 0x40000000>; /* 0xc0000000..0x10000000000 */
+			sel4,foreign-memory;
+		};
 	};
 
 	intc: interrupt-controller@4ac10000 {

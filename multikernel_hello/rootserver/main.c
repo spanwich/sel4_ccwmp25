@@ -83,6 +83,45 @@
 #define ETH_DMA_VADDR 0x50000000ul
 #define ETH1_IRQ      (32 + 130) /* SPI 130 */
 
+/*
+ * Per-kernel peripheral ownership (allow-list). Every device untyped outside
+ * DDR must fall inside one of these ranges, else the audit FAILs: a kernel
+ * must not be handed MMIO it does not drive. The DTS marks the complement as
+ * sel4,foreign-memory so those untypeds are never created; this list is the
+ * in-image enforcement that the reservation took effect.
+ * Owners (verified against the rootserver's map_device_page callers):
+ *   K0: RCC 0x44200000 (64 KiB) only. OP-TEE and IWDG are reached by SMC;
+ *       the GIC and console UART are kernel devices, not untypeds.
+ *   K1: ETH1 0x482c0000 (16 KiB), SYSCFG 0x44230000 (4 KiB), GPIO A/B/C/F/H.
+ */
+struct mmio_range { uint64_t base, size; const char *name; };
+#if KERNEL_ID == 0
+static const struct mmio_range owned_mmio[] = {
+    { 0x44200000ull, 0x10000ull, "RCC" },
+};
+#else
+static const struct mmio_range owned_mmio[] = {
+    { 0x482c0000ull, 0x4000ull, "ETH1" },
+    { 0x44230000ull, 0x1000ull, "SYSCFG" },
+    { 0x44240000ull, 0x1000ull, "GPIOA" },
+    { 0x44250000ull, 0x1000ull, "GPIOB" },
+    { 0x44260000ull, 0x1000ull, "GPIOC" },
+    { 0x44290000ull, 0x1000ull, "GPIOF" },
+    { 0x442b0000ull, 0x1000ull, "GPIOH" },
+};
+#endif
+#define OWNED_MMIO_COUNT (sizeof(owned_mmio) / sizeof(owned_mmio[0]))
+
+static const char *owned_mmio_name(uint64_t lo, uint64_t hi)
+{
+    for (unsigned i = 0; i < OWNED_MMIO_COUNT; i++) {
+        if (lo >= owned_mmio[i].base && hi <= owned_mmio[i].base + owned_mmio[i].size) {
+            return owned_mmio[i].name;
+        }
+    }
+    return 0;
+}
+
 _Static_assert(MK_CHANNEL_REGION_SIZE % (1u << MK_FRAME_BITS) == 0,
                "ring must be a whole number of large pages");
 
@@ -282,7 +321,7 @@ seL4_CPtr alloc_object(seL4_Word type, seL4_Word size_bits, const char *what)
  */
 static void untyped_audit(void)
 {
-    unsigned n = 0, device = 0, overlap = 0, peer = 0;
+    unsigned n = 0, device = 0, overlap = 0, peer = 0, unowned_mmio = 0;
     const uint64_t win_lo = MK_SHARED_BASE;
     const uint64_t win_hi = MK_SHARED_BASE + 2ull * MK_CHANNEL_REGION_SIZE;
 
@@ -292,6 +331,30 @@ static void untyped_audit(void)
         n++;
         device += d->isDevice;
         if (hi <= DDR_BASE || lo >= DDR_END) {
+            /* MMIO (or other non-DDR). Every device untyped here must be in
+             * this kernel's owned allow-list; a RAM-typed region outside DDR
+             * is not expected on this platform but is reported if seen. */
+            const char *own = owned_mmio_name(lo, hi);
+            /* The GIC lives at 0x4ac00000..0x4ad00000; its live register pages
+             * are kernel devices (kernel-reserved, never untypeds). Only the
+             * unused gaps around them can appear as device untypeds, which is
+             * harmless; tolerate that window rather than reserving across the
+             * kernel's own GIC reservations. */
+            int gic = (lo >= 0x4ac00000ull && hi <= 0x4ad00000ull);
+            put_str("untyped-audit: MMIO ");
+            put_hex(lo);
+            put_str("..");
+            put_hex(hi);
+            if (own) {
+                put_str(" owned ");
+                put_str(own);
+                put_str("\n");
+            } else if (gic) {
+                put_str(" gic-area\n");
+            } else {
+                unowned_mmio++;
+                put_str(d->isDevice ? " UNOWNED device\n" : " UNOWNED ram\n");
+            }
             continue;
         }
         if (lo >= OWN_RAM_BASE && hi <= OWN_RAM_BASE + KN_RAM_SIZE) {
@@ -321,7 +384,9 @@ static void untyped_audit(void)
     put_dec(overlap);
     put_str(" peer-ram=");
     put_dec(peer);
-    put_str(overlap ? " FAIL\n" : " PASS\n");
+    put_str(" unowned-mmio=");
+    put_dec(unowned_mmio);
+    put_str((overlap || unowned_mmio) ? " FAIL\n" : " PASS\n");
 }
 
 /*
@@ -866,8 +931,21 @@ static void k0_serve(void)
 {
     static mk_channel_message_t m;
 
-    while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
-        gw_on_frame(m.type, m.payload, m.length);
+    for (;;) {
+        mk_channel_status_t st = mk_channel_try_recv(&channel, &m);
+        if (st == MK_CHANNEL_OK) {
+            gw_on_frame(m.type, m.payload, m.length);
+            continue;
+        }
+        if (st == MK_CHANNEL_CORRUPT) {
+            /* A bad-sequence slot (e.g. from compromised K1). Drop it and
+             * resynchronise instead of wedging the channel until reboot. */
+            if (mk_channel_drop_one(&channel) == MK_CHANNEL_OK) {
+                gw_note_corrupt_dropped();
+                continue;
+            }
+        }
+        break; /* EMPTY, or nothing left to drop */
     }
 }
 
@@ -1281,6 +1359,7 @@ int main(void)
                 .queue_depth = (uint32_t)(((const volatile mk_channel_control_t *)&peer_ring->control)->tx_head -
                                           ((const volatile mk_channel_control_t *)&local_ring->control)->rx_tail),
                 .send_failures = (uint32_t)gw_send_failures(),
+                .corrupt_dropped = gw_corrupt_dropped(),
             };
             pets_this_tick = 0;
             k0_send(GW_MSG_K0_STATS, &st, sizeof(st));

@@ -56,6 +56,66 @@
 			reg = <0x0 0xad400000 0x0 0x12c00000>;
 			sel4,foreign-memory;
 		};
+
+		/* Peripheral ownership (allow-list): reserve every MMIO range K1
+		 * does not own, leaving only K1's owned pages as device untypeds.
+		 * K1 owns ETH1 (0x482c0000, 16 KiB), SYSCFG (0x44230000) and the
+		 * GPIO banks A/B/C/F/H used by the ETH1 pins and the PHY reset.
+		 * The holes below (one reservation between each owned page) are the
+		 * only peripheral device untypeds K1 receives, so its compromised
+		 * network code cannot map RCC, IWDG or any peripheral K0 depends on.
+		 * The ETH1 DMA window (0xab800000..0xac000000) stays an unreserved
+		 * gap because K1 carves it as a device untyped. The GIC
+		 * (0x4ac00000..0x4ad00000) and console UART are kernel devices.
+		 * The rootserver's untyped-audit enforces the same allow-list. */
+		mmio-low@0 {
+			reg = <0x0 0x0 0x0 0x40000000>;
+			sel4,foreign-memory;
+		};
+		mmio-a@40000000 {
+			reg = <0x0 0x40000000 0x0 0x04230000>; /* ..0x44230000 (SYSCFG) */
+			sel4,foreign-memory;
+		};
+		mmio-b@44231000 {
+			reg = <0x0 0x44231000 0x0 0x0000f000>; /* ..0x44240000 (GPIOA) */
+			sel4,foreign-memory;
+		};
+		mmio-c@44241000 {
+			reg = <0x0 0x44241000 0x0 0x0000f000>; /* ..0x44250000 (GPIOB) */
+			sel4,foreign-memory;
+		};
+		mmio-d@44251000 {
+			reg = <0x0 0x44251000 0x0 0x0000f000>; /* ..0x44260000 (GPIOC) */
+			sel4,foreign-memory;
+		};
+		mmio-e@44261000 {
+			reg = <0x0 0x44261000 0x0 0x0002f000>; /* ..0x44290000 (GPIOF) */
+			sel4,foreign-memory;
+		};
+		mmio-f@44291000 {
+			reg = <0x0 0x44291000 0x0 0x0001f000>; /* ..0x442b0000 (GPIOH) */
+			sel4,foreign-memory;
+		};
+		mmio-g@442b1000 {
+			reg = <0x0 0x442b1000 0x0 0x0400f000>; /* ..0x482c0000 (ETH1) */
+			sel4,foreign-memory;
+		};
+		mmio-h@482c4000 {
+			reg = <0x0 0x482c4000 0x0 0x01d3c000>; /* ..0x4a000000 */
+			sel4,foreign-memory;
+		};
+		mmio-pre-gic@4a000000 {
+			reg = <0x0 0x4a000000 0x0 0x00c00000>; /* ..0x4ac00000 (GIC area) */
+			sel4,foreign-memory;
+		};
+		mmio-post-gic@4ad00000 {
+			reg = <0x0 0x4ad00000 0x0 0x35300000>; /* 0x4ad00000..0x80000000 */
+			sel4,foreign-memory;
+		};
+		mmio-high@c0000000 {
+			reg = <0x0 0xc0000000 0xff 0x40000000>; /* 0xc0000000..0x10000000000 */
+			sel4,foreign-memory;
+		};
 	};
 
 	intc: interrupt-controller@4ac10000 {
