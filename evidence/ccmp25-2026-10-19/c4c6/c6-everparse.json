@@ -1,0 +1,122 @@
+{
+ "engine": "everparse",
+ "probes": [
+  {
+   "probe": "forged_role",
+   "http": 200,
+   "result": {
+    "probe": "forged_role",
+    "rc": 0,
+    "result": 1,
+    "note": "K0 decides on the fields K1 asserts"
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "forged_scope",
+   "http": 200,
+   "result": {
+    "probe": "forged_scope",
+    "rc": 0,
+    "result": 0,
+    "digest": "1c87d388f42b17aa"
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "oversize",
+   "http": 200,
+   "result": {
+    "probe": "oversize",
+    "rc": 0,
+    "result": 0,
+    "expect": "deny (0)"
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "truncated",
+   "http": 200,
+   "result": {
+    "probe": "truncated",
+    "rc": -1,
+    "expect_rc": -1,
+    "followup_rc": 0,
+    "followup_result": 0
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "bad_type",
+   "http": 200,
+   "result": {
+    "probe": "bad_type",
+    "rc": -1,
+    "expect_rc": -1,
+    "followup_rc": 0,
+    "followup_result": 0
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "k0_ram",
+   "http": 200,
+   "result": {
+    "probe": "k0_ram",
+    "k1_untyped_covering_k0_ram": 0,
+    "expect": 0
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "sgi_flood",
+   "http": 200,
+   "result": {
+    "probe": "sgi_flood",
+    "signals": 100000,
+    "ms": 45,
+    "followup_rc": 0,
+    "followup_result": 0
+   },
+   "uptime_before": 4,
+   "uptime_after": 4,
+   "board_survived": true
+  },
+  {
+   "probe": "silent",
+   "http": 200,
+   "result": {
+    "probe": "silent",
+    "silent_s": 40,
+    "followup_rc": 0
+   },
+   "uptime_before": 4,
+   "uptime_after": 44,
+   "board_survived": true
+  },
+  {
+   "probe": "bad_sequence",
+   "http": 200,
+   "result": {
+    "probe": "bad_sequence",
+    "k0_corrupt_before": 0,
+    "k0_corrupt_after": 2
+   },
+   "gated_request_after": 503,
+   "uptime_after_35s": 82
+  }
+ ],
+ "serial_log": "Starting kernel ...\n\n\nELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0\n  paddr=[88000000..880ed29f]\n  dtb=b800a000\nLooking for DTB in CPIO archive...found at 88045b90.\nLoaded DTB from 88045b90.\n   paddr=[84246000..84246fff]\nELF-loading image 'kernel' to 84000000\n  paddr=[84000000..84245fff]\n  vaddr=[8084000000..8084245fff]\n  virt_entry=8084000000\nELF-loading image 'rootserver' to 84247000\n  paddr=[84247000..84b9cfff]\n  vaddr=[400000..d55fff]\n  virt_entry=4090b0\nmultikernel: loading 2-kernel ARM bundle\nmultikernel: K1 wants phys [98000000..98246000)\nELF-loading image 'kernel_1' to 98000000\n  paddr=[98000000..98245fff]\n  vaddr=[8098000000..8098245fff]\n  virt_entry=8098000000\nmultikernel: K1 dtb at 98246000 (1696 bytes)\nELF-loading image 'rootserver_1' to 98247000\n  paddr=[98247000..98410fff]\n  vaddr=[400000..5c9fff]\n  virt_entry=411398\nmultikernel: K1 core1 stub staged at 98400000 (132 bytes)\nmultikernel: K1 loaded entry=8098000000 user=[98247000..98411000] uentry=411398 dtb=98246000/1696\nmultikernel: secondaries loaded, left for K0 to start\nEnabling hypervisor MMU and jumping to entry point...\n\n[K0] Bootstrapping kernel\n[K0] Available phys memory regions: 1\n[K0]   [84000000..98000000)\n[K0] Reserved virt address space regions: 6\n[K0]   [8080000000..8084000000)\n[K0]   [8084000000..8084246000)\n[K0]   [8084246000..80842466a0)\n[K0]   [8084247000..8084b9d000)\n[K0]   [8098000000..80ac000000)\n[K0]   [80ad400000..80c0000000)\n[K0] Booting all finished, dropped to user space\n[K0] rootserver up, build ccwmp25-mk-c3-v16\n[K0] untyped-audit: untypeds=65 device=39 overlap=0 peer-ram=0 PASS\n[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0\n[K0] dispatch: PSCI CPU_ON ret=0\n[K1] Bootstrapping kernel\n[K1] Available phys memory regions: 1\n[K1]   [98000000..ab800000)\n[K1] Reserved virt address space regions: 6\n[K1]   [8080000000..8084000000)\n[K1]   [8084000000..8098000000)\n[K1]   [8098000000..8098246000)\n[K1]   [8098246000..80982466a0)\n[K1]   [8098247000..8098411000)\n[K1]   [80ad400000..80c0000000)\n[K1] Booting all finished, dropped to user space\n[K1] rootserver up, build ccwmp25-mk-c3-v16\n[K1] untyped-audit: untypeds=71 device=40 overlap=0 peer-ram=0 PASS\n[K0] idle: cntfrq=40000000 Hz, cpu=1199999814 cycles/s\n[K0] optee: SCMI PTA session 1, shm pa 0x0000000084001000\n[K0] scmi: clock ICN_LS_MCU (64) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock FLEXGEN_54/ETH1_KER (54) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock FLEXGEN_56/ETH1_PTP (56) attr_status=0 enabled 0 -> enable status=0 -> enabled 1\n[K0] scmi: clock GPIOA (89) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\nled 1  c ennble status=x -0 en0bacd01000 rw,0]eer 0x000o000GPc000094 ro, r_vtaeus=GI nabled 1 -> enable status=0 -> enabled 1\n[K0] scmi: clock GPIOH (96) attr_status=0 enabled 1 -> enable status=0 -> enabled 1\n[K0] rcc: ETH1CFGR 0x0000000000000f66 -> 0x0000000000000f76 (gates on, out of reset)\n[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1\n[K1] channel: READY abi=2 epoch=0x10170001206b8926\n[K0] channel: READY abi=2 epoch=0x10170001206b8926\n[K1] bench: first PING received\n[K0] bench: first PONG received\n[K1] bench: echoed 11000 PINGs\n[K1] bench: sent=11000 received=11000 full=0 corrupt=0\n[K0] bench: 10000 round trips x 512 B: min=27375ns p50=28175ns p99=29550ns max=30200ns mean=28251ns rate=28394 rt/s\n[K0] bench: sent=11000 received=11000 full=0 corrupt=0\n[K0] gw: engine=everparse ready, digest=0x1c87d388f42b17aa\n[K0] gw: default policy installed\n[K0] \n[K0] Warning: using printf before serial is set up. This only works as your\n[K0] printf is backed by seL4_Debug_PutChar()\n[K0] C2_RESULT,engine=everparse,case=empty_bracket,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=11,p50=11,p90=11,p99=11,max=18,mean=11,loop_cntpct_ticks=1046,cntfrq=40000000,mismatches=0\n[K0] C2_RESULT,engine=everparse,case=allow_first,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1023,p50=1023,p90=1023,p99=1023,max=1049,mean=1023,loop_cntpct_ticks=34837,cntfrq=40000000,mismatche0\n[K0] C2_RESULT,engine=everparse,case=allow_last,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1042,p50=1042,p90=1042,p99=1042,max=1070,mean=1042,loop_cntpct_ticks=35471,cntfrq=40000000,mismatches0\n[K0] C2_RESULT,engine=everparse,case=deny_path,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1051,p50=1051,p90=1051,p99=1051,max=2131,mean=1052,loop_cntpct_ticks=35809,cntfrq=40000000,mismatches=0\n[K0] c1: start engine=everparse\n[K0] EQUIVALENCE_OK,engine=everparse,comparisons=12527\n[K0] c1: done rc=0 ms=16\n[K0] gw: default policy installed\nK1] eth: MAC_VERSION=0x0000000000001a53\n[K1] eth: SYSCFG_ETH1CR 0x0000000000000010 -> 0x0000000000000010\n[K1] phy: id=0x0000000001410dd1 (Marvell 88E1512)\n[K1] eth: DMA reset done\n[K1] eth: rx fifo 4096 B, tx fifo 8192 B, rings at 0x00000000ab800000\n[K1] net: 192.168.40.129/24 mac 02:cc:25:00:00:01, http :80\n[K1] idle: blocking on PPI 30 + SGI 1\n[K0] tick 0 engine=everparse busy=0.011% ping=0ns timeouts=0 stale=0\n[K1] tick 0 busy=0.076% pongs=11000 dropped=0\n[K0] tick 1 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K1] tick 1 busy=0.056% pongs=11000 dropped=0\n[K0] tick 2 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K1] phy: link up 1000/full\n[K1] tick 2 busy=0.058% pongs=11000 dropped=0\n[K0] tick 3 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K1] tick 3 busy=5.431% pongs=11005 dropped=0\n[K0] tick 4 engine=everparse busy=4.629% ping=0ns timeouts=0 stale=0\n[K0] tick 5 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 6 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 7 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 8 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 9 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 10 engine=everparse busy=0.056% ping=0ns timeouts=0 stale=0\n[K0] tick 11 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 12 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 13 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 14 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 15 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 16 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 17 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 18 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 19 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 20 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 21 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 22 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 23 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 24 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 25 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 26 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 27 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 28 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 29 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 30 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 31 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 32 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 33 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 34 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 35 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 36 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 37 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 38 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 39 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 40 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 41 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 42 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K0] tick 43 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 4 busy=4004.813% pongs=11009 dropped=0\n[K0] tick 44 engine=everparse busy=0.066% ping=0ns timeouts=0 stale=0\n[K1] tick 5 busy=50.046% pongs=11009 dropped=0\n[K1] tick 6 busy=0.012% pongs=11009 dropped=0\n[K1] tick 7 busy=0.007% pongs=11009 dropped=0\n[K1] tick 8 busy=0.007% pongs=11009 dropped=0\n[K1] tick 9 busy=0.007% pongs=11009 dropped=0\n[K1] tick 10 busy=0.007% pongs=11009 dropped=0\n[K1] tick 11 busy=0.007% pongs=11009 dropped=0\n[K0] tick 45 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 12 busy=0.007% pongs=11009 dropped=0\n[K1] tick 13 busy=0.007% pongs=11009 dropped=0\n[K1] tick 14 busy=0.007% pongs=11009 dropped=0\n[K1] tick 15 busy=0.007% pongs=11009 dropped=0\n[K1] tick 16 busy=0.007% pongs=11009 dropped=0\n[K1] tick 17 busy=0.007% pongs=11009 dropped=0\n[K1] tick 18 busy=0.007% pongs=11009 dropped=0\n[K1] tick 19 busy=0.007% pongs=11009 dropped=0\n[K1] tick 20 busy=0.007% pongs=11009 dropped=0\n[K1] tick 21 busy=0.007% pongs=11009 dropped=0\n[K0] tick 46 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 22 busy=0.007% pongs=11009 dropped=0\n[K1] tick 23 busy=0.007% pongs=11009 dropped=0\n[K1] tick 24 busy=0.007% pongs=11009 dropped=0\n[K1] tick 25 busy=0.007% pongs=11009 dropped=0\n[K1] tick 26 busy=20.014% pongs=11010 dropped=0\n[K1] tick 27 busy=0.012% pongs=11010 dropped=0\n[K1] tick 28 busy=0.007% pongs=11010 dropped=0\n[K1] tick 29 busy=0.007% pongs=11010 dropped=0\n[K1] tick 30 busy=0.007% pongs=11010 dropped=0\n[K0] tick 47 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 31 busy=0.007% pongs=11010 dropped=0\n[K1] tick 32 busy=0.007% pongs=11010 dropped=0\n[K1] tick 33 busy=0.007% pongs=11010 dropped=0\n[K1] tick 34 busy=0.007% pongs=11010 dropped=0\n[K1] tick 35 busy=0.007% pongs=11010 dropped=0\n[K1] tick 36 busy=0.007% pongs=11010 dropped=0\n[K1] tick 37 busy=0.007% pongs=11010 dropped=0\n[K1] tick 38 busy=0.007% pongs=11010 dropped=0\n[K1] tick 39 busy=0.007% pongs=11010 dropped=0\n[K1] tick 40 busy=0.007% pongs=11010 dropped=0\n[K0] tick 48 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 41 busy=0.007% pongs=11010 dropped=0\n[K1] tick 42 busy=0.007% pongs=11010 dropped=0\n[K1] tick 43 busy=0.007% pongs=11010 dropped=0\n[K1] tick 44 busy=0.007% pongs=11010 dropped=0\n[K1] tick 45 busy=0.007% pongs=11010 dropped=0\n[K1] tick 46 busy=0.007% pongs=11010 dropped=0\n[K1] tick 47 busy=0.007% pongs=11010 dropped=0\n[K1] tick 48 busy=0.007% pongs=11010 dropped=0\n[K0] tick 49 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 49 busy=0.045% pongs=11010 dropped=0\n[K0] tick 50 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 50 busy=0.056% pongs=11010 dropped=0\n[K0] tick 51 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 51 busy=0.056% pongs=11010 dropped=0\n[K0] tick 52 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 52 busy=0.056% pongs=11010 dropped=0\n[K0] tick 53 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 53 busy=0.056% pongs=11010 dropped=0\n[K0] tick 54 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 54 busy=0.056% pongs=11010 dropped=0\n[K0] tick 55 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 55 busy=0.056% pongs=11010 dropped=0\n[K0] tick 56 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 56 busy=0.056% pongs=11010 dropped=0\n[K0] tick 57 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 57 busy=0.056% pongs=11010 dropped=0\n[K0] tick 58 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 58 busy=0.056% pongs=11010 dropped=0\n[K0] tick 59 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 59 busy=0.056% pongs=11010 dropped=0\n[K0] tick 60 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 60 busy=0.056% pongs=11010 dropped=0\n[K0] tick 61 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 61 busy=0.056% pongs=11010 dropped=0\n[K0] tick 62 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 62 busy=0.056% pongs=11010 dropped=0\n[K0] tick 63 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 63 busy=0.056% pongs=11010 dropped=0\n[K0] tick 64 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 64 busy=0.056% pongs=11010 dropped=0\n[K0] tick 65 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 65 busy=0.056% pongs=11010 dropped=0\n[K0] tick 66 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 66 busy=0.056% pongs=11010 dropped=0\n[K0] tick 67 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 67 busy=0.056% pongs=11010 dropped=0\n[K0] tick 68 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 68 busy=0.056% pongs=11010 dropped=0\n[K0] tick 69 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 69 busy=0.056% pongs=11010 dropped=0\n[K0] tick 70 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 70 busy=0.056% pongs=11010 dropped=0\n[K0] tick 71 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 71 busy=0.056% pongs=11010 dropped=0\n[K0] tick 72 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 72 busy=0.056% pongs=11010 dropped=0\n[K0] tick 73 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 73 busy=0.056% pongs=11010 dropped=0\n[K0] tick 74 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 74 busy=0.056% pongs=11010 dropped=0\n[K0] tick 75 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 75 busy=0.056% pongs=11010 dropped=0\n[K0] tick 76 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 76 busy=0.056% pongs=11010 dropped=0\n[K0] tick 77 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 77 busy=0.056% pongs=11010 dropped=0\n[K0] tick 78 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 78 busy=0.056% pongs=11010 dropped=0\n[K0] tick 79 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 79 busy=0.056% pongs=11010 dropped=0\n[K0] tick 80 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 80 busy=0.056% pongs=11010 dropped=0\n[K0] tick 81 engine=everparse busy=0.065% ping=0ns timeouts=0 stale=0\n[K1] tick 81 busy=0.056% pongs=11010 dropped=0\n\nCTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0                                                                                                                                 \n"
+}

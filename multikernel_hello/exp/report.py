@@ -27,7 +27,7 @@ def main():
                  f"{fmt(d['median_of_block_medians_us'])} | {fmt(a['block_median_min_us'])}–{fmt(a['block_median_max_us'])} | "
                  f"{fmt(d['block_median_min_us'])}–{fmt(d['block_median_max_us'])} | {a['blocks']} |")
     L.append("\nPer request inside the board (median over all timed requests):\n")
-    L.append("| Engine / scenario | K0 engine µs | K1→K0→K1 channel round trip µs |")
+    L.append("| Engine / scenario | K0 engine µs (PMU, wall) | K1 CPU µs during the K0 call (PMU stops in WFI: K1 busy time, not wall time) |")
     L.append("|---|---:|---:|")
     for k, v in s["per_request_cycles"].items():
         L.append(f"| {k} | {fmt(v['k0_engine_us_median'], 2)} | {fmt(v['k1_round_trip_us_median'], 2)} |")
