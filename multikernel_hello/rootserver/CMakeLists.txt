@@ -1,5 +1,5 @@
 if(NOT DEFINED ROOTSERVER_BUILD_ID)
-    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-c3-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
+    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-d1-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
 endif()
 
 add_library(mk_channel STATIC EXCLUDE_FROM_ALL ../channel/mk_channel.c)
@@ -31,21 +31,55 @@ if(MK_KERNEL_ID STREQUAL "0")
         MK_CORE1_TRAMPOLINE_PADDR=${MK_CORE1_TRAMPOLINE_PADDR}
     )
 endif()
-# ---- Paper experiments: access-control engine on K0 (vendored, ../gateway) ----
-set(MK_ENGINE "none" CACHE STRING "K0 engine: none | everparse | cedar")
+# ---- Paper experiments, corrected design: x86 D1 gate pipeline on K0 ----
+# (vendored unchanged in ../gateway; see gateway/PROVENANCE.txt)
+set(MK_ENGINE "everparse" CACHE STRING "K0 image: raw | gateonly | everparse | cedar")
 set(GW ${CMAKE_CURRENT_SOURCE_DIR}/../gateway)
-target_include_directories(rootserver_hello PRIVATE ${GW}/include)
+target_include_directories(rootserver_hello PRIVATE ${GW}/include ${GW}/demo/include)
 if(MK_KERNEL_ID STREQUAL "0")
-    target_sources(rootserver_hello PRIVATE gateway_k0.c)
+    set(MK_REAL_ENGINE 0)
+    if(MK_ENGINE STREQUAL "everparse" OR MK_ENGINE STREQUAL "cedar")
+        set(MK_REAL_ENGINE 1)
+    endif()
+    # The three D1 PDs, compiled from the unchanged x86 sources against the
+    # k0shim/microkit.h stand-in; each PD's entry points and config globals
+    # get a per-PD name so they can share K0's single image.
+    set(PDS ${GW}/demo/pds)
+    target_sources(rootserver_hello PRIVATE gateway_k0.c
+        ${PDS}/policy_gate.c ${PDS}/authenticator.c ${PDS}/protected_app.c
+        ${GW}/common/pipeline.c ${GW}/common/wire.c ${GW}/common/oracle.c
+        ${GW}/demo/generated/HTTP_Extract_Bearer.c ${GW}/demo/generated/HTTP_Extract_Complete.c
+        ${GW}/demo/generated/HTTP_Extract_Header.c ${GW}/demo/generated/HTTP_Extract_Method.c
+        ${GW}/demo/generated/HTTP_Extract_Path.c ${GW}/demo/generated/HTTP_Extract_Scan.c
+        ${GW}/demo/generated/HTTP_Extract_Types.c)
+    target_include_directories(rootserver_hello PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/k0shim ${GW}/demo/generated ${GW}/engines/everparse/generated)
     target_compile_definitions(rootserver_hello PRIVATE MK_ENGINE_${MK_ENGINE}=1
-                               MK_ENGINE_NAME="${MK_ENGINE}")
-    if(NOT MK_ENGINE STREQUAL "none")
+                               MK_ENGINE_NAME="${MK_ENGINE}" MK_REAL_ENGINE=${MK_REAL_ENGINE}
+                               D1_FAULT_KIND=0)
+    set_source_files_properties(${PDS}/policy_gate.c PROPERTIES COMPILE_DEFINITIONS
+        "init=pg_init;notified=pg_notified;demo_config=pg_demo_config;auth_config=pg_auth_config")
+    set_source_files_properties(${PDS}/authenticator.c PROPERTIES COMPILE_DEFINITIONS
+        "init=au_init;notified=au_notified;auth_config=au_auth_config")
+    set_source_files_properties(${PDS}/protected_app.c PROPERTIES COMPILE_DEFINITIONS
+        "init=pa_init;notified=pa_notified;demo_config=pa_demo_config")
+    # As x86 demo.mk: the F* extractor's write_u32_le must not clash with wire.c's.
+    file(GLOB FSTAR_C ${GW}/demo/generated/*.c)
+    set_source_files_properties(${FSTAR_C} PROPERTIES COMPILE_DEFINITIONS
+        "write_u32_le=fstar_write_u32_le")
+    if(MK_REAL_ENGINE)
+        # D2: engine equivalence corpus and the F* extractor test vectors.
         add_library(gw_common STATIC EXCLUDE_FROM_ALL
-            ${GW}/common/oracle.c ${GW}/common/wire.c ${GW}/host_tests/test_equivalence.c)
-        target_include_directories(gw_common PUBLIC ${GW}/include)
-        target_compile_definitions(gw_common PRIVATE main=equivalence_main)
+            ${GW}/host_tests/test_equivalence.c ${GW}/verified/test_extractor.c)
+        target_include_directories(gw_common PUBLIC ${GW}/include ${GW}/demo/generated)
+        set_source_files_properties(${GW}/host_tests/test_equivalence.c PROPERTIES
+            COMPILE_DEFINITIONS "main=equivalence_main")
+        set_source_files_properties(${GW}/verified/test_extractor.c PROPERTIES
+            COMPILE_DEFINITIONS "main=extractor_test_main;write_u32_le=fstar_write_u32_le")
         target_link_libraries(gw_common PUBLIC muslc)
         target_link_libraries(rootserver_hello PRIVATE gw_common)
+    else()
+        target_sources(rootserver_hello PRIVATE engine_accept_all.c)
     endif()
     if(MK_ENGINE STREQUAL "everparse")
         set(EP ${GW}/engines/everparse)

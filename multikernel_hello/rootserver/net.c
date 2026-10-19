@@ -1,8 +1,6 @@
 /*
- * K1 only: lwIP (NO_SYS, raw API) on ETH1 plus a minimal HTTP/1.1 front end.
- *   GET /        -> 200, build ID
- *   GET /health  -> 200, JSON counters (serial-free check, brief V6)
- * HTTP model: see the "HTTP front end" comment below.
+ * K1 only: lwIP (NO_SYS, raw API) on ETH1 and a raw HTTP byte forwarder to
+ * K0 (see "Raw HTTP forwarder" below), plus a control port for health.
  * Static IP 192.168.40.129/24, MAC 02:cc:25:00:00:01 (locally administered).
  *
  * SPDX-License-Identifier: BSD-2-Clause
@@ -12,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #include "rs.h"
 #include "dwmac.h"
@@ -91,268 +90,344 @@ static void rx_frame(const uint8_t *frame, unsigned len)
     }
 }
 
-/* ---- HTTP front end (K1) ----
+/* ---- Raw HTTP forwarder (K1, untrusted) ----
  *
- * Board request model (mirrors the x86 D1 scenarios without TLS/login):
- *   Authorization: Bearer admin    -> role ADMIN,    scope 0xffff
- *   Authorization: Bearer operator -> role OPERATOR, scope 0x0001
- *   (none / unknown)               -> role NONE,     scope 0
- *   X-Rate: <n>                     -> rate_count (default 0; the board has
- *                                      no rate-counter component)
- *   /api/{login,logout,status,policy,demo,reports} -> PATH_* IDs; other
- *   /api/... paths -> FNV-1a hash (absent from any policy).
- * K1-local, not gated: GET /, GET /health, GET /probe/<name> (C6).
+ * Mirrors x86 demo/pds/lwip_proxy.c: one connection in flight; the request
+ * is read into a DEMO_PAYLOAD_BYTES buffer until the header end and
+ * Content-Length bytes (framing only, as on x86) have arrived; the bytes go
+ * to K0 unchanged as DEMO_MESSAGE_RAW_HTTP and K0's HTTP response bytes are
+ * written back. K1 parses no path or header beyond that framing, maps no
+ * token and sets no role, scope or rate. Board differences: port 80 (x86:
+ * 8080); a request that would overflow the buffer is reset (x86 refuses the
+ * pbuf and the client stalls); K0 is called synchronously (bounded wait).
+ *
+ * Port 81 is a K1-local control port (not HTTP): one line "health", "stats"
+ * or "probe <name>", answered with JSON. It never reaches K0's gate.
  */
-#include "gw_proto.h"
+#include "demo_wire.h"
 #include "gateway_abi.h"
 
-#define CONN_BUF 1024u
-#define MAX_CONN 8u
+#define DEMO_HTTP_PORT 80u
+#define CONTROL_PORT 81u
+#define K0_TIMEOUT_DIV 2u /* K0 deadline: 1/2 s */
+#define STATS_MAX 64u
 
-struct conn {
-    struct tcp_pcb *pcb;
-    uint32_t len;
-    char buf[CONN_BUF];
-};
-static struct conn conns[MAX_CONN];
-static uint32_t next_req_id = 1;
-static uint64_t k0_calls, k0_timeouts, decisions_allow, decisions_deny;
+static struct tcp_pcb *active_pcb;
+static uint16_t next_request_epoch = 1u;
+static uint16_t active_request_epoch;
+static uint8_t request_buffer[DEMO_PAYLOAD_BYTES];
+static uint32_t request_length;
+static uint32_t response_unacked;
+static bool request_ready;
+static uint8_t response_buffer[DEMO_PAYLOAD_BYTES];
+static uint32_t next_msg_id = 1;
+static uint64_t k0_calls, k0_timeouts, refused, oversize;
 
-static void http_reply(struct tcp_pcb *pcb, const char *status, const char *ctype,
-                       const char *extra_hdrs, const char *body, unsigned body_len)
+/* Per-request measurement, read and cleared through "stats" on port 81. */
+static struct {
+    uint64_t k1_cycles, k0_cycles;
+    uint32_t gate, auth, app;
+    uint16_t status;
+} stats[STATS_MAX];
+static uint32_t n_stats;
+
+static uint32_t find_header_end(const uint8_t *bytes, uint32_t length)
 {
-    char hdr[320];
-    int n = snprintf(hdr, sizeof(hdr),
-                     "HTTP/1.1 %s\r\nContent-Type: %s\r\nContent-Length: %u\r\n"
-                     "%sConnection: close\r\n\r\n", status, ctype, body_len,
-                     extra_hdrs ? extra_hdrs : "");
-    tcp_write(pcb, hdr, (u16_t)n, TCP_WRITE_FLAG_COPY);
-    if (body_len) {
-        tcp_write(pcb, body, (u16_t)body_len, TCP_WRITE_FLAG_COPY);
+    for (uint32_t i = 0u; i + 3u < length; ++i) {
+        if (bytes[i] == '\r' && bytes[i + 1u] == '\n' &&
+            bytes[i + 2u] == '\r' && bytes[i + 3u] == '\n') {
+            return i + 4u;
+        }
     }
-    tcp_output(pcb);
+    return 0u;
 }
 
-static void reply_text(struct tcp_pcb *pcb, const char *status, const char *body)
+static uint32_t parse_content_length(const uint8_t *bytes, uint32_t header_end)
 {
-    http_reply(pcb, status, "text/plain", NULL, body, (unsigned)strlen(body));
-}
-
-static const char *find_header(const char *req, const char *name)
-{
-    size_t n = strlen(name);
-    for (const char *p = strstr(req, "\r\n"); p && p[2] != '\r'; p = strstr(p + 2, "\r\n")) {
-        if (strncasecmp(p + 2, name, n) == 0 && p[2 + n] == ':') {
-            const char *v = p + 3 + n;
-            while (*v == ' ') {
-                v++;
+    static const char field[] = "Content-Length:";
+    const size_t field_length = sizeof(field) - 1u;
+    for (uint32_t i = 0u; i + field_length < header_end; ++i) {
+        if (memcmp(bytes + i, field, field_length) != 0) {
+            continue;
+        }
+        uint32_t cursor = i + (uint32_t)field_length;
+        while (cursor < header_end &&
+               (bytes[cursor] == ' ' || bytes[cursor] == '\t')) {
+            ++cursor;
+        }
+        uint32_t value = 0u;
+        while (cursor < header_end && bytes[cursor] >= '0' &&
+               bytes[cursor] <= '9') {
+            if (value > (DEMO_PAYLOAD_BYTES - 9u) / 10u) {
+                return DEMO_PAYLOAD_BYTES + 1u;
             }
-            return v;
+            value = value * 10u + (uint32_t)(bytes[cursor] - '0');
+            ++cursor;
         }
+        return value;
     }
-    return NULL;
+    return 0u;
 }
 
-static uint32_t path_id_of(const char *path, size_t n)
+static bool request_complete(void)
 {
-    static const struct { const char *p; uint32_t id; } map[] = {
-        { "/api/login", PATH_LOGIN }, { "/api/logout", PATH_LOGOUT },
-        { "/api/status", PATH_STATUS }, { "/api/policy", PATH_POLICY },
-        { "/api/demo", PATH_DEMO }, { "/api/reports", PATH_REPORTS },
-    };
-    for (unsigned i = 0; i < sizeof(map) / sizeof(map[0]); i++) {
-        if (strlen(map[i].p) == n && strncmp(path, map[i].p, n) == 0) {
-            return map[i].id;
-        }
+    const uint32_t header_end = find_header_end(request_buffer, request_length);
+    if (header_end == 0u) {
+        return false;
     }
-    uint32_t h = 2166136261u;
-    for (size_t i = 0; i < n; i++) {
-        h = (h ^ (uint8_t)path[i]) * 16777619u;
-    }
-    return h == INACTIVE_PATH_ID ? h + 1 : h;
+    const uint32_t body_length =
+        parse_content_length(request_buffer, header_end);
+    return body_length <= DEMO_PAYLOAD_BYTES &&
+        request_length >= header_end + body_length;
 }
 
-static uint8_t method_of(const char *m, size_t n)
+int k1_exchange(uint16_t kind, uint16_t epoch, const uint8_t *req, uint32_t len,
+                uint8_t *rsp, uint32_t cap, uint32_t *rsp_len, gw_frag_hdr_t *meta)
 {
-    static const struct { const char *s; uint8_t v; } map[] = {
-        { "GET", METHOD_GET }, { "POST", METHOD_POST }, { "PUT", METHOD_PUT },
-        { "DELETE", METHOD_DELETE }, { "PATCH", METHOD_PATCH }, { "HEAD", METHOD_HEAD },
-    };
-    for (unsigned i = 0; i < sizeof(map) / sizeof(map[0]); i++) {
-        if (strlen(map[i].s) == n && strncmp(m, map[i].s, n) == 0) {
-            return map[i].v;
+    static uint8_t frag[MK_CHANNEL_PAYLOAD_SIZE];
+    static mk_channel_message_t m;
+    gw_frag_hdr_t h = { .msg_id = next_msg_id++, .total = len, .kind = kind, .epoch = epoch };
+    uint32_t off = 0;
+
+    if (len > GW_MSG_MAX) {
+        return -1;
+    }
+    do {
+        uint32_t n = len - off < GW_FRAG_DATA ? len - off : GW_FRAG_DATA;
+        h.offset = off;
+        memcpy(frag, &h, sizeof(h));
+        memcpy(frag + sizeof(h), req + off, n);
+        if (k1_send_frame(GW_MSG_REQ_FRAG, frag, (uint32_t)sizeof(h) + n) != 0) {
+            return -1;
+        }
+        off += n;
+    } while (off < len);
+
+    const uint64_t deadline = k1_now() + k1_freq() / K0_TIMEOUT_DIV;
+    uint32_t have = 0, total = 0;
+    for (;;) {
+        gw_frag_hdr_t r;
+        if (k1_recv_frame(&m, deadline) != 0) {
+            return -1;
+        }
+        if (m.type != GW_MSG_RSP_FRAG || m.length < sizeof(r)) {
+            continue; /* not ours (e.g. a late reply) */
+        }
+        memcpy(&r, m.payload, sizeof(r));
+        uint32_t n = m.length - (uint32_t)sizeof(r);
+        if (r.msg_id != h.msg_id) {
+            continue;
+        }
+        if (r.offset == 0) {
+            total = r.total;
+            have = 0;
+        }
+        if (r.offset != have || total > cap || n > total - have) {
+            return -1;
+        }
+        memcpy(rsp + have, m.payload + sizeof(r), n);
+        have += n;
+        if (have == total) {
+            if (meta) {
+                *meta = r;
+            }
+            *rsp_len = total;
+            return 0;
         }
     }
-    return 0;
 }
 
-static void health(struct tcp_pcb *pcb)
+static void reset_connection_state(void)
 {
-    char body[512];
-    int n = snprintf(body, sizeof(body),
+    active_pcb = NULL;
+    active_request_epoch = 0u;
+    request_length = 0u;
+    response_unacked = 0u;
+    request_ready = false;
+}
+
+static err_t response_sent(void *argument, struct tcp_pcb *pcb, u16_t length)
+{
+    (void)argument;
+    if (pcb != active_pcb) {
+        return ERR_OK;
+    }
+    if (length >= response_unacked) {
+        response_unacked = 0u;
+        tcp_arg(pcb, NULL);
+        tcp_sent(pcb, NULL);
+        tcp_recv(pcb, NULL);
+        tcp_err(pcb, NULL);
+        if (tcp_close(pcb) != ERR_OK) {
+            tcp_abort(pcb);
+            reset_connection_state();
+            return ERR_ABRT;
+        }
+        reset_connection_state();
+    } else {
+        response_unacked -= length;
+    }
+    return ERR_OK;
+}
+
+static void connection_error(void *argument, err_t error)
+{
+    struct tcp_pcb *failed_pcb = argument;
+    (void)error;
+    if (failed_pcb == active_pcb) {
+        reset_connection_state();
+    }
+}
+
+/* Forward the buffered request to K0 and queue K0's response bytes.
+ * Returns ERR_ABRT if the connection was aborted. */
+static err_t forward_request(struct tcp_pcb *pcb)
+{
+    gw_frag_hdr_t meta;
+    uint32_t n = 0;
+    uint64_t c0 = rs_pmccntr();
+    int rc = k1_exchange(DEMO_MESSAGE_RAW_HTTP, active_request_epoch, request_buffer,
+                         request_length, response_buffer, sizeof(response_buffer), &n, &meta);
+    uint64_t k1_cycles = rs_pmccntr() - c0;
+    k0_calls++;
+    if (rc != 0 || meta.kind != DEMO_MESSAGE_HTTP_RESPONSE || n == 0 || n > UINT16_MAX ||
+        meta.epoch != active_request_epoch) {
+        k0_timeouts++;
+        tcp_abort(pcb); /* x86 lwip_proxy drops a request with no valid response */
+        reset_connection_state();
+        return ERR_ABRT;
+    }
+    if (n_stats < STATS_MAX) {
+        uint16_t status = 0;
+        if (n >= 12) {
+            status = (uint16_t)((response_buffer[9] - '0') * 100 + (response_buffer[10] - '0') * 10 +
+                                (response_buffer[11] - '0'));
+        }
+        stats[n_stats].k1_cycles = k1_cycles;
+        stats[n_stats].k0_cycles = meta.k0_cycles;
+        stats[n_stats].gate = meta.gate_cycles;
+        stats[n_stats].auth = meta.auth_cycles;
+        stats[n_stats].app = meta.app_cycles;
+        stats[n_stats].status = status;
+        n_stats++;
+    }
+    if (tcp_write(pcb, response_buffer, (u16_t)n, TCP_WRITE_FLAG_COPY) != ERR_OK) {
+        tcp_abort(pcb);
+        reset_connection_state();
+        return ERR_ABRT;
+    }
+    response_unacked = n;
+    tcp_output(pcb);
+    return ERR_OK;
+}
+
+static err_t receive_http(void *argument, struct tcp_pcb *pcb, struct pbuf *pbuf, err_t error)
+{
+    (void)argument;
+    if (pcb != active_pcb) {
+        if (pbuf != NULL) {
+            pbuf_free(pbuf);
+        }
+        return ERR_OK;
+    }
+    if (pbuf == NULL) {
+        tcp_close(pcb);
+        reset_connection_state();
+        return ERR_OK;
+    }
+    if (error != ERR_OK) {
+        pbuf_free(pbuf);
+        return error;
+    }
+    if (request_ready) {
+        tcp_recved(pcb, pbuf->tot_len);
+        pbuf_free(pbuf); /* bytes after a complete request are ignored */
+        return ERR_OK;
+    }
+    if (request_length + pbuf->tot_len > sizeof(request_buffer)) {
+        oversize++;
+        pbuf_free(pbuf);
+        tcp_abort(pcb);
+        reset_connection_state();
+        return ERR_ABRT;
+    }
+    const u16_t copied = pbuf_copy_partial(pbuf, request_buffer + request_length,
+                                           pbuf->tot_len, 0u);
+    request_length += copied;
+    tcp_recved(pcb, copied);
+    pbuf_free(pbuf);
+
+    if (request_complete()) {
+        request_ready = true;
+        http_requests++;
+        return forward_request(pcb);
+    }
+    return ERR_OK;
+}
+
+static err_t accept_http(void *argument, struct tcp_pcb *pcb, err_t error)
+{
+    (void)argument;
+    if (error != ERR_OK || active_pcb != NULL) {
+        refused++;
+        return ERR_MEM; /* lwIP aborts it: one request in flight, as on x86 */
+    }
+    reset_connection_state();
+    active_pcb = pcb;
+    active_request_epoch = next_request_epoch;
+    ++next_request_epoch;
+    if (next_request_epoch == 0u) {
+        next_request_epoch = 1u;
+    }
+    tcp_nagle_disable(pcb);
+    tcp_arg(pcb, pcb);
+    tcp_recv(pcb, receive_http);
+    tcp_sent(pcb, response_sent);
+    tcp_err(pcb, connection_error);
+    return ERR_OK;
+}
+
+/* ---- Port 81: K1-local control (health, per-request stats, D7 probes) ---- */
+
+static char ctl_line[64];
+static uint32_t ctl_len;
+static char ctl_out[STATS_MAX * 112u + 512u];
+
+static int health(char *out, unsigned cap)
+{
+    return snprintf(out, cap,
              "{\"build\":\"%s\",\"uptime_s\":%llu,\"rx\":%llu,\"tx\":%llu,"
              "\"rx_err\":%llu,\"tx_err\":%llu,\"dma_err\":%llu,\"http\":%llu,"
-             "\"k0_calls\":%llu,\"k0_timeouts\":%llu,\"allow\":%llu,\"deny\":%llu}\n",
+             "\"k0_calls\":%llu,\"k0_timeouts\":%llu,\"refused\":%llu,\"oversize\":%llu}\n",
              build_id, (unsigned long long)((rs_cntpct() - t0) / freq),
              (unsigned long long)eth1_stats.rx, (unsigned long long)eth1_stats.tx,
              (unsigned long long)eth1_stats.rx_err, (unsigned long long)eth1_stats.tx_err,
              (unsigned long long)eth1_stats.dma_err, (unsigned long long)http_requests,
              (unsigned long long)k0_calls, (unsigned long long)k0_timeouts,
-             (unsigned long long)decisions_allow, (unsigned long long)decisions_deny);
-    http_reply(pcb, "200 OK", "application/json", NULL, body, (unsigned)n);
+             (unsigned long long)refused, (unsigned long long)oversize);
 }
 
-/* Forward one decision/update to K0 and reply to the client. */
-static void gated(struct tcp_pcb *pcb, gw_req_t *req, uint16_t type)
+static int stats_json(char *out, unsigned cap)
 {
-    static gw_rsp_t rsp;
-    char hdrs[160];
-
-    req->req_id = next_req_id++;
-    uint64_t c0 = rs_pmccntr();
-    int rc = k1_call_k0(type, req, (uint32_t)(offsetof(gw_req_t, body) + req->body_len),
-                        &rsp, sizeof(rsp));
-    uint64_t k1_cycles = rs_pmccntr() - c0;
-    k0_calls++;
-    if (rc != 0 || rsp.req_id != req->req_id) {
-        k0_timeouts++;
-        reply_text(pcb, "503 Service Unavailable", "k0 did not answer\n");
-        return;
+    int n = snprintf(out, cap, "{\"requests\":[");
+    for (uint32_t i = 0; i < n_stats && n > 0 && (unsigned)n < cap; i++) {
+        n += snprintf(out + n, cap - (unsigned)n,
+                      "%s{\"status\":%u,\"k1\":%llu,\"k0\":%llu,\"gate\":%u,\"auth\":%u,\"app\":%u}",
+                      i ? "," : "", stats[i].status, (unsigned long long)stats[i].k1_cycles,
+                      (unsigned long long)stats[i].k0_cycles, stats[i].gate, stats[i].auth,
+                      stats[i].app);
     }
-    snprintf(hdrs, sizeof(hdrs),
-             "X-Engine-Cycles: %llu\r\nX-Channel-Cycles: %llu\r\nX-Policy-Digest: %016llx\r\n",
-             (unsigned long long)rsp.engine_cycles, (unsigned long long)k1_cycles,
-             (unsigned long long)rsp.policy_digest);
-    if (type == GW_MSG_UPDATE) {
-        if (rsp.result == UPDATE_APPLIED) {
-            http_reply(pcb, "200 OK", "text/plain", hdrs, "applied\n", 8);
-        } else {
-            http_reply(pcb, "403 Forbidden", "text/plain", hdrs, "rejected\n", 9);
-        }
-        return;
+    n_stats = 0;
+    if (n > 0 && (unsigned)n < cap) {
+        n += snprintf(out + n, cap - (unsigned)n, "]}\n");
     }
-    switch (rsp.result) {
-    case DECISION_ALLOW:
-        decisions_allow++;
-        http_reply(pcb, "200 OK", "application/json", hdrs, rsp.body,
-                   rsp.body_len <= sizeof(rsp.body) ? rsp.body_len : 0);
-        break;
-    case DECISION_DENY:
-        decisions_deny++;
-        http_reply(pcb, "403 Forbidden", "text/plain", hdrs, "denied\n", 7);
-        break;
-    case DECISION_RATE_LIMITED:
-        decisions_deny++;
-        http_reply(pcb, "429 Too Many Requests", "text/plain", hdrs, "rate limited\n", 13);
-        break;
-    default:
-        http_reply(pcb, "500 Internal Server Error", "text/plain", hdrs, "error\n", 6);
-        break;
-    }
+    return n;
 }
 
-static void handle_request(struct tcp_pcb *pcb, char *req, uint32_t body_off, uint32_t body_len)
+static err_t control_recv(void *argument, struct tcp_pcb *pcb, struct pbuf *p, err_t err)
 {
-    static gw_req_t g;
-    http_requests++;
-
-    const char *sp1 = strchr(req, ' ');
-    const char *sp2 = sp1 ? strchr(sp1 + 1, ' ') : NULL;
-    if (!sp1 || !sp2) {
-        reply_text(pcb, "400 Bad Request", "bad request line\n");
-        return;
-    }
-    const char *path = sp1 + 1;
-    size_t plen = (size_t)(sp2 - path);
-    if (plen == 1 && *path == '/') {
-        char body[96];
-        int n = snprintf(body, sizeof(body), "ccwmp25 seL4 multikernel K1 %s\n", build_id);
-        http_reply(pcb, "200 OK", "text/plain", NULL, body, (unsigned)n);
-        return;
-    }
-    if (plen == 7 && strncmp(path, "/health", 7) == 0) {
-        health(pcb);
-        return;
-    }
-    if (plen > 7 && strncmp(path, "/probe/", 7) == 0) {
-        char out[384];
-        char name[32];
-        size_t nl = plen - 7 < sizeof(name) - 1 ? plen - 7 : sizeof(name) - 1;
-        memcpy(name, path + 7, nl);
-        name[nl] = 0;
-        int n = k1_probe(name, out, sizeof(out));
-        http_reply(pcb, n >= 0 ? "200 OK" : "404 Not Found", "application/json", NULL,
-                   out, n >= 0 ? (unsigned)n : 0);
-        return;
-    }
-    if (plen < 5 || strncmp(path, "/api/", 5) != 0) {
-        reply_text(pcb, "404 Not Found", "not found\n");
-        return;
-    }
-
-    memset(&g, 0, sizeof(g));
-    g.method = method_of(req, (size_t)(sp1 - req));
-    g.path_id = path_id_of(path, plen);
-    const char *auth = find_header(req, "Authorization");
-    if (auth && strncmp(auth, "Bearer admin\r", 13) == 0) {
-        g.role = ROLE_ADMIN;
-        g.scope = 0xffff;
-    } else if (auth && strncmp(auth, "Bearer operator\r", 16) == 0) {
-        g.role = ROLE_OPERATOR;
-        g.scope = 0x0001;
-    }
-    const char *rate = find_header(req, "X-Rate");
-    if (rate) {
-        unsigned long r = strtoul(rate, NULL, 10);
-        g.rate_count = (uint8_t)(r > 255 ? 255 : r);
-    }
-    if (g.path_id == PATH_POLICY && g.method == METHOD_PUT) {
-        g.body_len = body_len > GW_BODY_MAX ? GW_BODY_MAX : body_len;
-        memcpy(g.body, req + body_off, g.body_len);
-        gated(pcb, &g, GW_MSG_UPDATE);
-        return;
-    }
-    gated(pcb, &g, GW_MSG_DECIDE);
-}
-
-static struct conn *conn_of(struct tcp_pcb *pcb)
-{
-    for (unsigned i = 0; i < MAX_CONN; i++) {
-        if (conns[i].pcb == pcb) {
-            return &conns[i];
-        }
-    }
-    for (unsigned i = 0; i < MAX_CONN; i++) {
-        if (!conns[i].pcb) {
-            conns[i].pcb = pcb;
-            conns[i].len = 0;
-            return &conns[i];
-        }
-    }
-    return NULL;
-}
-
-static void conn_release(struct tcp_pcb *pcb)
-{
-    for (unsigned i = 0; i < MAX_CONN; i++) {
-        if (conns[i].pcb == pcb) {
-            conns[i].pcb = NULL;
-        }
-    }
-}
-
-static void http_err(void *arg, err_t err)
-{
-    (void)err;
-    conn_release((struct tcp_pcb *)arg);
-}
-
-static err_t http_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err)
-{
-    (void)arg;
+    (void)argument;
     if (!p) {
-        conn_release(pcb);
-        tcp_arg(pcb, NULL);
         tcp_close(pcb);
         return ERR_OK;
     }
@@ -360,46 +435,61 @@ static err_t http_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err
         pbuf_free(p);
         return err;
     }
-    struct conn *c = conn_of(pcb);
     tcp_recved(pcb, p->tot_len);
-    if (!c || c->len + p->tot_len >= CONN_BUF) {
-        pbuf_free(p); /* upstream lwIP 2.1: the callee frees on ERR_OK */
-        reply_text(pcb, "413 Payload Too Large", "too large\n");
-        conn_release(pcb);
-        tcp_close(pcb);
+    uint32_t room = (uint32_t)sizeof(ctl_line) - 1u - ctl_len;
+    uint32_t take = p->tot_len < room ? p->tot_len : room;
+    pbuf_copy_partial(p, ctl_line + ctl_len, (u16_t)take, 0);
+    ctl_len += take;
+    ctl_line[ctl_len] = 0;
+    pbuf_free(p);
+    char *nl = strchr(ctl_line, '\n');
+    if (!nl && ctl_len < sizeof(ctl_line) - 1u) {
         return ERR_OK;
     }
-    pbuf_copy_partial(p, c->buf + c->len, p->tot_len, 0);
-    c->len += p->tot_len;
-    c->buf[c->len] = 0;
-    pbuf_free(p);
-
-    char *end = strstr(c->buf, "\r\n\r\n");
-    if (!end) {
-        return ERR_OK; /* headers incomplete */
+    if (nl) {
+        *nl = 0;
+        if (nl > ctl_line && nl[-1] == '\r') {
+            nl[-1] = 0;
+        }
     }
-    uint32_t body_off = (uint32_t)(end + 4 - c->buf);
-    const char *cl = find_header(c->buf, "Content-Length");
-    uint32_t want = cl ? (uint32_t)strtoul(cl, NULL, 10) : 0;
-    if (c->len - body_off < want) {
-        return ERR_OK; /* body incomplete */
+    int n;
+    if (strcmp(ctl_line, "health") == 0) {
+        n = health(ctl_out, sizeof(ctl_out));
+    } else if (strcmp(ctl_line, "stats") == 0) {
+        n = stats_json(ctl_out, sizeof(ctl_out));
+    } else if (strncmp(ctl_line, "probe ", 6) == 0) {
+        n = k1_probe(ctl_line + 6, ctl_out, sizeof(ctl_out));
+        if (n < 0) {
+            n = snprintf(ctl_out, sizeof(ctl_out), "{\"error\":\"unknown probe\"}\n");
+        }
+    } else {
+        n = snprintf(ctl_out, sizeof(ctl_out), "{\"error\":\"unknown command\"}\n");
     }
-    handle_request(pcb, c->buf, body_off, want);
-    conn_release(pcb);
-    tcp_arg(pcb, NULL);
+    ctl_len = 0;
+    if (n > (int)sizeof(ctl_out)) {
+        n = (int)sizeof(ctl_out);
+    }
+    for (int off = 0; off < n;) {
+        int chunk = n - off < 1024 ? n - off : 1024;
+        if (tcp_write(pcb, ctl_out + off, (u16_t)chunk, TCP_WRITE_FLAG_COPY) != ERR_OK) {
+            break;
+        }
+        off += chunk;
+    }
+    tcp_output(pcb);
+    tcp_recv(pcb, NULL);
     tcp_close(pcb);
     return ERR_OK;
 }
 
-static err_t http_accept(void *arg, struct tcp_pcb *pcb, err_t err)
+static err_t control_accept(void *arg, struct tcp_pcb *pcb, err_t err)
 {
     (void)arg;
     if (err != ERR_OK || !pcb) {
         return ERR_VAL;
     }
-    tcp_arg(pcb, pcb);
-    tcp_err(pcb, http_err);
-    tcp_recv(pcb, http_recv);
+    ctl_len = 0;
+    tcp_recv(pcb, control_recv);
     tcp_nagle_disable(pcb);
     return ERR_OK;
 }
@@ -421,10 +511,14 @@ void net_init(void *dma_va, uint64_t dma_pa, const char *build)
     netif_set_up(&nif);
 
     struct tcp_pcb *l = tcp_new();
-    tcp_bind(l, IP_ANY_TYPE, 80);
+    tcp_bind(l, IP_ANY_TYPE, DEMO_HTTP_PORT);
     l = tcp_listen(l);
-    tcp_accept(l, http_accept);
-    put_str("net: 192.168.40.129/24 mac 02:cc:25:00:00:01, http :80\n");
+    tcp_accept(l, accept_http);
+    struct tcp_pcb *c = tcp_new();
+    tcp_bind(c, IP_ANY_TYPE, CONTROL_PORT);
+    c = tcp_listen(c);
+    tcp_accept(c, control_accept);
+    put_str("net: 192.168.40.129/24 mac 02:cc:25:00:00:01, raw http :80 -> K0, control :81\n");
 }
 
 static int link_state;

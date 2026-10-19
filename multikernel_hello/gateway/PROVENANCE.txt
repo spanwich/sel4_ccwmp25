@@ -1,2 +1,11 @@
 Vendored from policy_gateway branch experiment/http-acl-x86-sp2027 @ e5461f3740a07a42649fcf5b340aa7df87348e3b
 (worktree /home/iamfo470/phd/paper-experiments/http-acl-x86/source), unchanged. Cedar staticlib is built from the same commit.
+
+2026-10-19 (corrected design): also vendored, unchanged, from the same commit:
+demo/pds/{policy_gate,authenticator,protected_app}.c + stage.h (compiled into K0
+against rootserver/k0shim/microkit.h), demo/pds/lwip_proxy.c (reference for K1's
+forwarder; not compiled), demo/include/{demo_wire,dashboard_html}.h,
+demo/generated/HTTP_Extract_*.{c,h} + krmllib.h (F* extractor, checked-in KaRaMeL
+output), verified/rate_counter/RateCounter.h, verified/test_extractor.c (D2),
+common/pipeline.c, scripts/demo_test.py (D1, driven by exp/demo_test_board.py).
+Every file listed in SHA256SUMS is byte-identical to the source tree.

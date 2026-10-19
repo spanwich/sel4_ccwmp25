@@ -10,13 +10,13 @@ if [ ! -f "$VENV/bin/activate" ] &&
 fi
 
 K1_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k1"
-# Paper experiments: K0 engine (none | everparse | cedar); K1 is engine-agnostic.
-MK_ENGINE="${MK_ENGINE:-none}"
-K0_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k0"
-[ "$MK_ENGINE" = "none" ] || K0_BUILD="$K0_BUILD-$MK_ENGINE"
+# Paper experiments (corrected design): K0 image raw | gateonly | everparse | cedar;
+# K1 (raw forwarder) is engine-agnostic.
+MK_ENGINE="${MK_ENGINE:-everparse}"
+K0_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k0-$MK_ENGINE"
 MK_CEDAR_STATICLIB="${MK_CEDAR_STATICLIB:-$HOME/phd/ccmp25-exp/cedar-target/aarch64-unknown-linux-musl/release/libcedar_gateway_staticlib.a}"
 MK_K0_HEAP_BYTES="${MK_K0_HEAP_BYTES:-1048576}" # musl morecore for K0 (Cedar heap)
-ROOTSERVER_BUILD_ID="ccwmp25-mk-c3-v16"
+ROOTSERVER_BUILD_ID="ccwmp25-mk-d1-v16"
 CROSS_PREFIX="aarch64-linux-gnu-"
 NM="${CROSS_PREFIX}nm"
 MAX_TRAMPOLINE_PASSES=3

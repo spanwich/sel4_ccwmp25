@@ -28,6 +28,7 @@
 #include "gateway_k0.h"
 #include "gw_proto.h"
 #include "gateway_abi.h"
+#include "demo_wire.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -528,6 +529,7 @@ static mk_channel_t channel;
 static mk_channel_region_t *local_ring;
 static const mk_channel_region_t *peer_ring;
 static int timer_pending;
+static int eth_pending; /* ETH IRQ badge consumed by a channel wait, not yet acked */
 static uint64_t tick_next; /* next idle-tick deadline; 0 before the idle loop */
 
 static void channel_notify(void *cookie)
@@ -546,6 +548,9 @@ static int channel_wait(void *cookie)
     seL4_Wait(ntfn, &badge);
     if (badge & BADGE_TIMER) {
         timer_pending = 1;
+    }
+    if (badge & BADGE_ETH) {
+        eth_pending = 1;
     }
     if (badge & BADGE_SGI) {
         return seL4_IRQHandler_Ack(sgi_irq);
@@ -571,6 +576,9 @@ static int channel_wait_until(void *cookie, uint64_t deadline)
     (void)cookie;
     ptimer_arm(tick_next && tick_next < deadline ? tick_next : deadline);
     seL4_Wait(ntfn, &badge);
+    if (badge & BADGE_ETH) {
+        eth_pending = 1;
+    }
     if (badge & BADGE_TIMER) {
         if (tick_next && cntpct() >= tick_next) {
             timer_pending = 1;
@@ -850,38 +858,49 @@ static void benchmark(uint64_t freq)
 }
 
 #if KERNEL_ID == 0
-/* Serve every pending K1 request; replies are sent in order. */
+/* Hand every pending K1 message to the gate (gateway_k0.c). */
 static void k0_serve(void)
 {
-    mk_channel_message_t m;
-    static gw_rsp_t rsp;
+    static mk_channel_message_t m;
 
     while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
-        uint16_t t = gw_handle(m.type, m.payload, m.length, &rsp);
-        if (t != 0) {
-            mk_channel_try_send(&channel, t, 0, &rsp, sizeof(rsp), NULL);
-        }
+        gw_on_frame(m.type, m.payload, m.length);
     }
+}
+
+int k0_send(uint16_t type, const void *payload, uint32_t len)
+{
+    return mk_channel_try_send(&channel, type, 0, payload, len, NULL) == MK_CHANNEL_OK ? 0 : -1;
+}
+
+void pet_watchdog_k0(void)
+{
+    pet_watchdog();
 }
 #endif
 
 #if KERNEL_ID == 1
-/* ---- K1: synchronous K0 calls and the C6 compromised-K1 probes ---- */
+/* ---- K1: channel primitives for net.c and the D7 compromised-K1 probes ---- */
 
-int k1_call_k0(uint16_t type, const void *req, uint32_t len, void *rsp, uint32_t rsp_len)
+int k1_send_frame(uint16_t type, const void *payload, uint32_t len)
 {
-    mk_channel_message_t m;
+    return mk_channel_try_send(&channel, type, 0, payload, len, NULL) == MK_CHANNEL_OK ? 0 : -1;
+}
 
-    if (mk_channel_try_send(&channel, type, 0, req, len, NULL) != MK_CHANNEL_OK) {
-        return -1;
-    }
-    mk_channel_status_t st = mk_channel_recv_until(&channel, &m, cntpct() + freq_hz / 5,
-                                                   channel_now, channel_wait_until);
-    if (st != MK_CHANNEL_OK) {
-        return -1;
-    }
-    memcpy(rsp, m.payload, m.length < rsp_len ? m.length : rsp_len);
-    return 0;
+int k1_recv_frame(mk_channel_message_t *m, uint64_t deadline)
+{
+    return mk_channel_recv_until(&channel, m, deadline, channel_now, channel_wait_until) ==
+                   MK_CHANNEL_OK ? 0 : -1;
+}
+
+uint64_t k1_now(void)
+{
+    return cntpct();
+}
+
+uint64_t k1_freq(void)
+{
+    return freq_hz;
 }
 
 static uint64_t k0_corrupt_seen(void)
@@ -901,52 +920,126 @@ static int k1_has_untyped_at(uint64_t paddr)
     return 0;
 }
 
-static int probe_decide(gw_req_t *r, uint32_t len, uint16_t type, gw_rsp_t *rsp)
+/* A well-formed request after each probe: K0 must still answer, and with no
+ * token it must answer 401 (fail closed, nothing granted by the probe). */
+static int followup(char *status, unsigned cap)
 {
-    r->req_id = 0x70000000u | (uint32_t)(cntpct() & 0xffffff);
-    return k1_call_k0(type, r, len, rsp, sizeof(*rsp));
+    static const char req[] = "GET /api/status HTTP/1.1\r\nHost: probe\r\n\r\n";
+    static uint8_t rsp[GW_MSG_MAX];
+    uint32_t n = 0;
+    int rc = k1_exchange(DEMO_MESSAGE_RAW_HTTP, 0x7001, (const uint8_t *)req,
+                         sizeof(req) - 1u, rsp, sizeof(rsp), &n, NULL);
+    unsigned i = 0;
+    for (; rc == 0 && i + 1 < cap && i < n && rsp[i] != '\r'; i++) {
+        status[i] = (char)rsp[i];
+    }
+    status[i] = 0;
+    return rc;
+}
+
+static int raw_frame(uint16_t type, const gw_frag_hdr_t *h, const void *data, uint32_t n)
+{
+    static uint8_t f[MK_CHANNEL_PAYLOAD_SIZE];
+    uint32_t len = 0;
+    if (h) {
+        memcpy(f, h, sizeof(*h));
+        len = sizeof(*h);
+    }
+    if (n > sizeof(f) - len) {
+        n = sizeof(f) - len;
+    }
+    memcpy(f + len, data, n);
+    return k1_send_frame(type, f, len + n);
+}
+
+/* Wait for any K0 reply to a probe frame (none expected). */
+static int k0_replied_within(uint64_t ticks)
+{
+    static mk_channel_message_t m;
+    int got = 0;
+    while (k1_recv_frame(&m, cntpct() + ticks) == 0) {
+        got++;
+    }
+    return got;
 }
 
 int k1_probe(const char *name, char *out, unsigned out_len)
 {
-    static gw_req_t r;
-    static gw_rsp_t rsp;
-    memset(&r, 0, sizeof(r));
-    memset(&rsp, 0, sizeof(rsp));
-    const uint32_t hdr = (uint32_t)offsetof(gw_req_t, body);
+    char st[64];
+    static uint8_t junk[MK_CHANNEL_PAYLOAD_SIZE];
+    uint64_t rej0 = 0;
+    (void)rej0;
 
-    if (strcmp(name, "forged_role") == 0) {
-        /* operator credentials, but K1 claims ADMIN/0xffff for GET /api/policy */
-        r.path_id = PATH_POLICY; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
-        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
-        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,"
-                        "\"note\":\"K0 decides on the fields K1 asserts\"}\n",
-                        name, rc, rsp.result);
+    for (unsigned i = 0; i < sizeof(junk); i++) {
+        junk[i] = (uint8_t)(0xa5u ^ (i * 37u));
     }
-    if (strcmp(name, "forged_scope") == 0) {
-        r.path_id = PATH_POLICY; r.method = METHOD_PUT; r.role = ROLE_ADMIN; r.scope = 0;
-        r.body_len = 0;
-        int rc = probe_decide(&r, hdr, GW_MSG_UPDATE, &rsp);
-        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,\"digest\":\"%016llx\"}\n",
-                        name, rc, rsp.result, (unsigned long long)rsp.policy_digest);
+    if (strcmp(name, "garbage") == 0) {
+        /* random bytes as a request fragment and as a too-short frame */
+        int a = raw_frame(GW_MSG_REQ_FRAG, NULL, junk, sizeof(junk));
+        int b = raw_frame(GW_MSG_REQ_FRAG, NULL, junk, 7);
+        int replies = k0_replied_within(freq_hz / 10);
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"sent\":[%d,%d],\"k0_replies\":%d,"
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n", name, a, b, replies, rc, st);
     }
     if (strcmp(name, "oversize") == 0) {
-        r.path_id = PATH_STATUS; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
-        r.body_len = 0xffffu; /* claims far more body than the frame carries */
-        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
-        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,"
-                        "\"expect\":\"deny (0)\"}\n", name, rc, rsp.result);
+        /* claims a 64 KiB message, then a fragment past the 4096 B bound */
+        gw_frag_hdr_t h = { .msg_id = 0x0505, .total = 65536, .offset = 0,
+                            .kind = DEMO_MESSAGE_RAW_HTTP, .epoch = 1 };
+        int a = raw_frame(GW_MSG_REQ_FRAG, &h, junk, GW_FRAG_DATA);
+        h.total = GW_MSG_MAX;
+        h.offset = GW_MSG_MAX - 8;
+        int b = raw_frame(GW_MSG_REQ_FRAG, &h, junk, GW_FRAG_DATA);
+        int replies = k0_replied_within(freq_hz / 10);
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"sent\":[%d,%d],\"k0_replies\":%d,"
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n", name, a, b, replies, rc, st);
     }
-    if (strcmp(name, "truncated") == 0 || strcmp(name, "bad_type") == 0) {
-        r.path_id = PATH_STATUS; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
-        int bad_type = name[0] == 'b';
-        int rc = probe_decide(&r, bad_type ? hdr : 4u, bad_type ? 99u : GW_MSG_DECIDE, &rsp);
-        /* then a well-formed request must still be served */
-        memset(&r, 0, sizeof(r));
-        r.path_id = PATH_DEMO; r.method = METHOD_GET;
-        int rc2 = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
-        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"expect_rc\":-1,"
-                        "\"followup_rc\":%d,\"followup_result\":%u}\n", name, rc, rc2, rsp.result);
+    if (strcmp(name, "bad_type") == 0) {
+        gw_frag_hdr_t h = { .msg_id = 0x0606, .total = 4, .offset = 0,
+                            .kind = DEMO_MESSAGE_RAW_HTTP, .epoch = 1 };
+        int a = raw_frame(99, &h, "GET ", 4);
+        int b = raw_frame(GW_MSG_RSP_FRAG, &h, "GET ", 4);
+        int replies = k0_replied_within(freq_hz / 10);
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"sent\":[%d,%d],\"k0_replies\":%d,"
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n", name, a, b, replies, rc, st);
+    }
+    if (strcmp(name, "out_of_order") == 0) {
+        /* second fragment of a message whose first fragment never came */
+        gw_frag_hdr_t h = { .msg_id = 0x0707, .total = 1000, .offset = GW_FRAG_DATA,
+                            .kind = DEMO_MESSAGE_RAW_HTTP, .epoch = 1 };
+        int a = raw_frame(GW_MSG_REQ_FRAG, &h, junk, 1000 - GW_FRAG_DATA);
+        int replies = k0_replied_within(freq_hz / 10);
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"sent\":%d,\"k0_replies\":%d,"
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n", name, a, replies, rc, st);
+    }
+    if (strcmp(name, "forged_secparams") == 0) {
+        /* K1 skips the extractor and hands K0 a ready SecurityParamsWire that
+         * claims ADMIN, full scope and rate 0 for PUT /api/policy. */
+        static uint8_t w[SECURITY_PARAMS_HEADER_SIZE + POLICY_UPDATE_BODY_SIZE];
+        static uint8_t rsp[GW_MSG_MAX];
+        memset(w, 0, sizeof(w));
+        SecurityParamsWire *sp = (SecurityParamsWire *)(void *)w;
+        sp->path_id = PATH_POLICY;
+        sp->method = METHOD_PUT;
+        sp->role = ROLE_ADMIN;
+        sp->scope = 0xffff;
+        sp->rate_count = 0;
+        sp->body_len = POLICY_UPDATE_BODY_SIZE;
+        uint32_t n = 0;
+        int rc0 = k1_exchange(DEMO_MESSAGE_SECURITY_PARAMS, 0x7002, w, sizeof(w), rsp,
+                              sizeof(rsp), &n, NULL);
+        unsigned i = 0;
+        char st0[64];
+        for (; rc0 == 0 && i + 1 < sizeof(st0) && i < n && rsp[i] != '\r'; i++) {
+            st0[i] = (char)rsp[i];
+        }
+        st0[i] = 0;
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"response\":\"%s\","
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n", name, rc0, st0, rc, st);
     }
     if (strcmp(name, "sgi_flood") == 0) {
         uint64_t t = cntpct();
@@ -954,11 +1047,10 @@ int k1_probe(const char *name, char *out, unsigned out_len)
             seL4_Signal(sgi_signal);
         }
         uint64_t ms = (cntpct() - t) * 1000u / freq_hz;
-        r.path_id = PATH_DEMO; r.method = METHOD_GET;
-        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        int rc = followup(st, sizeof(st));
         return snprintf(out, out_len, "{\"probe\":\"%s\",\"signals\":100000,\"ms\":%llu,"
-                        "\"followup_rc\":%d,\"followup_result\":%u}\n",
-                        name, (unsigned long long)ms, rc, rsp.result);
+                        "\"followup_rc\":%d,\"followup\":\"%s\"}\n",
+                        name, (unsigned long long)ms, rc, st);
     }
     if (strcmp(name, "k0_ram") == 0) {
         int any = 0;
@@ -974,10 +1066,9 @@ int k1_probe(const char *name, char *out, unsigned out_len)
         uint64_t t = cntpct();
         while (cntpct() - t < 40 * freq_hz) {
         }
-        r.path_id = PATH_DEMO; r.method = METHOD_GET;
-        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
-        return snprintf(out, out_len, "{\"probe\":\"%s\",\"silent_s\":40,\"followup_rc\":%d}\n",
-                        name, rc);
+        int rc = followup(st, sizeof(st));
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"silent_s\":40,\"followup_rc\":%d,"
+                        "\"followup\":\"%s\"}\n", name, rc, st);
     }
     if (strcmp(name, "bad_sequence") == 0) {
         /* Publish a slot whose header sequence is wrong. K0 must count it as
@@ -989,7 +1080,7 @@ int k1_probe(const char *name, char *out, unsigned out_len)
         volatile mk_channel_slot_t *slot = &local_ring->slots[head & (MK_CHANNEL_SLOT_COUNT - 1u)];
         slot->sequence = head + 12345u;
         slot->length = 8;
-        slot->type = GW_MSG_DECIDE;
+        slot->type = GW_MSG_REQ_FRAG;
         __atomic_store_n(&c->tx_head, head + 1u, __ATOMIC_RELEASE);
         seL4_Signal(sgi_signal);
         uint64_t t = cntpct();
@@ -1060,12 +1151,9 @@ int main(void)
     benchmark(freq);
     pet_watchdog();
 #if KERNEL_ID == 0
-    /* Paper experiments: C2 decision cost, then C1 equivalence (which ends by
-     * reinstalling the default policy), then serve K1 below. */
+    /* Gate pipeline (corrected design): the D1 PDs' init() runs engine_init,
+     * D3 engine-only cycles and D2 (equivalence + extractor vectors). */
     gw_init();
-    gw_timing();
-    pet_watchdog();
-    gw_equivalence();
     pet_watchdog();
     /* Let K1 bring up the network only now: keeps K1 off the shared UART and
      * out of K0's timing runs. */
@@ -1109,15 +1197,17 @@ int main(void)
         seL4_Word badge = 0;
         uint64_t now_cyc, busy_ppm, rtt = 0;
 
-        if (!timer_pending) {
+        if (!timer_pending && !eth_pending) {
             seL4_Wait(ntfn, &badge);
         }
 
 #if KERNEL_ID == 1
         if (eth_irq != seL4_CapNull &&
-            (badge & (BADGE_ETH | BADGE_TIMER) || timer_pending)) {
+            (badge & (BADGE_ETH | BADGE_TIMER) || timer_pending || eth_pending)) {
+            int eth = (badge & BADGE_ETH) || eth_pending;
+            eth_pending = 0;
             net_poll();
-            if (badge & BADGE_ETH) {
+            if (eth) {
                 seL4_IRQHandler_Ack(eth_irq);
             }
         }
@@ -1131,7 +1221,7 @@ int main(void)
             mk_channel_message_t m;
             while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
                 if (m.type != MK_MSG_PING) {
-                    dropped++; /* late K0 reply after a k1_call_k0 timeout */
+                    dropped++; /* late K0 reply after a k1_exchange timeout */
                     continue;
                 }
                 if (dropped < MK_PROBE_DROP_PINGS) {
@@ -1179,6 +1269,10 @@ int main(void)
 #if KERNEL_ID == 0
         put_str(" engine=");
         put_str(gw_engine_label());
+        put_str(" served=");
+        put_dec(gw_requests_served());
+        put_str(" rejected_frames=");
+        put_dec(gw_rejected_frames());
 #endif
         put_str(" busy=");
         put_ppm_as_pct(busy_ppm);

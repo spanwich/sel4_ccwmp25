@@ -1,0 +1,159 @@
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..8848b29f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045b90.
+Loaded DTB from 88045b90.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..87f4dfff]
+  vaddr=[400000..4106fff]
+  virt_entry=6a9320
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (1696 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98410fff]
+  vaddr=[400000..5c9fff]
+  virt_entry=4117d8
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98411000] uentry=4117d8 dtb=98246000/1696
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 6
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..80842466a0)
+[K0]   [8084247000..8087f4e000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-d1-v16
+[K0] untyped-audit: untypeds=61 device=39 overlap=0 peer-ram=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ab800000)
+[K1] Reserved virt address space regions: 6
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982466a0)
+[K1]   [8098247000..8098411000)
+[K1]   [80ad400000..80c0000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-d1-v16
+[K1] untyped-audit: untypeds=71 device=40 overlap=0 peer-ram=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1200000013 cycles/s
+[K0] optee: SCMI PTA session 1, shm pa 0x0000000084001000
+[K0] scmi: clock ICN_LS_MCU (64) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_54/ETH1_KER (54) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_56/ETH1_PTP (56) attr_status=0 enabled 0 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOA (89) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOB (90) attr_status=0 enabled 1 -> enable status=0 -> enableK11 
+                                                                                    dleK cnsfri=4cl00k 0 Iz, (9u) a0000st16 s=0 enab
+000 [w,  scr 0xc0ock0GPIOF (90) ro,rDetatus=S e 1bled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOH (96) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] rcc: ETH1CFGR 0x0000000000000f66 -> 0x0000000000000f76 (gates on, out of reset)
+[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1
+[K1] channel: READY abi=2 epoch=0x10170001332f87ff
+[K0] channel: READY abi=2 epoch=0x10170001332f87ff
+[K1] bench: first PING received
+[K0] bench: first PONG received
+[K1] bench: echoed 11000 PINGs
+[K1] bench: sent=11000 received=11000 full=0 corrupt=0
+[K0] bench: 10000 round trips x 512 B: min=27200ns p50=28200ns p99=29550ns max=30000ns mean=28277ns rate=28384 rt/s
+[K0] bench: sent=11000 received=11000 full=0 corrupt=0
+[K0] HTTP_DEMO_COMPONENT,name=authenticator,mode=private_identity_oracle
+[K0] HTTP_DEMO_COMPONENT,name=protected_app
+[K0] gw: default policy installed, digest=0x1c87d388f42b17aa
+[K0] 
+[K0] Warning: using printf before serial is set up. This only works as your
+[K0] printf is backed by seL4_Debug_PutChar()
+[K0] C2_RESULT,engine=cedar,case=empty_bracket,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=11,p50=11,p90=11,p99=11,max=18,mean=11,loop_cntpct_ticks=1061,cntfrq=40000000,mismatches=0
+[K0] C2_RESULT,engine=cedar,case=allow_first,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=321935,p50=323650,p90=324746,p99=326316,max=327235,mean=323737,loop_cntpct_ticks=10792808,cntfrq=40000000
+[K0] C2_RESULT,engine=cedar,case=allow_last,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=334309,p50=336704,p90=337921,p99=339725,max=341077,mean=336795,loop_cntpct_ticks=11228109,cntfrq=400000000
+[K0] C2_RESULT,engine=cedar,case=deny_path,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=289713,p50=292024,p90=292962,p99=294335,max=295455,mean=292085,loop_cntpct_ticks=9737471,cntfrq=40000000,m0
+[K0] d2: equivalence start engine=cedar
+[K0] EQUIVALENCE_OK,engine=cedar,comparisons=12527
+[K0] d2: equivalence rc=0 ms=4279
+[K0] === extract_security_params test suite ===
+[K0] 
+[K0] --- Known endpoints ---
+[K0]   PASS: GET /api/status (hash=0x33333333 method=1 body=0 olen=175)
+[K0]   PASS: GET /api/policy (hash=0x44444444 method=1 body=0 olen=175)
+[K0]   PASS: POST /api/login with body (hash=0x11111111 method=2 body=11 olen=186)
+[K0]   PASS: POST /api/logout (hash=0x22222222 method=2 body=0 olen=175)
+[K0]   PASS: PUT /api/policy with body (hash=0x44444444 method=4 body=5 olen=180)
+[K0]   PASS: GET /api/demo (hash=0x55555555 method=1 body=0 olen=175)
+[K0]   PASS: GET /api/reports (hash=0x66666666 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Dashboard ---
+[K0]   PASS: GET / (dashboard) (hash=0x00000000 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Error codes ---
+[K0]   PASS: no headers (incomplete) -> INCOMPLETE
+[K0]   PASS: DELETE /api/status (hash=0x33333333 method=8 body=0 olen=175)
+[K0]   PASS: HEAD /api/status (hash=0x33333333 method=32 body=0 olen=175)
+[K0]   PASS: path traversal -> PATH_TRAVERSAL
+[K0]   PASS: path traversal in api -> PATH_TRAVERSAL
+[K0]   PASS: unknown endpoint -> PATH_UNKNOWN
+[K0]   PASS: unknown short path -> PATH_UNKNOWN
+[K0]   PASS: null byte in path -> MALFORMED
+[K0]   PASS: body too large -> BODY_TOO_LARGE
+[K0]   PASS: body incomplete -> INCOMPLETE
+[K0] 
+[K0] --- Wire format details ---
+[K0]   PASS: body bytes + zeroed region
+[K0] 
+[K0] --- Edge cases ---
+[K0]   PASS: empty input -> INCOMPLETE
+[K0]   PASS: just CRLF -> METHOD_UNKNOWN
+[K0]   PASS: CL 0 no body (hash=0x33333333 method=1 body=0 olen=175)
+[K0]   PASS: path with query (hash=0x11111111 method=1 body=0 olen=175)
+[K0]   PASS: status with encoded query (hash=0x33333333 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Bearer token extraction ---
+[K0]   PASS: bearer token present (tlen=11)
+[K0]   PASS: no bearer token (tlen=0, region zeroed)
+[K0]   PASS: token truncated to 128 (tlen=128)
+[K0]   PASS: bearer + body (tlen=7 body=5)
+[K0] 
+[K0] === Results: 28/28 passed ===
+[K0] D2_EXTRACTOR,EXTRACTOR_OK,rc=0
+[K0] gw: default policy installed, digest=0x1c87d388f42b17aa
+[K0] HTTP_DEMO_COMPONENT,name=policy_gate,engine=everparse
+[K0] gw: engine=cedar gate pipeline ready
+[K0] id: K0breadyn soa Pin 30etwSGk 
+K1] eth: MAC_VERSION=0x0000000000001a53
+[K1] eth: SYSCFG_ETH1CR 0x0000000000000010 -> 0x0000000000000010
+[K1] phy: id=0x0000000001410dd1 (Marvell 88E1512)
+[K1] eth: DMA reset done
+[K1] eth: rx fifo 4096 B, tx fifo 8192 B, rings at 0x00000000ab800000
+[K1] net: 192.168.40.129/24 mac 02:cc:25:00:00:01, raw http :80 -> K0, control :81
+[K1] idle: blocking on PPI 30 + SGI 1
+[K0] tick 0 engine=cedar served=0 rejected_frames=0 busy=0.008% ping=0ns timeouts=0 stale=0
+[K1] tick 0 busy=0.065% pongs=11000 dropped=0
+[K0] tick 1 engine=cedar served=0 rejected_frames=0 busy=0.258% ping=0ns timeouts=0 stale=0
+[K1] tick 1 busy=0.056% pongs=11000 dropped=0
+[K0] tick 2 engine=cedar served=0 rejected_frames=0 busy=0.258% ping=0ns timeouts=0 stale=0
+[K1] phy: link up 1000/full
+[K1] tick 2 busy=0.058% pongs=11000 dropped=0
+[K0] tick 3 engine=cedar served=55 rejected_frames=0 busy=2.348% ping=0ns timeouts=0 stale=0
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0                                                                                                                                 

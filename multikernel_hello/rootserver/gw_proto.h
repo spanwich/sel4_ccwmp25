@@ -1,39 +1,40 @@
 /*
- * K1 <-> K0 request protocol over mk_channel (paper experiments).
- * K1 (network-facing, untrusted for the ACL) turns an HTTP request into a
- * DecisionInput; K0 decides (and applies policy updates) and replies.
+ * K1 <-> K0 message protocol over mk_channel (corrected design, see
+ * studies/ccmp25-board/CORRECTED_DESIGN.md).
+ *
+ * K1 (untrusted user code) forwards the raw HTTP request bytes it read from
+ * the client; K0 runs the x86 D1 gate pipeline and answers with the raw HTTP
+ * response bytes. A message (<= DEMO_PAYLOAD_BYTES = 4096 B) is split into
+ * fragments, because an mk_channel slot carries 512 B (ABI v2 unchanged).
+ * K0 reassembles strictly in order and fails closed: any fragment that does
+ * not continue the current message discards it.
  *
  * SPDX-License-Identifier: BSD-2-Clause
  */
 #pragma once
 #include <stdint.h>
 
-#define GW_MSG_DECIDE        16u /* K1->K0: gw_req_t */
-#define GW_MSG_VERDICT       17u /* K0->K1: gw_rsp_t */
-#define GW_MSG_UPDATE        18u /* K1->K0: gw_req_t + body */
-#define GW_MSG_UPDATE_RESULT 19u /* K0->K1: gw_rsp_t */
-#define GW_MSG_K0_READY      20u /* K0->K1: engine set up, C1/C2 done */
+#define GW_MSG_K0_READY 20u /* K0->K1: gate initialised, D2/D3 runs done */
+#define GW_MSG_REQ_FRAG 21u /* K1->K0: request fragment */
+#define GW_MSG_RSP_FRAG 22u /* K0->K1: response fragment */
 
-#define GW_BODY_MAX 256u
+#define GW_MSG_MAX 4096u /* = DEMO_PAYLOAD_BYTES */
 
-/* Fixed little-endian layout, no reliance on struct padding across kernels. */
+/* Fixed little-endian layout. */
 typedef struct __attribute__((packed)) {
-    uint32_t req_id;
-    uint32_t path_id;
-    uint8_t method;
-    uint8_t role;
-    uint16_t scope;
-    uint8_t rate_count;
-    uint8_t pad[3];
-    uint32_t body_len;
-    uint8_t body[GW_BODY_MAX];
-} gw_req_t;
+    uint32_t msg_id; /* chosen by K1, echoed by K0 */
+    uint32_t total;  /* message bytes, <= GW_MSG_MAX */
+    uint32_t offset; /* of this fragment's data */
+    uint16_t kind;   /* DemoMessageKind: RAW_HTTP (req) / HTTP_RESPONSE (rsp) */
+    uint16_t epoch;  /* request epoch, echoed */
+    /* Response only (measurement, PMU cycles on K0; zero in requests). */
+    uint64_t k0_cycles;   /* whole K0 path: queue in -> response out */
+    uint32_t gate_cycles; /* inside policy_gate (extract, counter, engine) */
+    uint32_t auth_cycles; /* inside authenticator */
+    uint32_t app_cycles;  /* inside protected_app (incl. HTTP formatting) */
+    uint32_t reserved;
+} gw_frag_hdr_t;
 
-typedef struct __attribute__((packed)) {
-    uint32_t req_id;
-    uint32_t result;        /* DecisionResult or UpdateResult */
-    uint64_t engine_cycles; /* PMU cycles in engine_decide/engine_update */
-    uint64_t policy_digest; /* FNV-1a over the active CompactPolicy */
-    uint32_t body_len;      /* backend reply body */
-    char body[192];
-} gw_rsp_t;
+#define GW_FRAG_DATA (512u - (uint32_t)sizeof(gw_frag_hdr_t))
+
+_Static_assert(sizeof(gw_frag_hdr_t) == 40u, "fragment header ABI");
