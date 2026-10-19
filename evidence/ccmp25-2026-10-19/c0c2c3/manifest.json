@@ -1,0 +1,562 @@
+{
+ "schema": 1,
+ "claim": "host_observed_not_wcet",
+ "board": "CCMP25-DVK STM32MP255",
+ "topology": "two seL4 kernels: K1 NIC/lwIP/HTTP, K0 engine+backend, mk_channel",
+ "client": {
+  "host": "192.168.40.1 enp44s0",
+  "board": "192.168.40.129",
+  "affinity": [
+   2
+  ],
+  "uname": "posix.uname_result(sysname='Linux', nodename='uo071069', release='7.0.0-31-generic', version='#31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2', machine='x86_64')"
+ },
+ "started_utc": "2026-10-19T04:27:15.706736+00:00",
+ "blocks": 30,
+ "samples": 32,
+ "warmup": 4,
+ "runs": [
+  {
+   "block": 0,
+   "engine": "none",
+   "file": "00-none.json",
+   "sha256": "0008426d1595bc1f052413cc0b04ee1bbd7646051e189a3d9e829468f68e4b9f"
+  },
+  {
+   "block": 0,
+   "engine": "everparse",
+   "file": "00-everparse.json",
+   "sha256": "5d421992237f77c957e35bf862f643fb5a9eb972fe32850560c8ebcb7aa14dc5"
+  },
+  {
+   "block": 0,
+   "engine": "cedar",
+   "file": "00-cedar.json",
+   "sha256": "c16ab8344f5868bf84d0b6ee4e139b6f2c39d6384f788a2d9cc64d0689f399ea"
+  },
+  {
+   "block": 1,
+   "engine": "none",
+   "file": "01-none.json",
+   "sha256": "adc30149abead4701b8e93af1057cc974a5a8a47bf383df1c0c83e2625a89cbb"
+  },
+  {
+   "block": 1,
+   "engine": "cedar",
+   "file": "01-cedar.json",
+   "sha256": "63b43f689f2403e7e5b0bcc8a7dfba82330f4d9ce8b74e0ab5ad42b63df241ba"
+  },
+  {
+   "block": 1,
+   "engine": "everparse",
+   "file": "01-everparse.json",
+   "sha256": "49730090ffc7c6ddae9a8e436f7c3cee398b1e20d5fb8af48b62b8f8877189c8"
+  },
+  {
+   "block": 2,
+   "engine": "everparse",
+   "file": "02-everparse.json",
+   "sha256": "cc793f5b404f401218334e951bb3f54443fe556f1a84bb95245b8331727e70a0"
+  },
+  {
+   "block": 2,
+   "engine": "none",
+   "file": "02-none.json",
+   "sha256": "8edf70499c46f7ee4b47981ebd65df84e54f5062d1a1d7147c314a5eaa545c57"
+  },
+  {
+   "block": 2,
+   "engine": "cedar",
+   "file": "02-cedar.json",
+   "sha256": "f1e0c583280d281e5f03c2899646964b17409ff1cf339edd39bb9b347a250d98"
+  },
+  {
+   "block": 3,
+   "engine": "everparse",
+   "file": "03-everparse.json",
+   "sha256": "d969c8e3f0d33b341942f1a6a41d5dfc6bfcfb0fb0e2cfb6ed425c852f4b8880"
+  },
+  {
+   "block": 3,
+   "engine": "cedar",
+   "file": "03-cedar.json",
+   "sha256": "f6351106cea722e3a736129911e81064f706e41ddd4badce5960fa0ab3756287"
+  },
+  {
+   "block": 3,
+   "engine": "none",
+   "file": "03-none.json",
+   "sha256": "b1f141f868db0af1031b068c6c497650701e1b4b511358cc83aeea733f2922f5"
+  },
+  {
+   "block": 4,
+   "engine": "cedar",
+   "file": "04-cedar.json",
+   "sha256": "b249b767ee3178c3634cd37254ddc4c56a563e2a8deaff88fd5a3f27e9319cb3"
+  },
+  {
+   "block": 4,
+   "engine": "none",
+   "file": "04-none.json",
+   "sha256": "70f516fa17570d81001a72763bbf7127777ff56873d6f3b9f0f1fc4ff374d8f2"
+  },
+  {
+   "block": 4,
+   "engine": "everparse",
+   "file": "04-everparse.json",
+   "sha256": "24e7a0f17f4a9eead942454762b1e1e4241134a3e58146916999f6790e4b80ea"
+  },
+  {
+   "block": 5,
+   "engine": "cedar",
+   "file": "05-cedar.json",
+   "sha256": "8dee3466a86f28a92f7a54df40b2f8b2376b28604286d923b416aace10c517a1"
+  },
+  {
+   "block": 5,
+   "engine": "everparse",
+   "file": "05-everparse.json",
+   "sha256": "90dcce6e05d7fae024b716b0f8a759ed367e68d9c324d7f6107df6c97ee24cf1"
+  },
+  {
+   "block": 5,
+   "engine": "none",
+   "file": "05-none.json",
+   "sha256": "4f02bdaca571dbf950fbb4e5babb12020213c88405be8714315e7cdcd48edc1a"
+  },
+  {
+   "block": 6,
+   "engine": "none",
+   "file": "06-none.json",
+   "sha256": "a47481443ee7feaf1b84b7249cf66889af8f32807e387fb07d74c4a348d14944"
+  },
+  {
+   "block": 6,
+   "engine": "everparse",
+   "file": "06-everparse.json",
+   "sha256": "0906c6afc0660b9df4d79b3e9240a3b757008f025e1385ac496343428ced0281"
+  },
+  {
+   "block": 6,
+   "engine": "cedar",
+   "file": "06-cedar.json",
+   "sha256": "e0bac8a9285c65a8d94d8b508406ef98184656e5b7d2d0c8f9564ae7e517c728"
+  },
+  {
+   "block": 7,
+   "engine": "none",
+   "file": "07-none.json",
+   "sha256": "d15ca2c148b531c5e61831c19b17ea1e96ebda4b546f6715c912648738d12c69"
+  },
+  {
+   "block": 7,
+   "engine": "cedar",
+   "file": "07-cedar.json",
+   "sha256": "86163d5738eb8e9405c337974af03e056bbcdf947b7c71527d5fdcbd586c4381"
+  },
+  {
+   "block": 7,
+   "engine": "everparse",
+   "file": "07-everparse.json",
+   "sha256": "f15a30315aa7591b832c99b6e87c5b9ab8241af95afe1f0bf4dfa81cb74b15cc"
+  },
+  {
+   "block": 8,
+   "engine": "everparse",
+   "file": "08-everparse.json",
+   "sha256": "4f8e6a205af7732695c81d3e22ffdf48d2f755eb06a08c2ac0cc2feacb6241e5"
+  },
+  {
+   "block": 8,
+   "engine": "none",
+   "file": "08-none.json",
+   "sha256": "81a99a4dafe8788b8a358eeef2c9eb309ca45c7648092102eccefc966f5f75d9"
+  },
+  {
+   "block": 8,
+   "engine": "cedar",
+   "file": "08-cedar.json",
+   "sha256": "9793a0029d9440139359a733c895fa06a7dea28d7b7d9c1c5687bc0e20ed9544"
+  },
+  {
+   "block": 9,
+   "engine": "everparse",
+   "file": "09-everparse.json",
+   "sha256": "9c65690259153ea9ffc368c9828b7ceaace2de282b06686e1e5aef1a5c26c692"
+  },
+  {
+   "block": 9,
+   "engine": "cedar",
+   "file": "09-cedar.json",
+   "sha256": "81534aec7efc9b82856068f0ffbff7c0664df4c19649fe76347209de1f83cf38"
+  },
+  {
+   "block": 9,
+   "engine": "none",
+   "file": "09-none.json",
+   "sha256": "e34fc19dc1d70c8722ea7012cf45a5405d068a68bf2faaac04307139cdf55906"
+  },
+  {
+   "block": 10,
+   "engine": "cedar",
+   "file": "10-cedar.json",
+   "sha256": "ccb3681347a0a08090488bdc5e12d568563a5011789014e486fb74b9ecf650aa"
+  },
+  {
+   "block": 10,
+   "engine": "none",
+   "file": "10-none.json",
+   "sha256": "2a2c281bca195ddb8e10d55fb77127c8f45cadf11dd93ac31658aa32e8fe2e35"
+  },
+  {
+   "block": 10,
+   "engine": "everparse",
+   "file": "10-everparse.json",
+   "sha256": "bc4931ec250f1f2034b6047dcfeb4f680253da716d1c23f0500b5001e798edf8"
+  },
+  {
+   "block": 11,
+   "engine": "cedar",
+   "file": "11-cedar.json",
+   "sha256": "ea722b2264893184b90baf9180055da6853b9b9c9d3829985b54e9e79ca194b6"
+  },
+  {
+   "block": 11,
+   "engine": "everparse",
+   "file": "11-everparse.json",
+   "sha256": "15ee34e3594321533d6eb5757e0069c2946e2d3bbca6550e070c88f13ecf82ec"
+  },
+  {
+   "block": 11,
+   "engine": "none",
+   "file": "11-none.json",
+   "sha256": "3bda135142dea0ef89580d6c780bbfdcbf2827ac536d4d3f872885d1fec7a241"
+  },
+  {
+   "block": 12,
+   "engine": "none",
+   "file": "12-none.json",
+   "sha256": "11f2af479a82caf3ae8d978cf6387bc9cc4e451d16c39b6ee3a98eb8817ab4d7"
+  },
+  {
+   "block": 12,
+   "engine": "everparse",
+   "file": "12-everparse.json",
+   "sha256": "22fdeee280a7b0dd5019496ce5dcd982d6a27e0a92aa3f50d95f31ddfd5bf054"
+  },
+  {
+   "block": 12,
+   "engine": "cedar",
+   "file": "12-cedar.json",
+   "sha256": "49d2178b78f83ac299ec5228a492fb7cdccbabecd7a3af3fa7dd582de7704f11"
+  },
+  {
+   "block": 13,
+   "engine": "none",
+   "file": "13-none.json",
+   "sha256": "227b0487f8b164c486218e8276334328a56a5d64661c754f08adefa8625556c6"
+  },
+  {
+   "block": 13,
+   "engine": "cedar",
+   "file": "13-cedar.json",
+   "sha256": "dc81c905d606dbc5c750131078a4344c200f31d318061713c2be693d90fdfcf1"
+  },
+  {
+   "block": 13,
+   "engine": "everparse",
+   "file": "13-everparse.json",
+   "sha256": "3e183536c517cb730541b51f5ccd7c9249a4d38144f180ec6c0314ef366b9c2b"
+  },
+  {
+   "block": 14,
+   "engine": "everparse",
+   "file": "14-everparse.json",
+   "sha256": "9903c68bd3892f161a246f4e717090f9c2da90d3ff05c401e87204540fd42c89"
+  },
+  {
+   "block": 14,
+   "engine": "none",
+   "file": "14-none.json",
+   "sha256": "05e28a97002cc4e179424d1a6c788390aee0317af532b3c894bfeb7a926a5f4d"
+  },
+  {
+   "block": 14,
+   "engine": "cedar",
+   "file": "14-cedar.json",
+   "sha256": "ed7c69db935168c283bb466cb19ddbd2d0faca1ce1b6a8f5aea4114797a76ef1"
+  },
+  {
+   "block": 15,
+   "engine": "everparse",
+   "file": "15-everparse.json",
+   "sha256": "ba16f119e7e62ba616f0d5574912a89f53e92d42da7c954cde38c48f863fb41b"
+  },
+  {
+   "block": 15,
+   "engine": "cedar",
+   "file": "15-cedar.json",
+   "sha256": "499829daf628b351f3e82e54ee4bc8018ea93888bcc5cb06ba7ab2b694b8dd71"
+  },
+  {
+   "block": 15,
+   "engine": "none",
+   "file": "15-none.json",
+   "sha256": "7822774ca0c8430109fe0223be2273c946c9d63c37af286e11e032d155eee681"
+  },
+  {
+   "block": 16,
+   "engine": "cedar",
+   "file": "16-cedar.json",
+   "sha256": "97a7a404f87dcee5b9f218595ed30159c168c7742220cfa817f39a4c6491c6b9"
+  },
+  {
+   "block": 16,
+   "engine": "none",
+   "file": "16-none.json",
+   "sha256": "329cd2da774b9639524f4d1d512eb100e3217f0dbcb5fbf242d3fb284b4208fc"
+  },
+  {
+   "block": 16,
+   "engine": "everparse",
+   "file": "16-everparse.json",
+   "sha256": "3e09109bc679651b417a4b50b070af9de210a9d3cf9db3e16dea379095662a52"
+  },
+  {
+   "block": 17,
+   "engine": "cedar",
+   "file": "17-cedar.json",
+   "sha256": "a7fdf735ad249897eef09c89056763e6dbda075852a0f0f5f29fad5cd0815108"
+  },
+  {
+   "block": 17,
+   "engine": "everparse",
+   "file": "17-everparse.json",
+   "sha256": "894401ef91722b1a3dcec495c7b9d1f37987141e53c6141563cf57708f955e62"
+  },
+  {
+   "block": 17,
+   "engine": "none",
+   "file": "17-none.json",
+   "sha256": "94626882af08d8fd775a10d9987fb40d7e19dead7551ca160c9dd1fbaf7682bd"
+  },
+  {
+   "block": 18,
+   "engine": "none",
+   "file": "18-none.json",
+   "sha256": "eee7c1f961a7857d398ed8992b096cf7ee5d8e482c8492dce216073865401712"
+  },
+  {
+   "block": 18,
+   "engine": "everparse",
+   "file": "18-everparse.json",
+   "sha256": "1f7684bcd2f49469a88fe3032c9077cd9ad83b700fe03a6911af0892b1626c06"
+  },
+  {
+   "block": 18,
+   "engine": "cedar",
+   "file": "18-cedar.json",
+   "sha256": "d299c175af46cf6ce47574ce8d6be29c09430e96aec3b73cfaff841d2d3be392"
+  },
+  {
+   "block": 19,
+   "engine": "none",
+   "file": "19-none.json",
+   "sha256": "a44c024e642140315eb7132778e6b15616c4f2906d6b892d53f88d657534523c"
+  },
+  {
+   "block": 19,
+   "engine": "cedar",
+   "file": "19-cedar.json",
+   "sha256": "c8a35cd9b9116ddf60fcbd1890996aa1480e921d3bdf12b375ca9b589b2cbcf3"
+  },
+  {
+   "block": 19,
+   "engine": "everparse",
+   "file": "19-everparse.json",
+   "sha256": "d0bab131b46ad3b2e9d19662d9e8f75a054d3e79d6533c8cd43b8863a5efd418"
+  },
+  {
+   "block": 20,
+   "engine": "everparse",
+   "file": "20-everparse.json",
+   "sha256": "2e7a19786b33ed60fcdf38f3bdc3a9eaa65fc9f7eb6382edde9cf7b352333870"
+  },
+  {
+   "block": 20,
+   "engine": "none",
+   "file": "20-none.json",
+   "sha256": "a9603e02a90b7547f7e06549544db0033e79c513bab33a7564bfe3048326da9d"
+  },
+  {
+   "block": 20,
+   "engine": "cedar",
+   "file": "20-cedar.json",
+   "sha256": "7918184c380c77f6cf2bf5082274cc0a96c5542e492a70c463d54cccb9293e9a"
+  },
+  {
+   "block": 21,
+   "engine": "everparse",
+   "file": "21-everparse.json",
+   "sha256": "f2be030c4ad3a3c34353280fd37685f4231e91974e6f5da98c06eaff1daa52e1"
+  },
+  {
+   "block": 21,
+   "engine": "cedar",
+   "file": "21-cedar.json",
+   "sha256": "1b766add5ed8f4691eb1e9e007581152d20acf9879028dab8b0a3fbbd6cef64d"
+  },
+  {
+   "block": 21,
+   "engine": "none",
+   "file": "21-none.json",
+   "sha256": "4588dbee726fb0e072bae3eb4423de6829877970f342c07665cf86940154d8a2"
+  },
+  {
+   "block": 22,
+   "engine": "cedar",
+   "file": "22-cedar.json",
+   "sha256": "cab04effa86b80a51415f2becb8aa5d5b6e41aaf55611cb404b74c4920e35463"
+  },
+  {
+   "block": 22,
+   "engine": "none",
+   "file": "22-none.json",
+   "sha256": "d5c59313fedb1be631511ff6f9f18ccdce9a92da8a84a0b2c4abb8233ffe3aa6"
+  },
+  {
+   "block": 22,
+   "engine": "everparse",
+   "file": "22-everparse.json",
+   "sha256": "c81fbe35289219ca1efc80f706eea8d2399df7705ceca4107821d663169eaf9e"
+  },
+  {
+   "block": 23,
+   "engine": "cedar",
+   "file": "23-cedar.json",
+   "sha256": "2fbdcf574ed544724b04d5e882ece9c9e7de40acc5348885ce4609d7b50f89c3"
+  },
+  {
+   "block": 23,
+   "engine": "everparse",
+   "file": "23-everparse.json",
+   "sha256": "be7e70070d0186f42fc82cc22f36bb1abf2efd7242c362a6a8190618675cd976"
+  },
+  {
+   "block": 23,
+   "engine": "none",
+   "file": "23-none.json",
+   "sha256": "80d0e5372c482bd31ff2cff1b1912d7e26cd1108d140db27f81e346265d81d55"
+  },
+  {
+   "block": 24,
+   "engine": "none",
+   "file": "24-none.json",
+   "sha256": "69129aeb36859d35653eeb3946878a905fa4840603309923e3b2d13c744ddb01"
+  },
+  {
+   "block": 24,
+   "engine": "everparse",
+   "file": "24-everparse.json",
+   "sha256": "88f650cbd8f12076845d766d7a41e2ff170c313a4e444e90d009205965321d60"
+  },
+  {
+   "block": 24,
+   "engine": "cedar",
+   "file": "24-cedar.json",
+   "sha256": "bb887bdd87f18b8d4c58e877f897ba783a5bab0824693b4c2455b20743926beb"
+  },
+  {
+   "block": 25,
+   "engine": "none",
+   "file": "25-none.json",
+   "sha256": "2a6dcd94641246f545f03d56723fdca25f1f0c30afa23a94c0e548db4ef066d6"
+  },
+  {
+   "block": 25,
+   "engine": "cedar",
+   "file": "25-cedar.json",
+   "sha256": "c839d0320a749f7deca7a1c1425780232e361e005f06c8a6cb286456fe919ff8"
+  },
+  {
+   "block": 25,
+   "engine": "everparse",
+   "file": "25-everparse.json",
+   "sha256": "c2c82a0bd2ed8ec9f4a3b5687560a813b3766a7d7dceb4bfe6c8b0426df12860"
+  },
+  {
+   "block": 26,
+   "engine": "everparse",
+   "file": "26-everparse.json",
+   "sha256": "2cc263b3eb50a14f46ba48c5a9e3722c126979768d883a759c04dc9aefdd9177"
+  },
+  {
+   "block": 26,
+   "engine": "none",
+   "file": "26-none.json",
+   "sha256": "8c900c7e93e390344a6f9b1dd98060c140efb5c5031cd25179b8e02a27914917"
+  },
+  {
+   "block": 26,
+   "engine": "cedar",
+   "file": "26-cedar.json",
+   "sha256": "8f081d741c3e82c5850b989c964261ef18b738a9d9559b736bed628bd3454a7f"
+  },
+  {
+   "block": 27,
+   "engine": "everparse",
+   "file": "27-everparse.json",
+   "sha256": "a54b3ecbf85f9b161701785b8b8d9601677da321d598c5e6a9e8002f2612a1e5"
+  },
+  {
+   "block": 27,
+   "engine": "cedar",
+   "file": "27-cedar.json",
+   "sha256": "83182bedf988832fbf3d85c0ae3df606648c82b4a323923a90dfab6614bd265b"
+  },
+  {
+   "block": 27,
+   "engine": "none",
+   "file": "27-none.json",
+   "sha256": "a560a5bdfc6125db16405e5e347a524b0775110fda82a10acda8e5c4edbfc153"
+  },
+  {
+   "block": 28,
+   "engine": "cedar",
+   "file": "28-cedar.json",
+   "sha256": "b1ef8a4571d16e037a0aeda63e93ba07e480c2a377c63568087338fd6c6c1d3d"
+  },
+  {
+   "block": 28,
+   "engine": "none",
+   "file": "28-none.json",
+   "sha256": "fd35298ff16cf910854e5062e70acaad7742b276c0917d01f7d36da1060bdd42"
+  },
+  {
+   "block": 28,
+   "engine": "everparse",
+   "file": "28-everparse.json",
+   "sha256": "3b619b64c283da983e31ccdf05bccd69e7ff7b89054f8a91da02fca1071559b8"
+  },
+  {
+   "block": 29,
+   "engine": "cedar",
+   "file": "29-cedar.json",
+   "sha256": "de0b0566f6fe804a6216d2f650852747c1d744d23be12a5c4a58b75725d33190"
+  },
+  {
+   "block": 29,
+   "engine": "everparse",
+   "file": "29-everparse.json",
+   "sha256": "5b46f919f8dc0e8f8c2c9467714b1bd8c7980f87bfb9d3fc981253f2080bc9e6"
+  },
+  {
+   "block": 29,
+   "engine": "none",
+   "file": "29-none.json",
+   "sha256": "587cd75aafcab223a70b04eef5445f84124da96f8b3dcccb0095d34d33c6a36b"
+  }
+ ],
+ "status": "complete",
+ "finished_utc": "2026-10-19T05:01:42.955180+00:00"
+}

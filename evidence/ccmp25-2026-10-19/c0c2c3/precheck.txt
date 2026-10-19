@@ -1,0 +1,2 @@
+rtt min/avg/max/mdev = 0.102/0.118/0.130/0.011 ms
+{"build":"ccwmp25-mk-c3-v16","uptime_s":25,"rx":61,"tx":46,"rx_err":0,"tx_err":0,"dma_err":0,"http":14,"k0_calls":11,"k0_timeouts":0,"allow":5,"deny":5}
