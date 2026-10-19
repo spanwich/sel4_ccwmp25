@@ -10,6 +10,8 @@ void gw_init(void);
 void gw_on_frame(uint16_t type, const uint8_t *payload, uint32_t len);
 uint64_t gw_rejected_frames(void);
 uint64_t gw_requests_served(void);
+uint64_t gw_no_response(void);
+uint64_t gw_send_failures(void);
 
 /* Provided by main.c (K0). */
 int k0_send(uint16_t type, const void *payload, uint32_t len);

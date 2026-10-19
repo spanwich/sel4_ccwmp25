@@ -210,6 +210,10 @@ int k1_exchange(uint16_t kind, uint16_t epoch, const uint8_t *req, uint32_t len,
         if (k1_recv_frame(&m, deadline) != 0) {
             return -1;
         }
+        if (m.type == GW_MSG_K0_STATS) {
+            k1_on_k0_stats(m.payload, m.length);
+            continue;
+        }
         if (m.type != GW_MSG_RSP_FRAG || m.length < sizeof(r)) {
             continue; /* not ours (e.g. a late reply) */
         }
@@ -407,6 +411,82 @@ static int health(char *out, unsigned cap)
              (unsigned long long)refused, (unsigned long long)oversize);
 }
 
+/* ---- Resilience counters (1 s), drained through "counters" on port 81 ---- */
+
+#define CTR_MAX 256u
+#define CTR_PER_READ 16u
+static gw_k0_stats_t k0_ctr[CTR_MAX];
+static uint32_t k0_ctr_head, k0_ctr_tail, k0_ctr_lost;
+static struct {
+    uint64_t tick, uptime_ms, http, refused, k0_calls, k0_timeouts, oversize, rx, tx, rx_err;
+    uint32_t busy_ppm;
+} k1_ctr[CTR_MAX];
+static uint32_t k1_ctr_head, k1_ctr_tail, k1_ctr_lost;
+
+void k1_on_k0_stats(const void *payload, uint32_t len)
+{
+    if (len != sizeof(gw_k0_stats_t)) {
+        return;
+    }
+    if (k0_ctr_head - k0_ctr_tail == CTR_MAX) {
+        k0_ctr_tail++;
+        k0_ctr_lost++;
+    }
+    memcpy(&k0_ctr[k0_ctr_head++ % CTR_MAX], payload, len);
+}
+
+void net_tick(uint64_t tick, uint32_t busy_ppm)
+{
+    if (k1_ctr_head - k1_ctr_tail == CTR_MAX) {
+        k1_ctr_tail++;
+        k1_ctr_lost++;
+    }
+    uint32_t i = k1_ctr_head++ % CTR_MAX;
+    k1_ctr[i].tick = tick;
+    k1_ctr[i].uptime_ms = (rs_cntpct() - t0) * 1000u / freq;
+    k1_ctr[i].busy_ppm = busy_ppm;
+    k1_ctr[i].http = http_requests;
+    k1_ctr[i].refused = refused;
+    k1_ctr[i].k0_calls = k0_calls;
+    k1_ctr[i].k0_timeouts = k0_timeouts;
+    k1_ctr[i].oversize = oversize;
+    k1_ctr[i].rx = eth1_stats.rx;
+    k1_ctr[i].tx = eth1_stats.tx;
+    k1_ctr[i].rx_err = eth1_stats.rx_err;
+}
+
+static int counters_json(char *out, unsigned cap)
+{
+    int n = snprintf(out, cap, "{\"k0_lost\":%u,\"k1_lost\":%u,\"k0\":[", k0_ctr_lost, k1_ctr_lost);
+    for (uint32_t c = 0; c < CTR_PER_READ && k0_ctr_tail != k0_ctr_head && (unsigned)n < cap; c++) {
+        const gw_k0_stats_t *e = &k0_ctr[k0_ctr_tail++ % CTR_MAX];
+        n += snprintf(out + n, cap - (unsigned)n,
+                      "%s{\"tick\":%llu,\"uptime_ms\":%llu,\"busy_ppm\":%u,\"pets\":%u,"
+                      "\"served\":%llu,\"rejected_frames\":%llu,\"no_response\":%llu,"
+                      "\"queue_depth\":%u,\"send_failures\":%u}",
+                      c ? "," : "", (unsigned long long)e->tick, (unsigned long long)e->uptime_ms,
+                      e->busy_ppm, e->pets, (unsigned long long)e->served,
+                      (unsigned long long)e->rejected_frames, (unsigned long long)e->no_response,
+                      e->queue_depth, e->send_failures);
+    }
+    n += snprintf(out + n, cap - (unsigned)n, "],\"k1\":[");
+    for (uint32_t c = 0; c < CTR_PER_READ && k1_ctr_tail != k1_ctr_head && (unsigned)n < cap; c++) {
+        uint32_t i = k1_ctr_tail++ % CTR_MAX;
+        n += snprintf(out + n, cap - (unsigned)n,
+                      "%s{\"tick\":%llu,\"uptime_ms\":%llu,\"busy_ppm\":%u,\"http\":%llu,"
+                      "\"refused\":%llu,\"k0_calls\":%llu,\"k0_timeouts\":%llu,\"oversize\":%llu,"
+                      "\"rx\":%llu,\"tx\":%llu,\"rx_err\":%llu}",
+                      c ? "," : "", (unsigned long long)k1_ctr[i].tick,
+                      (unsigned long long)k1_ctr[i].uptime_ms, k1_ctr[i].busy_ppm,
+                      (unsigned long long)k1_ctr[i].http, (unsigned long long)k1_ctr[i].refused,
+                      (unsigned long long)k1_ctr[i].k0_calls, (unsigned long long)k1_ctr[i].k0_timeouts,
+                      (unsigned long long)k1_ctr[i].oversize, (unsigned long long)k1_ctr[i].rx,
+                      (unsigned long long)k1_ctr[i].tx, (unsigned long long)k1_ctr[i].rx_err);
+    }
+    n += snprintf(out + n, cap - (unsigned)n, "]}\n");
+    return n;
+}
+
 static int stats_json(char *out, unsigned cap)
 {
     int n = snprintf(out, cap, "{\"requests\":[");
@@ -457,6 +537,8 @@ static err_t control_recv(void *argument, struct tcp_pcb *pcb, struct pbuf *p, e
         n = health(ctl_out, sizeof(ctl_out));
     } else if (strcmp(ctl_line, "stats") == 0) {
         n = stats_json(ctl_out, sizeof(ctl_out));
+    } else if (strcmp(ctl_line, "counters") == 0) {
+        n = counters_json(ctl_out, sizeof(ctl_out));
     } else if (strncmp(ctl_line, "probe ", 6) == 0) {
         n = k1_probe(ctl_line + 6, ctl_out, sizeof(ctl_out));
         if (n < 0) {

@@ -1,0 +1,2 @@
+{"k0_lost": 0, "k1_lost": 0, "k0": [{"tick": 5, "uptime_ms": 20000, "busy_ppm": 2934, "pets": 1, "served": 0, "rejected_frames": 0, "no_response": 0, "queue_depth": 0, "send_failures": 0}, {"tick": 6, "uptime_ms": 21000, "busy_ppm": 2933, "pets": 1, "served": 0, "rejected_frames": 0, "no_response": 
+HEALTH {'build': 'ccwmp25-mk-d1-v16', 'uptime_s': 75, 'rx': 20558, 'tx': 19580, 'rx_err': 0, 'tx_err': 0, 'dma_err': 0, 'http': 969, 'k0_calls': 969, 'k0_timeouts': 0, 'refused': 5251, 'oversize': 0}

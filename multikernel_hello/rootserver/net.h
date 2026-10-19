@@ -14,6 +14,10 @@ void net_poll(void);
 int k1_exchange(uint16_t kind, uint16_t epoch, const uint8_t *req, uint32_t len,
                 uint8_t *rsp, uint32_t cap, uint32_t *rsp_len, gw_frag_hdr_t *meta);
 
+/* Resilience counters: K0's 1 s stats frame, and K1's own tick. */
+void k1_on_k0_stats(const void *payload, uint32_t len);
+void net_tick(uint64_t tick, uint32_t busy_ppm);
+
 /* Provided by main.c (K1). */
 int k1_send_frame(uint16_t type, const void *payload, uint32_t len);
 int k1_recv_frame(mk_channel_message_t *m, uint64_t deadline);

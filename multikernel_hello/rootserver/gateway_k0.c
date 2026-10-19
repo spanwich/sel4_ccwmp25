@@ -160,7 +160,7 @@ static void dispatch(void)
 static DemoMessage rx_msg;          /* request under reassembly */
 static uint32_t rx_id, rx_have, rx_total;
 static int rx_active;
-static uint64_t frames_rejected, requests_served, queue_busy;
+static uint64_t frames_rejected, requests_served, queue_busy, no_response, send_failures;
 static DemoMessage tx_msg;          /* response from protected_app */
 static int tx_ready;
 
@@ -188,6 +188,7 @@ static void send_response(uint32_t msg_id, uint16_t epoch, const uint8_t *bytes,
         memcpy(frag, &h, sizeof(h));
         memcpy(frag + sizeof(h), bytes + off, n);
         if (k0_send(GW_MSG_RSP_FRAG, frag, (uint32_t)sizeof(h) + n) != 0) {
+            send_failures++;
             return; /* K1's ring full: K1 times out and drops the request */
         }
         off += n;
@@ -219,10 +220,12 @@ static void serve_request(uint16_t epoch)
     dispatch();
     uint64_t c = rs_pmccntr() - s;
     if (!tx_ready) {
+        no_response++;
         return; /* no response produced: K1 times out (fail closed) */
     }
     tx_ready = 0;
     if (tx_msg.kind != DEMO_MESSAGE_HTTP_RESPONSE || tx_msg.length > GW_MSG_MAX) {
+        no_response++;
         return;
     }
     send_response(rx_id, tx_msg.request_epoch, tx_msg.payload, tx_msg.length, c);
@@ -270,6 +273,16 @@ void gw_on_frame(uint16_t type, const uint8_t *payload, uint32_t len)
 uint64_t gw_rejected_frames(void)
 {
     return frames_rejected;
+}
+
+uint64_t gw_no_response(void)
+{
+    return no_response + queue_busy;
+}
+
+uint64_t gw_send_failures(void)
+{
+    return send_failures;
 }
 
 uint64_t gw_requests_served(void)

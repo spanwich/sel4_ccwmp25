@@ -217,9 +217,12 @@ static uint64_t smc(uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3)
     return resp.x0;
 }
 
+static uint32_t pets_this_tick;
+
 static void pet_watchdog(void)
 {
     smc(SMCWD_FUNC_ID, SMCWD_PET, 0, 0);
+    pets_this_tick++;
 }
 
 static void dispatch_core1(void)
@@ -1220,6 +1223,10 @@ int main(void)
 #if KERNEL_ID == 1
             mk_channel_message_t m;
             while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
+                if (m.type == GW_MSG_K0_STATS) {
+                    k1_on_k0_stats(m.payload, m.length);
+                    continue;
+                }
                 if (m.type != MK_MSG_PING) {
                     dropped++; /* late K0 reply after a k1_exchange timeout */
                     continue;
@@ -1263,6 +1270,24 @@ int main(void)
 #endif
         now_cyc = pmccntr();
         busy_ppm = (now_cyc - prev_cyc) * 1000000ull / cyc_per_sec;
+#if KERNEL_ID == 0
+        {
+            /* Resilience counters for K1's control port (gw_proto.h). */
+            gw_k0_stats_t st = {
+                .tick = tick, .uptime_ms = cntpct() / (freq / 1000u),
+                .busy_ppm = (uint32_t)busy_ppm, .pets = pets_this_tick,
+                .served = gw_requests_served(), .rejected_frames = gw_rejected_frames(),
+                .no_response = gw_no_response(),
+                .queue_depth = (uint32_t)(((const volatile mk_channel_control_t *)&peer_ring->control)->tx_head -
+                                          ((const volatile mk_channel_control_t *)&local_ring->control)->rx_tail),
+                .send_failures = (uint32_t)gw_send_failures(),
+            };
+            pets_this_tick = 0;
+            k0_send(GW_MSG_K0_STATS, &st, sizeof(st));
+        }
+#else
+        net_tick(tick, (uint32_t)busy_ppm);
+#endif
 
         put_str("tick ");
         put_dec(tick++);

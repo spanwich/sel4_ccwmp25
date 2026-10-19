@@ -38,3 +38,19 @@ typedef struct __attribute__((packed)) {
 #define GW_FRAG_DATA (512u - (uint32_t)sizeof(gw_frag_hdr_t))
 
 _Static_assert(sizeof(gw_frag_hdr_t) == 40u, "fragment header ABI");
+
+/* Resilience test: K0's 1 s counters, sent to K1 at every K0 tick and kept
+ * there for the control port ("counters"). Measurement only. */
+#define GW_MSG_K0_STATS 23u
+
+typedef struct __attribute__((packed)) {
+    uint64_t tick;
+    uint64_t uptime_ms;
+    uint32_t busy_ppm;        /* K0 PMU cycles in the last second / cycles per second */
+    uint32_t pets;            /* watchdog pets in the last second */
+    uint64_t served;          /* cumulative responses sent */
+    uint64_t rejected_frames; /* cumulative malformed/out-of-order frames dropped */
+    uint64_t no_response;     /* cumulative requests that produced no response */
+    uint32_t queue_depth;     /* K1->K0 fragments not yet consumed, at the tick */
+    uint32_t send_failures;   /* cumulative K0->K1 sends refused (ring full) */
+} gw_k0_stats_t;
