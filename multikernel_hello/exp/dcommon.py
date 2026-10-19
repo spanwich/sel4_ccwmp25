@@ -106,5 +106,11 @@ def boot(engine):
         raise RuntimeError(f"wrong image booted (expected {engine}, saw {seen})")
     if re.search(r"HTTP_DEMO_FAIL|HTTP_GATE_TIMING_FAIL|EQUIVALENCE_FAIL|EXTRACTOR_FAIL", log):
         raise RuntimeError("failure marker in boot log")
-    wait_serial(r"phy: link up", 60)
-    return wait_health()
+    if "untyped-audit:" in log and "FAIL" in log and "untyped-audit: untypeds" in log:
+        for l in log.splitlines():
+            if "untyped-audit: untypeds" in l and "FAIL" in l:
+                raise RuntimeError(f"untyped audit FAIL: {l.strip()}")
+    # Readiness = the control port answers, which proves the PHY link is up and
+    # K1 serves. More robust than grepping serial for "phy: link up", which can
+    # scroll out of the capture window or negotiate slowly.
+    return wait_health(timeout=120)

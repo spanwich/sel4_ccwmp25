@@ -92,7 +92,7 @@
  * Owners (verified against the rootserver's map_device_page callers):
  *   K0: RCC 0x44200000 (64 KiB) only. OP-TEE and IWDG are reached by SMC;
  *       the GIC and console UART are kernel devices, not untypeds.
- *   K1: ETH1 0x482c0000 (16 KiB), SYSCFG 0x44230000 (4 KiB), GPIO A/B/C/F/H.
+ *   K1: ETH1 0x482c0000 (16 KiB), SYSCFG 0x44233000 (ETH1CR page), GPIO A/B/C/F/H.
  */
 struct mmio_range { uint64_t base, size; const char *name; };
 #if KERNEL_ID == 0
@@ -102,7 +102,7 @@ static const struct mmio_range owned_mmio[] = {
 #else
 static const struct mmio_range owned_mmio[] = {
     { 0x482c0000ull, 0x4000ull, "ETH1" },
-    { 0x44230000ull, 0x1000ull, "SYSCFG" },
+    { 0x44233000ull, 0x1000ull, "SYSCFG" },
     { 0x44240000ull, 0x1000ull, "GPIOA" },
     { 0x44250000ull, 0x1000ull, "GPIOB" },
     { 0x44260000ull, 0x1000ull, "GPIOC" },
@@ -1141,6 +1141,19 @@ int k1_probe(const char *name, char *out, unsigned out_len)
         return snprintf(out, out_len, "{\"probe\":\"%s\",\"k1_untyped_covering_k0_ram\":%d,"
                         "\"expect\":0}\n", name, any);
     }
+    /* Per-kernel ownership (part 1): a compromised K1 must find NO device
+     * untyped covering a peripheral it does not own. RCC and IWDG are K0's
+     * concern (clock gates, watchdog); 0x40000000 is an unowned peripheral. */
+    if (strcmp(name, "rcc") == 0 || strcmp(name, "iwdg") == 0 ||
+        strcmp(name, "unowned_peripheral") == 0) {
+        uint64_t pa = strcmp(name, "rcc") == 0 ? 0x44200000ull
+                    : strcmp(name, "iwdg") == 0 ? 0x44020000ull /* IWDG1 */
+                    : 0x40000000ull;              /* first ST peripheral page */
+        int cov = k1_has_untyped_at(pa);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"paddr\":\"0x%08llx\","
+                        "\"k1_untyped_covering\":%d,\"expect\":0}\n",
+                        name, (unsigned long long)pa, cov);
+    }
     if (strcmp(name, "silent") == 0) {
         /* K1 stops servicing anything for 40 s (> 32 s IWDG window). The
          * board survives only if K0 keeps running independently of K1. */
@@ -1153,8 +1166,9 @@ int k1_probe(const char *name, char *out, unsigned out_len)
     }
     if (strcmp(name, "bad_sequence") == 0) {
         /* Publish a slot whose header sequence is wrong. K0 must count it as
-         * corrupt and keep running; the channel then stays blocked (fail
-         * closed) until reboot, so run this probe last. */
+         * corrupt, DROP it and resynchronise (harden: mk_channel_drop_one),
+         * then keep serving. A well-formed request afterwards must still get
+         * a verdict, proving the channel recovered without a reboot. */
         uint64_t before = k0_corrupt_seen();
         volatile mk_channel_control_t *c = &local_ring->control;
         uint64_t head = c->tx_head;
@@ -1167,9 +1181,12 @@ int k1_probe(const char *name, char *out, unsigned out_len)
         uint64_t t = cntpct();
         while (cntpct() - t < freq_hz / 2) {
         }
+        int rc = followup(st, sizeof(st)); /* must now succeed: channel recovered */
         return snprintf(out, out_len, "{\"probe\":\"%s\",\"k0_corrupt_before\":%llu,"
-                        "\"k0_corrupt_after\":%llu}\n", name,
-                        (unsigned long long)before, (unsigned long long)k0_corrupt_seen());
+                        "\"k0_corrupt_after\":%llu,\"followup_rc\":%d,\"followup\":\"%s\","
+                        "\"expect\":\"recovered\"}\n", name,
+                        (unsigned long long)before, (unsigned long long)k0_corrupt_seen(),
+                        rc, st);
     }
     return -1;
 }

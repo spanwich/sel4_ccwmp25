@@ -59,7 +59,7 @@
 
 		/* Peripheral ownership (allow-list): reserve every MMIO range K1
 		 * does not own, leaving only K1's owned pages as device untypeds.
-		 * K1 owns ETH1 (0x482c0000, 16 KiB), SYSCFG (0x44230000) and the
+		 * K1 owns ETH1 (0x482c0000, 16 KiB), SYSCFG (0x44233000, ETH1CR page) and the
 		 * GPIO banks A/B/C/F/H used by the ETH1 pins and the PHY reset.
 		 * The holes below (one reservation between each owned page) are the
 		 * only peripheral device untypeds K1 receives, so its compromised
@@ -73,11 +73,11 @@
 			sel4,foreign-memory;
 		};
 		mmio-a@40000000 {
-			reg = <0x0 0x40000000 0x0 0x04230000>; /* ..0x44230000 (SYSCFG) */
+			reg = <0x0 0x40000000 0x0 0x04233000>; /* ..0x44233000 (SYSCFG ETH1CR page) */
 			sel4,foreign-memory;
 		};
-		mmio-b@44231000 {
-			reg = <0x0 0x44231000 0x0 0x0000f000>; /* ..0x44240000 (GPIOA) */
+		mmio-b@44234000 {
+			reg = <0x0 0x44234000 0x0 0x0000c000>; /* ..0x44240000 (GPIOA) */
 			sel4,foreign-memory;
 		};
 		mmio-c@44241000 {

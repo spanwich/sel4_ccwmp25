@@ -1,0 +1,239 @@
+Starting kernel ...
+
+
+ELF-loader started on CPU: ARM Ltd. Cortex-A35 r1p0
+  paddr=[88000000..880f629f]
+  dtb=b800a000
+Looking for DTB in CPIO archive...found at 88045c50.
+Loaded DTB from 88045c50.
+   paddr=[84246000..84246fff]
+ELF-loading image 'kernel' to 84000000
+  paddr=[84000000..84245fff]
+  vaddr=[8084000000..8084245fff]
+  virt_entry=8084000000
+ELF-loading image 'rootserver' to 84247000
+  paddr=[84247000..84bacfff]
+  vaddr=[400000..d65fff]
+  virt_entry=40f1b0
+multikernel: loading 2-kernel ARM bundle
+multikernel: K1 wants phys [98000000..98246000)
+ELF-loading image 'kernel_1' to 98000000
+  paddr=[98000000..98245fff]
+  vaddr=[8098000000..8098245fff]
+  virt_entry=8098000000
+multikernel: K1 dtb at 98246000 (2480 bytes)
+ELF-loading image 'rootserver_1' to 98247000
+  paddr=[98247000..98420fff]
+  vaddr=[400000..5d9fff]
+  virt_entry=411f18
+multikernel: K1 core1 stub staged at 98400000 (132 bytes)
+multikernel: K1 loaded entry=8098000000 user=[98247000..98421000] uentry=411f18 dtb=98246000/2480
+multikernel: secondaries loaded, left for K0 to start
+Enabling hypervisor MMU and jumping to entry point...
+
+[K0] Bootstrapping kernel
+[K0] Available phys memory regions: 1
+[K0]   [84000000..98000000)
+[K0] Reserved virt address space regions: 12
+[K0]   [8000000000..8040000000)
+[K0]   [8040000000..8044200000)
+[K0]   [8044210000..804a000000)
+[K0]   [804a000000..804ac00000)
+[K0]   [804ad00000..8080000000)
+[K0]   [8080000000..8084000000)
+[K0]   [8084000000..8084246000)
+[K0]   [8084246000..8084246838)
+[K0]   [8084247000..8084bad000)
+[K0]   [8098000000..80ac000000)
+[K0]   [80ad400000..80c0000000)
+[K0]   [80c0000000..18000000000)
+[K0] Booting all finished, dropped to user space
+[K0] rootserver up, build ccwmp25-mk-d1-v16
+[K0] untyped-audit: MMIO 0x0000000044200000..0x0000000044210000 owned RCC
+[K0] untyped-audit: MMIO 0x000000004ac00000..0x000000004ac10000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac11000..0x000000004ac12000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac12000..0x000000004ac14000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac14000..0x000000004ac18000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac18000..0x000000004ac20000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac21000..0x000000004ac22000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac22000..0x000000004ac24000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac24000..0x000000004ac28000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac28000..0x000000004ac30000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac30000..0x000000004ac40000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac41000..0x000000004ac42000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac42000..0x000000004ac44000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac44000..0x000000004ac48000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac48000..0x000000004ac50000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac50000..0x000000004ac60000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac60000..0x000000004ac80000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac80000..0x000000004ad00000 gic-area
+[K0] untyped-audit: untypeds=47 device=20 overlap=0 peer-ram=0 unowned-mmio=0 PASS
+[K0] dispatch: PSCI CPU_ON core1 -> trampoline 0x00000000880050a0
+[K0] dispatch: PSCI CPU_ON ret=0
+[K1] Bootstrapping kernel
+[K1] Available phys memory regions: 1
+[K1]   [98000000..ab800000)
+[K1] Reserved virt address space regions: 18
+[K1]   [8000000000..8040000000)
+[K1]   [8040000000..8044233000)
+[K1]   [8044234000..8044240000)
+[K1]   [8044241000..8044250000)
+[K1]   [8044251000..8044260000)
+[K1]   [8044261000..8044290000)
+[K1]   [8044291000..80442b0000)
+[K1]   [80442b1000..80482c0000)
+[K1]   [80482c4000..804a000000)
+[K1]   [804a000000..804ac00000)
+[K1]   [804ad00000..8080000000)
+[K1]   [8080000000..8084000000)
+[K1]   [8084000000..8098000000)
+[K1]   [8098000000..8098246000)
+[K1]   [8098246000..80982469b0)
+[K1]   [8098247000..8098421000)
+[K1]   [80ad400000..80c0000000)
+[K1]   [80c0000000..18000000000)
+[K1] Booting all finished, dropped to user space
+[K1] rootserver up, build ccwmp25-mk-d1-v16
+[K1] untyped-audit: MMIO 0x0000000044233000..0x0000000044234000 owned SYSCFG
+[K1] untyped-audit: MMIO 0x0000000044240000..0x0000000044241000 owned GPIOA
+[K1] untyped-audit: MMIO 0x0000000044250000..0x0000000044251000 owned GPIOB
+[K1] untyped-audit: MMIO 0x0000000044260000..0x0000000044261000 owned GPIOC
+[K1] untyped-audit: MMIO 0x0000000044290000..0x0000000044291000 owned GPIOF
+[K1] untyped-audit: MMIO 0x00000000442b0000..0x00000000442b1000 owned GPIOH
+[K1] untyped-audit: MMIO 0x00000000482c0000..0x00000000482c4000 owned ETH1
+[K1] untyped-audit: MMIO 0x000000004ac00000..0x000000004ac10000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac11000..0x000000004ac12000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac12000..0x000000004ac14000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac14000..0x000000004ac18000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac18000..0x000000004ac20000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac21000..0x000000004ac22000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac22000..0x000000004ac24000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac24000..0x000000004ac28000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac28000..0x000000004ac30000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac30000..0x000000004ac40000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac41000..0x000000004ac42000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac42000..0x000000004ac44000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac44000..0x000000004ac48000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac48000..0x000000004ac50000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac50000..0x000000004ac60000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac60000..0x000000004ac80000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac80000..0x000000004ad00000 gic-area
+[K1] untyped-audit: untypeds=58 device=27 overlap=0 peer-ram=0 unowned-mmio=0 PASS
+[K0] idle: cntfrq=40000000 Hz, cpu=1200000024 cycles/s
+[K0] optee: SCMI PTA session 1, shm pa 0x0000000084001000
+[K0] scmi: clock ICN_LS_MCU (64) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_54/ETH1_KER (54) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock FLEXGEN_56/ETH1_PTP (56) attr_status=0 enabled 0 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOA (89) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOB (90) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOC (91) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOF (94) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] scmi: clock GPIOH (96) attr_status=0 enabled 1 -> enable status=0 -> enabled 1
+[K0] rcc: ETH1CFGR 0x0000000000000f66 -> 0x0000000000000f76 (gates on, out of reset)
+[K0] channel: local 0x00000000ac000000 rw, peer 0x00000000aca00000 ro, Device, SGI 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] Received disabled IRQ: 1
+[K1] idle: cntfrq=40000000 Hz, cpu=1200000024 cycles/s
+[K1] channel: local 0x00000000aca00000 rw, peer 0x00000000ac000000 roReceived disabled IRQ: 1
+[K1] , Device, SGI 1
+[K1] channel: READY abi=2 epoch=0x10170001216501a2
+[K0] channel: READY abi=2 epoch=0x10170001216501a2
+[K1] bench: first PING received
+[K0] bench: first PONG received
+[K1] bench: echoed 11000 PINGs
+[K1] bench: sent=11000 received=11000 full=0 corrupt=0
+[K0] bench: 10000 round trips x 512 B: min=27125ns p50=28150ns p99=29450ns max=30000ns mean=28201ns rate=28435 rt/s
+[K0] bench: sent=11000 received=11000 full=0 corrupt=0
+[K0] HTTP_DEMO_COMPONENT,name=authenticator,mode=private_identity_oracle
+[K0] HTTP_DEMO_COMPONENT,name=protected_app
+[K0] gw: default policy installed, digest=0x1c87d388f42b17aa
+[K0] 
+[K0] Warning: using printf before serial is set up. This only works as your
+[K0] printf is backed by seL4_Debug_PutChar()
+[K0] C2_RESULT,engine=everparse,case=empty_bracket,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=11,p50=11,p90=11,p99=11,max=18,mean=11,loop_cntpct_ticks=1051,cntfrq=40000000,mismatches=0
+[K0] C2_RESULT,engine=everparse,case=allow_first,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1029,p50=1029,p90=1029,p99=1032,max=1441,mean=1029,loop_cntpct_ticks=35056,cntfrq=40000000,mismatche0
+[K0] C2_RESULT,engine=everparse,case=allow_last,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1044,p50=1044,p90=1044,p99=1044,max=1070,mean=1044,loop_cntpct_ticks=35538,cntfrq=40000000,mismatches0
+[K0] C2_RESULT,engine=everparse,case=deny_path,samples=1000,warmup=100,unit=cycles,cpu_hz=1200000000,min=1068,p50=1068,p90=1068,p99=1068,max=1136,mean=1068,loop_cntpct_ticks=36341,cntfrq=40000000,mismatches=0
+[K0] d2: equivalence start engine=everparse
+[K0] EQUIVALENCE_OK,engine=everparse,comparisons=12527
+[K0] d2: equivalence rc=0 ms=18
+[K0] === extract_security_params test suite ===
+[K0] 
+[K0] --- Known endpoints ---
+[K0]   PASS: GET /api/status (hash=0x33333333 method=1 body=0 olen=175)
+[K0]   PASS: GET /api/policy (hash=0x44444444 method=1 body=0 olen=175)
+[K0]   PASS: POST /api/login with body (hash=0x11111111 method=2 body=11 olen=186)
+[K0]   PASS: POST /api/logout (hash=0x22222222 method=2 body=0 olen=175)
+[K0]   PASS: PUT /api/policy with body (hash=0x44444444 method=4 body=5 olen=180)
+[K0]   PASS: GET /api/demo (hash=0x55555555 method=1 body=0 olen=175)
+[K0]   PASS: GET /api/reports (hash=0x66666666 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Dashboard ---
+[K0]   PASS: GET / (dashboard) (hash=0x00000000 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Error codes ---
+[K0]   PASS: no headers (incomplete) -> INCOMPLETE
+[K0]   PASS: DELETE /api/status (hash=0x33333333 method=8 body=0 olen=175)
+[K0]   PASS: HEAD /api/status (hash=0x33333333 method=32 body=0 olen=175)
+[K0]   PASS: path traversal -> PATH_TRAVERSAL
+[K0]   PASS: path traversal in api -> PATH_TRAVERSAL
+[K0]   PASS: unknown endpoint -> PATH_UNKNOWN
+[K0]   PASS: unknown short path -> PATH_UNKNOWN
+[K0]   PASS: null byte in path -> MALFORMED
+[K0]   PASS: body too large -> BODY_TOO_LARGE
+[K0]   PASS: body incomplete -> INCOMPLETE
+[K0] 
+[K0] --- Wire format details ---
+[K0]   PASS: body bytes + zeroed region
+[K0] 
+[K0] --- Edge cases ---
+[K0]   PASS: empty input -> INCOMPLETE
+[K0]   PASS: just CRLF -> METHOD_UNKNOWN
+[K0]   PASS: CL 0 no body (hash=0x33333333 method=1 body=0 olen=175)
+[K0]   PASS: path with query (hash=0x11111111 method=1 body=0 olen=175)
+[K0]   PASS: status with encoded query (hash=0x33333333 method=1 body=0 olen=175)
+[K0] 
+[K0] --- Bearer token extraction ---
+[K0]   PASS: bearer token present (tlen=11)
+[K0]   PASS: no bearer token (tlen=0, region zeroed)
+[K0]   PASS: token truncated to 128 (tlen=128)
+[K0]   PASS: bearer + body (tlen=7 body=5)
+[K0] 
+[K0] === Results: 28/28 passed ===
+[K0] D2_EXTRACTOR,EXTRACTOR_OK,rc=0
+[K0] gw: default policy installed, digest=0x1c87d388f42b17aa
+[K0] HTTP_DEMO_COMPONENT,name=policy_gate,engine=everparse
+[K0] gw: engine=everparse gate pipeline ready
+[K1] id: : blocking tn PiIg n twork
+[K1] eth: MAC_VERSION=0x0000000000001a53
+[K1] eth: SYSCFG_ETH1CR 0x0000000000000010 -> 0x0000000000000010
+[K1] phy: id=0x0000000001410dd1 (Marvell 88E1512)
+[K1] eth: DMA reset done
+[K1] eth: rx fifo 4096 B, tx fifo 8192 B, rings at 0x00000000ab800000
+[K1] net: 192.168.40.129/24 mac 02:cc:25:00:00:01, raw http :80 -> K0, control :81
+[K1] idle: blocking on PPI 30 + SGI 1
+[K0] tick 0 engine=everparse served=0 rejected_frames=0 busy=0.001% ping=0ns timeouts=0 stale=0
+[K1] tick 0 busy=0.033% pongs=11000 dropped=0
+[K0] tick 1 engine=everparse served=0 rejected_frames=0 busy=0.293% ping=0ns timeouts=0 stale=0
+[K1] tick 1 busy=0.057% pongs=11000 dropped=0
+[K0] tick 2 engine=everparse served=0 rejected_frames=0 busy=0.294% ping=0ns timeouts=0 stale=0
+[K1] tick 2 busy=0.056% pongs=11000 dropped=0
+[K0] tick 3 engine=everparse served=0 rejected_frames=0 busy=0.293% Ki] phns lineoup 1000tfue=
+
+[K1] tick 3 busy=0.305% pongs=11000 dropped=0
+
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.9 | VT102 | Offline | ttyACM0                                                                                                                                 

@@ -1,0 +1,282 @@
+{
+ "k0": [
+  {
+   "engine": "raw",
+   "text_rodata": 152274,
+   "data": 5136,
+   "bss_total": 9592256,
+   "bss_large_symbols": {
+    "morecore_area": 1048576
+   },
+   "image_bytes": 904384,
+   "components": {
+    "fstar_extractor": {
+     "text": 6252,
+     "data": 96,
+     "bss": 8,
+     "objects": 7
+    },
+    "policy_gate (incl. dashboard, RateCounter inlined)": {
+     "text": 9481,
+     "data": 48,
+     "bss": 8228,
+     "objects": 1
+    },
+    "pipeline+wire+oracle": {
+     "text": 2288,
+     "data": 0,
+     "bss": 0,
+     "objects": 3
+    },
+    "authenticator": {
+     "text": 1389,
+     "data": 24,
+     "bss": 1556,
+     "objects": 1
+    },
+    "protected_app": {
+     "text": 2308,
+     "data": 24,
+     "bss": 4116,
+     "objects": 1
+    },
+    "k0 glue (gateway_k0.c: shim, dispatcher, proxy, D3 timing)": {
+     "text": 2332,
+     "data": 4,
+     "bss": 23804,
+     "objects": 1
+    },
+    "d2 test code (equivalence corpus, extractor vectors)": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    },
+    "everparse engine": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    },
+    "accept_all engine": {
+     "text": 267,
+     "data": 0,
+     "bss": 68,
+     "objects": 1
+    }
+   }
+  },
+  {
+   "engine": "gateonly",
+   "text_rodata": 152634,
+   "data": 5136,
+   "bss_total": 9592256,
+   "bss_large_symbols": {
+    "morecore_area": 1048576
+   },
+   "image_bytes": 904384,
+   "components": {
+    "fstar_extractor": {
+     "text": 6252,
+     "data": 96,
+     "bss": 8,
+     "objects": 7
+    },
+    "policy_gate (incl. dashboard, RateCounter inlined)": {
+     "text": 9481,
+     "data": 48,
+     "bss": 8228,
+     "objects": 1
+    },
+    "pipeline+wire+oracle": {
+     "text": 2288,
+     "data": 0,
+     "bss": 0,
+     "objects": 3
+    },
+    "authenticator": {
+     "text": 1389,
+     "data": 24,
+     "bss": 1556,
+     "objects": 1
+    },
+    "protected_app": {
+     "text": 2308,
+     "data": 24,
+     "bss": 4116,
+     "objects": 1
+    },
+    "k0 glue (gateway_k0.c: shim, dispatcher, proxy, D3 timing)": {
+     "text": 2677,
+     "data": 4,
+     "bss": 23828,
+     "objects": 1
+    },
+    "d2 test code (equivalence corpus, extractor vectors)": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    },
+    "everparse engine": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    },
+    "accept_all engine": {
+     "text": 267,
+     "data": 0,
+     "bss": 68,
+     "objects": 1
+    }
+   }
+  },
+  {
+   "engine": "everparse",
+   "text_rodata": 194490,
+   "data": 5144,
+   "bss_total": 9592256,
+   "bss_large_symbols": {
+    "morecore_area": 1048576
+   },
+   "image_bytes": 945344,
+   "components": {
+    "fstar_extractor": {
+     "text": 6252,
+     "data": 96,
+     "bss": 8,
+     "objects": 7
+    },
+    "policy_gate (incl. dashboard, RateCounter inlined)": {
+     "text": 9481,
+     "data": 48,
+     "bss": 8228,
+     "objects": 1
+    },
+    "pipeline+wire+oracle": {
+     "text": 2288,
+     "data": 0,
+     "bss": 0,
+     "objects": 3
+    },
+    "authenticator": {
+     "text": 1389,
+     "data": 24,
+     "bss": 1556,
+     "objects": 1
+    },
+    "protected_app": {
+     "text": 2308,
+     "data": 24,
+     "bss": 4116,
+     "objects": 1
+    },
+    "k0 glue (gateway_k0.c: shim, dispatcher, proxy, D3 timing)": {
+     "text": 4590,
+     "data": 4,
+     "bss": 31828,
+     "objects": 1
+    },
+    "d2 test code (equivalence corpus, extractor vectors)": {
+     "text": 17807,
+     "data": 4,
+     "bss": 24,
+     "objects": 4
+    },
+    "everparse engine": {
+     "text": 21013,
+     "data": 0,
+     "bss": 69,
+     "objects": 7
+    },
+    "accept_all engine": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    }
+   }
+  },
+  {
+   "engine": "cedar",
+   "text_rodata": 3742772,
+   "data": 15616,
+   "bss_total": 59990320,
+   "bss_large_symbols": {
+    "morecore_area": 1048576,
+    "arena": 50331648
+   },
+   "image_bytes": 4707520,
+   "components": {
+    "fstar_extractor": {
+     "text": 6252,
+     "data": 96,
+     "bss": 8,
+     "objects": 7
+    },
+    "policy_gate (incl. dashboard, RateCounter inlined)": {
+     "text": 9481,
+     "data": 48,
+     "bss": 8228,
+     "objects": 1
+    },
+    "pipeline+wire+oracle": {
+     "text": 2288,
+     "data": 0,
+     "bss": 0,
+     "objects": 3
+    },
+    "authenticator": {
+     "text": 1389,
+     "data": 24,
+     "bss": 1556,
+     "objects": 1
+    },
+    "protected_app": {
+     "text": 2308,
+     "data": 24,
+     "bss": 4116,
+     "objects": 1
+    },
+    "k0 glue (gateway_k0.c: shim, dispatcher, proxy, D3 timing)": {
+     "text": 4578,
+     "data": 4,
+     "bss": 31828,
+     "objects": 1
+    },
+    "d2 test code (equivalence corpus, extractor vectors)": {
+     "text": 17807,
+     "data": 4,
+     "bss": 24,
+     "objects": 4
+    },
+    "everparse engine": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    },
+    "accept_all engine": {
+     "text": 0,
+     "data": 0,
+     "bss": 0,
+     "objects": 0
+    }
+   }
+  }
+ ],
+ "k1": {
+  "text_rodata": 209722,
+  "data": 4976,
+  "bss_total": 1678784,
+  "bss_large_symbols": {
+   "morecore_area": 1048576
+  }
+ },
+ "cedar_engine_linked_delta_vs_gateonly": {
+  "text_rodata": 3590138,
+  "data": 10480,
+  "note": "includes cedar_libc_stubs.c, k0_malloc.c and the D2 test code"
+ }
+}

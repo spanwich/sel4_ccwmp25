@@ -1,0 +1,2 @@
+kernel 659faba4 (multikernel-stm32mp2-v16); tools/seL4 a96ad718
+sel4_ccwmp25 hardening commits 8f23007 (ownership) + 745d2fd (bad-seq recovery) + new D7 probes

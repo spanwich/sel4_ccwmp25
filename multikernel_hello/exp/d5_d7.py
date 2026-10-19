@@ -142,25 +142,24 @@ def d7(engine):
     res.append(http_probe("after_probes_operator", G + f"Authorization: {op_tok}\r\n\r\n".encode(), 403))
 
     k1 = []
+    # New ownership probes: K1 must find NO untyped covering a peripheral it
+    # does not own, nor K0 RAM. bad_sequence must now RECOVER (drop + resync)
+    # and serve afterwards, so it is no longer the last/wedging probe.
     for name in ["garbage", "oversize", "bad_type", "out_of_order", "forged_secparams",
-                 "k0_ram", "sgi_flood", "silent"]:
+                 "rcc", "iwdg", "unowned_peripheral", "k0_ram", "bad_sequence",
+                 "sgi_flood", "silent"]:
         up0 = dc.wait_health()["uptime_s"]
         r = dc.control(f"probe {name}", timeout=90)
         h = dc.wait_health()
         st = dc.request("GET", "/api/policy", headers={"Authorization": admin_tok})[0]
         k1.append({"probe": name, "result": r, "uptime_before": up0, "uptime_after": h["uptime_s"],
                    "gated_admin_policy_read_after": st})
-    r = dc.control("probe bad_sequence", timeout=30)
-    time.sleep(2)
-    try:
-        after = dc.request("GET", "/api/policy", headers={"Authorization": admin_tok}, timeout=10)[0]
-    except OSError as e:
-        after = f"<{type(e).__name__}>"
-    time.sleep(35)  # past the 32 s IWDG window: K0 must still be petting it
+    # Confirm the board is still petting the IWDG well past its 32 s window.
+    time.sleep(35)
     h = dc.wait_health()
-    k1.append({"probe": "bad_sequence", "result": r, "gated_request_after": after,
-               "uptime_after_35s": h["uptime_s"]})
+    final = dc.request("GET", "/api/policy", headers={"Authorization": admin_tok})[0]
     return {"engine": engine, "http_probes": res, "k1_probes": k1, "health": h,
+            "uptime_after_35s": h["uptime_s"], "gated_admin_after_35s": final,
             "serial_log": dc.serial()}
 
 

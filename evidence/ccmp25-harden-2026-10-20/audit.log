@@ -1,0 +1,44 @@
+[K0] untyped-audit: MMIO 0x0000000044200000..0x0000000044210000 owned RCC
+[K0] untyped-audit: MMIO 0x000000004ac00000..0x000000004ac10000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac11000..0x000000004ac12000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac12000..0x000000004ac14000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac14000..0x000000004ac18000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac18000..0x000000004ac20000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac21000..0x000000004ac22000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac22000..0x000000004ac24000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac24000..0x000000004ac28000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac28000..0x000000004ac30000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac30000..0x000000004ac40000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac41000..0x000000004ac42000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac42000..0x000000004ac44000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac44000..0x000000004ac48000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac48000..0x000000004ac50000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac50000..0x000000004ac60000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac60000..0x000000004ac80000 gic-area
+[K0] untyped-audit: MMIO 0x000000004ac80000..0x000000004ad00000 gic-area
+[K0] untyped-audit: untypeds=43 device=20 overlap=0 peer-ram=0 unowned-mmio=0 PASS
+[K1] untyped-audit: MMIO 0x0000000044233000..0x0000000044234000 owned SYSCFG
+[K1] untyped-audit: MMIO 0x0000000044240000..0x0000000044241000 owned GPIOA
+[K1] untyped-audit: MMIO 0x0000000044250000..0x0000000044251000 owned GPIOB
+[K1] untyped-audit: MMIO 0x0000000044260000..0x0000000044261000 owned GPIOC
+[K1] untyped-audit: MMIO 0x0000000044290000..0x0000000044291000 owned GPIOF
+[K1] untyped-audit: MMIO 0x00000000442b0000..0x00000000442b1000 owned GPIOH
+[K1] untyped-audit: MMIO 0x00000000482c0000..0x00000000482c4000 owned ETH1
+[K1] untyped-audit: MMIO 0x000000004ac00000..0x000000004ac10000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac11000..0x000000004ac12000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac12000..0x000000004ac14000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac14000..0x000000004ac18000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac18000..0x000000004ac20000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac21000..0x000000004ac22000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac22000..0x000000004ac24000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac24000..0x000000004ac28000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac28000..0x000000004ac30000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac30000..0x000000004ac40000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac41000..0x000000004ac42000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac42000..0x000000004ac44000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac44000..0x000000004ac48000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac48000..0x000000004ac50000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac50000..0x000000004ac60000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac60000..0x000000004ac80000 gic-area
+[K1] untyped-audit: MMIO 0x000000004ac80000..0x000000004ad00000 gic-area
+[K1] untyped-audit: untypeds=58 device=27 overlap=0 peer-ram=0 unowned-mmio=0 PASS
