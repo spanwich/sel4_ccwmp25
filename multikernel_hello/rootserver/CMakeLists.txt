@@ -1,5 +1,5 @@
 if(NOT DEFINED ROOTSERVER_BUILD_ID)
-    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-c1-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
+    set(ROOTSERVER_BUILD_ID "ccwmp25-mk-c3-v16" CACHE STRING "Marker printed by the Phase 1 rootserver")
 endif()
 
 add_library(mk_channel STATIC EXCLUDE_FROM_ALL ../channel/mk_channel.c)
@@ -34,9 +34,9 @@ endif()
 # ---- Paper experiments: access-control engine on K0 (vendored, ../gateway) ----
 set(MK_ENGINE "none" CACHE STRING "K0 engine: none | everparse | cedar")
 set(GW ${CMAKE_CURRENT_SOURCE_DIR}/../gateway)
+target_include_directories(rootserver_hello PRIVATE ${GW}/include)
 if(MK_KERNEL_ID STREQUAL "0")
     target_sources(rootserver_hello PRIVATE gateway_k0.c)
-    target_include_directories(rootserver_hello PRIVATE ${GW}/include)
     target_compile_definitions(rootserver_hello PRIVATE MK_ENGINE_${MK_ENGINE}=1
                                MK_ENGINE_NAME="${MK_ENGINE}")
     if(NOT MK_ENGINE STREQUAL "none")
@@ -76,3 +76,14 @@ target_link_libraries(
         sel4muslcsys
 )
 
+
+# Paper experiments: measure optimised code (-O2, asserts kept), as the x86
+# host builds do. The CMake build type stays Debug for the seL4 libraries.
+foreach(t rootserver_hello mk_channel rs_lwip)
+    target_compile_options(${t} PRIVATE -O2)
+endforeach()
+foreach(t gw_engine gw_common)
+    if(TARGET ${t})
+        target_compile_options(${t} PRIVATE -O2)
+    endif()
+endforeach()

@@ -26,13 +26,17 @@
 #include "dwmac.h"
 #include "net.h"
 #include "gateway_k0.h"
+#include "gw_proto.h"
+#include "gateway_abi.h"
+#include <stddef.h>
+#include <stdio.h>
 
 #ifndef KERNEL_ID
 #define KERNEL_ID 0
 #endif
 
 #ifndef ROOTSERVER_BUILD_ID
-#define ROOTSERVER_BUILD_ID "ccwmp25-mk-c1-v16"
+#define ROOTSERVER_BUILD_ID "ccwmp25-mk-c3-v16"
 #endif
 
 /* EL1 physical timer: PPI 14 -> GIC IRQ 30. The EL2 kernel uses CNTHP (26). */
@@ -845,10 +849,157 @@ static void benchmark(uint64_t freq)
     put_str("\n");
 }
 
-#if KERNEL_ID == 1
-static uint64_t k1_pongs(void)
+#if KERNEL_ID == 0
+/* Serve every pending K1 request; replies are sent in order. */
+static void k0_serve(void)
 {
-    return ((const volatile mk_channel_control_t *)&local_ring->control)->sent;
+    mk_channel_message_t m;
+    static gw_rsp_t rsp;
+
+    while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
+        uint16_t t = gw_handle(m.type, m.payload, m.length, &rsp);
+        if (t != 0) {
+            mk_channel_try_send(&channel, t, 0, &rsp, sizeof(rsp), NULL);
+        }
+    }
+}
+#endif
+
+#if KERNEL_ID == 1
+/* ---- K1: synchronous K0 calls and the C6 compromised-K1 probes ---- */
+
+int k1_call_k0(uint16_t type, const void *req, uint32_t len, void *rsp, uint32_t rsp_len)
+{
+    mk_channel_message_t m;
+
+    if (mk_channel_try_send(&channel, type, 0, req, len, NULL) != MK_CHANNEL_OK) {
+        return -1;
+    }
+    mk_channel_status_t st = mk_channel_recv_until(&channel, &m, cntpct() + freq_hz / 5,
+                                                   channel_now, channel_wait_until);
+    if (st != MK_CHANNEL_OK) {
+        return -1;
+    }
+    memcpy(rsp, m.payload, m.length < rsp_len ? m.length : rsp_len);
+    return 0;
+}
+
+static uint64_t k0_corrupt_seen(void)
+{
+    return ((const volatile mk_channel_control_t *)&peer_ring->control)->corrupt;
+}
+
+/* Is any untyped of this kernel covering paddr? (no halt) */
+static int k1_has_untyped_at(uint64_t paddr)
+{
+    for (seL4_CPtr ut = bi->untyped.start; ut < bi->untyped.end; ut++) {
+        const seL4_UntypedDesc *d = &bi->untypedList[ut - bi->untyped.start];
+        if (paddr >= d->paddr && paddr < d->paddr + (1ull << d->sizeBits)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int probe_decide(gw_req_t *r, uint32_t len, uint16_t type, gw_rsp_t *rsp)
+{
+    r->req_id = 0x70000000u | (uint32_t)(cntpct() & 0xffffff);
+    return k1_call_k0(type, r, len, rsp, sizeof(*rsp));
+}
+
+int k1_probe(const char *name, char *out, unsigned out_len)
+{
+    static gw_req_t r;
+    static gw_rsp_t rsp;
+    memset(&r, 0, sizeof(r));
+    memset(&rsp, 0, sizeof(rsp));
+    const uint32_t hdr = (uint32_t)offsetof(gw_req_t, body);
+
+    if (strcmp(name, "forged_role") == 0) {
+        /* operator credentials, but K1 claims ADMIN/0xffff for GET /api/policy */
+        r.path_id = PATH_POLICY; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
+        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,"
+                        "\"note\":\"K0 decides on the fields K1 asserts\"}\n",
+                        name, rc, rsp.result);
+    }
+    if (strcmp(name, "forged_scope") == 0) {
+        r.path_id = PATH_POLICY; r.method = METHOD_PUT; r.role = ROLE_ADMIN; r.scope = 0;
+        r.body_len = 0;
+        int rc = probe_decide(&r, hdr, GW_MSG_UPDATE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,\"digest\":\"%016llx\"}\n",
+                        name, rc, rsp.result, (unsigned long long)rsp.policy_digest);
+    }
+    if (strcmp(name, "oversize") == 0) {
+        r.path_id = PATH_STATUS; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
+        r.body_len = 0xffffu; /* claims far more body than the frame carries */
+        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"result\":%u,"
+                        "\"expect\":\"deny (0)\"}\n", name, rc, rsp.result);
+    }
+    if (strcmp(name, "truncated") == 0 || strcmp(name, "bad_type") == 0) {
+        r.path_id = PATH_STATUS; r.method = METHOD_GET; r.role = ROLE_ADMIN; r.scope = 0xffff;
+        int bad_type = name[0] == 'b';
+        int rc = probe_decide(&r, bad_type ? hdr : 4u, bad_type ? 99u : GW_MSG_DECIDE, &rsp);
+        /* then a well-formed request must still be served */
+        memset(&r, 0, sizeof(r));
+        r.path_id = PATH_DEMO; r.method = METHOD_GET;
+        int rc2 = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"rc\":%d,\"expect_rc\":-1,"
+                        "\"followup_rc\":%d,\"followup_result\":%u}\n", name, rc, rc2, rsp.result);
+    }
+    if (strcmp(name, "sgi_flood") == 0) {
+        uint64_t t = cntpct();
+        for (unsigned i = 0; i < 100000u; i++) {
+            seL4_Signal(sgi_signal);
+        }
+        uint64_t ms = (cntpct() - t) * 1000u / freq_hz;
+        r.path_id = PATH_DEMO; r.method = METHOD_GET;
+        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"signals\":100000,\"ms\":%llu,"
+                        "\"followup_rc\":%d,\"followup_result\":%u}\n",
+                        name, (unsigned long long)ms, rc, rsp.result);
+    }
+    if (strcmp(name, "k0_ram") == 0) {
+        int any = 0;
+        for (uint64_t pa = K0_RAM_BASE; pa < K0_RAM_BASE + KN_RAM_SIZE; pa += 0x200000) {
+            any |= k1_has_untyped_at(pa);
+        }
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"k1_untyped_covering_k0_ram\":%d,"
+                        "\"expect\":0}\n", name, any);
+    }
+    if (strcmp(name, "silent") == 0) {
+        /* K1 stops servicing anything for 40 s (> 32 s IWDG window). The
+         * board survives only if K0 keeps running independently of K1. */
+        uint64_t t = cntpct();
+        while (cntpct() - t < 40 * freq_hz) {
+        }
+        r.path_id = PATH_DEMO; r.method = METHOD_GET;
+        int rc = probe_decide(&r, hdr, GW_MSG_DECIDE, &rsp);
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"silent_s\":40,\"followup_rc\":%d}\n",
+                        name, rc);
+    }
+    if (strcmp(name, "bad_sequence") == 0) {
+        /* Publish a slot whose header sequence is wrong. K0 must count it as
+         * corrupt and keep running; the channel then stays blocked (fail
+         * closed) until reboot, so run this probe last. */
+        uint64_t before = k0_corrupt_seen();
+        volatile mk_channel_control_t *c = &local_ring->control;
+        uint64_t head = c->tx_head;
+        volatile mk_channel_slot_t *slot = &local_ring->slots[head & (MK_CHANNEL_SLOT_COUNT - 1u)];
+        slot->sequence = head + 12345u;
+        slot->length = 8;
+        slot->type = GW_MSG_DECIDE;
+        __atomic_store_n(&c->tx_head, head + 1u, __ATOMIC_RELEASE);
+        seL4_Signal(sgi_signal);
+        uint64_t t = cntpct();
+        while (cntpct() - t < freq_hz / 2) {
+        }
+        return snprintf(out, out_len, "{\"probe\":\"%s\",\"k0_corrupt_before\":%llu,"
+                        "\"k0_corrupt_after\":%llu}\n", name,
+                        (unsigned long long)before, (unsigned long long)k0_corrupt_seen());
+    }
+    return -1;
 }
 #endif
 
@@ -909,7 +1060,12 @@ int main(void)
     benchmark(freq);
     pet_watchdog();
 #if KERNEL_ID == 0
-    gw_equivalence(); /* C1 (paper experiments) */
+    /* Paper experiments: C2 decision cost, then C1 equivalence (which ends by
+     * reinstalling the default policy), then serve K1 below. */
+    gw_init();
+    gw_timing();
+    pet_watchdog();
+    gw_equivalence();
     pet_watchdog();
 #endif
 #if KERNEL_ID == 1
@@ -919,7 +1075,7 @@ int main(void)
         seL4_CPtr dma_frames[(ETH_DMA_END - ETH_DMA_BASE) >> MK_FRAME_BITS];
         carve_window(ETH_DMA_BASE, ETH_DMA_END, dma_frames);
         map_frame(dma_frames[0], ETH_DMA_VADDR, seL4_ReadWrite); /* rings+buffers: 2 MiB */
-        net_init((void *)ETH_DMA_VADDR, ETH_DMA_BASE, ROOTSERVER_BUILD_ID, k1_pongs);
+        net_init((void *)ETH_DMA_VADDR, ETH_DMA_BASE, ROOTSERVER_BUILD_ID);
         eth_irq = bind_irq(ETH1_IRQ, badged(ntfn, BADGE_ETH));
         seL4_IRQHandler_Ack(eth_irq);
     }
@@ -955,9 +1111,16 @@ int main(void)
 #endif
         if (badge & BADGE_SGI) {
             seL4_IRQHandler_Ack(sgi_irq);
+#if KERNEL_ID == 0
+            k0_serve();
+#endif
 #if KERNEL_ID == 1
             mk_channel_message_t m;
             while (mk_channel_try_recv(&channel, &m) == MK_CHANNEL_OK) {
+                if (m.type != MK_MSG_PING) {
+                    dropped++; /* late K0 reply after a k1_call_k0 timeout */
+                    continue;
+                }
                 if (dropped < MK_PROBE_DROP_PINGS) {
                     dropped++; /* P1b probe: K0 must time out, not hang */
                     continue;
@@ -990,8 +1153,10 @@ int main(void)
 
 #if KERNEL_ID == 0
         pet_watchdog();
-        rtt = round_trip(ping_seq++);
-        timeouts += (rtt == 0);
+        /* No idle pings: the channel now carries K1's requests (gw_proto.h). */
+        (void)ping_seq;
+        (void)timeouts;
+        k0_serve(); /* in case a doorbell raced the tick */
 #endif
         now_cyc = pmccntr();
         busy_ppm = (now_cyc - prev_cyc) * 1000000ull / cyc_per_sec;

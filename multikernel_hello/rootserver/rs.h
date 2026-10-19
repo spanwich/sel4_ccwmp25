@@ -53,3 +53,11 @@ void smc_call(const seL4_ARM_SMCContext *req, seL4_ARM_SMCContext *resp);
 /* N1: ETH1 clocks via SCMI over OP-TEE, then RCC_ETH1CFGR gates. */
 void eth1_clocks_enable(void);
 #endif
+
+/* PMU cycle counter (enabled by the rootserver's pmu_init; EL0-exported). */
+static inline uint64_t rs_pmccntr(void)
+{
+    uint64_t v;
+    __asm__ volatile("isb; mrs %0, pmccntr_el0" : "=r"(v));
+    return v;
+}

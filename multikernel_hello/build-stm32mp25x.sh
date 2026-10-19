@@ -16,7 +16,7 @@ K0_BUILD="$WORKSPACE/build-ccwmp25-mk-hello-k0"
 [ "$MK_ENGINE" = "none" ] || K0_BUILD="$K0_BUILD-$MK_ENGINE"
 MK_CEDAR_STATICLIB="${MK_CEDAR_STATICLIB:-$HOME/phd/ccmp25-exp/cedar-target/aarch64-unknown-linux-musl/release/libcedar_gateway_staticlib.a}"
 MK_K0_HEAP_BYTES="${MK_K0_HEAP_BYTES:-1048576}" # musl morecore for K0 (Cedar heap)
-ROOTSERVER_BUILD_ID="ccwmp25-mk-c1-v16"
+ROOTSERVER_BUILD_ID="ccwmp25-mk-c3-v16"
 CROSS_PREFIX="aarch64-linux-gnu-"
 NM="${CROSS_PREFIX}nm"
 MAX_TRAMPOLINE_PASSES=3
