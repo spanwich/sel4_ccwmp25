@@ -6,7 +6,7 @@
 -- Detecting cached version of: musllibc
 --   Found valid cache entry for musllibc
 Doxygen build started
--- Configuring done (0.7s)
+-- Configuring done (0.8s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k1
 ninja: no work to do.
@@ -22,61 +22,24 @@ Doxygen build started
 -- Configuring done (0.8s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar
-[1/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/dns.c.obj
-[2/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/raw.c.obj
-[3/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/stats.c.obj
-[4/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/altcp_tcp.c.obj
-[5/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ip.c.obj
-[6/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/altcp.c.obj
-[7/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/altcp_alloc.c.obj
-[8/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/autoip.c.obj
-[9/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/dhcp.c.obj
-[10/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/def.c.obj
-[11/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/igmp.c.obj
-[12/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/memp.c.obj
-[13/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/init.c.obj
-[14/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/sys.c.obj
-[15/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/mem.c.obj
-[16/49] Building C object rootserver/CMakeFiles/mk_channel.dir/__/channel/mk_channel.c.obj
-[17/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/netif/ethernet.c.obj
-[18/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/inet_chksum.c.obj
-[19/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/timeouts.c.obj
-[20/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/icmp.c.obj
-[21/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
-[22/49] Linking C static library rootserver/libmk_channel.a
-[23/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/netif.c.obj
-[24/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
-[25/49] Building C object rootserver/CMakeFiles/gw_common.dir/__/gateway/common/oracle.c.obj
-[26/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
-[27/49] Building C object rootserver/CMakeFiles/gw_common.dir/__/gateway/common/wire.c.obj
-[28/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/udp.c.obj
-[29/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
-[30/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/ip4.c.obj
-[31/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/etharp.c.obj
-[32/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
-[33/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/ip4_addr.c.obj
-[34/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
-[35/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/ipv4/ip4_frag.c.obj
-[36/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/pbuf.c.obj
-[37/49] Building C object rootserver/CMakeFiles/gw_common.dir/__/gateway/host_tests/test_equivalence.c.obj
-[38/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/tcp_out.c.obj
-[39/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/tcp.c.obj
-[40/49] Linking C static library rootserver/libgw_common.a
-[41/49] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
-[42/49] Building C object rootserver/CMakeFiles/rs_lwip.dir/home/iamfo470/phd/camkes-vm-examples/projects/lwip/src/core/tcp_in.c.obj
-[43/49] Linking C static library rootserver/librs_lwip.a
-[44/49] Linking C executable rootserver/rootserver_hello
+[1/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[2/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
+[3/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[4/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[5/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
+[6/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
+[7/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
+[8/12] Linking C executable rootserver/rootserver_hello
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
-[45/49] Generating rootserver_1
-[46/49] Generating rootserver
-[47/49] Generate CPIO archive archive.o
-[48/49] Linking C executable elfloader-tool/elfloader
+[9/12] Generating rootserver
+[10/12] Generate CPIO archive archive.o
+[11/12] Linking C executable elfloader-tool/elfloader
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
-[49/49] Generating images/rootserver_hello-image-arm-stm32mp2
+[12/12] Generating images/rootserver_hello-image-arm-stm32mp2
 Image Name:   
-Created:      Mon Oct 19 16:51:53 2026
+Created:      Mon Oct 19 17:24:48 2026
 Image Type:   AArch64 Linux Kernel Image (uncompressed)
-Data Size:    4676224 Bytes = 4566.62 KiB = 4.46 MiB
+Data Size:    4680320 Bytes = 4570.62 KiB = 4.46 MiB
 Load Address: 88000000
 Entry Point:  88000000
     linked mk_core1_trampoline=0x00000000880050a0
@@ -88,16 +51,16 @@ Entry Point:  88000000
 -- Detecting cached version of: musllibc
 --   Found valid cache entry for musllibc
 Doxygen build started
--- Configuring done (0.8s)
+-- Configuring done (0.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar
-[1/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
-[2/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
-[3/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[1/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/optee_scmi.c.obj
+[2/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[3/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
 [4/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/dwmac.c.obj
-[5/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
-[6/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/cedar_libc_stubs.c.obj
-[7/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/main.c.obj
+[5/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/net.c.obj
+[6/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/gateway_k0.c.obj
+[7/12] Building C object rootserver/CMakeFiles/rootserver_hello.dir/k0_malloc.c.obj
 [8/12] Linking C executable rootserver/rootserver_hello
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: rootserver/rootserver_hello has a LOAD segment with RWX permissions
 [9/12] Generating rootserver
@@ -106,13 +69,13 @@ Doxygen build started
 /usr/lib/gcc-cross/aarch64-linux-gnu/13/../../../../aarch64-linux-gnu/bin/ld: warning: elfloader-tool/elfloader has a LOAD segment with RWX permissions
 [12/12] Generating images/rootserver_hello-image-arm-stm32mp2
 Image Name:   
-Created:      Mon Oct 19 16:51:55 2026
+Created:      Mon Oct 19 17:24:49 2026
 Image Type:   AArch64 Linux Kernel Image (uncompressed)
-Data Size:    4672128 Bytes = 4562.62 KiB = 4.46 MiB
+Data Size:    4676224 Bytes = 4566.62 KiB = 4.46 MiB
 Load Address: 88000000
 Entry Point:  88000000
     linked mk_core1_trampoline=0x00000000880050a0
 
 Final image: /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar/images/rootserver_hello-image-arm-stm32mp2
 K1 trampoline handoff: 0x00000000880050a0 (derived and verified)
--rw-rw-r-- 1 iamfo470 iamfo470 4.5M Oct 19 16:51 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar/images/rootserver_hello-image-arm-stm32mp2
+-rw-rw-r-- 1 iamfo470 iamfo470 4.5M Oct 19 17:24 /home/iamfo470/phd/camkes-vm-examples/build-ccwmp25-mk-hello-k0-cedar/images/rootserver_hello-image-arm-stm32mp2

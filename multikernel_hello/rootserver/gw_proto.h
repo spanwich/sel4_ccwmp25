@@ -12,6 +12,7 @@
 #define GW_MSG_VERDICT       17u /* K0->K1: gw_rsp_t */
 #define GW_MSG_UPDATE        18u /* K1->K0: gw_req_t + body */
 #define GW_MSG_UPDATE_RESULT 19u /* K0->K1: gw_rsp_t */
+#define GW_MSG_K0_READY      20u /* K0->K1: engine set up, C1/C2 done */
 
 #define GW_BODY_MAX 256u
 

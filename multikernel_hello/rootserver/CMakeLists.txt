@@ -87,3 +87,6 @@ foreach(t gw_engine gw_common)
         target_compile_options(${t} PRIVATE -O2)
     endif()
 endforeach()
+# The allocator must not be pattern-matched into calls to itself
+# (GCC -O2 turns malloc+memset in calloc() back into calloc()).
+set_source_files_properties(k0_malloc.c PROPERTIES COMPILE_OPTIONS "-fno-builtin")

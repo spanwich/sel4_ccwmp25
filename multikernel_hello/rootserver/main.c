@@ -1067,8 +1067,21 @@ int main(void)
     pet_watchdog();
     gw_equivalence();
     pet_watchdog();
+    /* Let K1 bring up the network only now: keeps K1 off the shared UART and
+     * out of K0's timing runs. */
+    mk_channel_try_send(&channel, GW_MSG_K0_READY, 0, NULL, 0, NULL);
 #endif
 #if KERNEL_ID == 1
+    {
+        mk_channel_message_t m;
+        mk_channel_status_t st;
+        do {
+            st = mk_channel_recv_until(&channel, &m, cntpct() + 300 * freq,
+                                       channel_now, channel_wait_until);
+        } while (st == MK_CHANNEL_OK && m.type != GW_MSG_K0_READY);
+        put_str(st == MK_CHANNEL_OK ? "k1: K0 ready, starting network\n"
+                                    : "k1: K0 READY timeout, starting network anyway\n");
+    }
     /* N2-N4: K0 turned the ETH1 clocks on before its ring went READY. */
     seL4_CPtr eth_irq = seL4_CapNull;
     if (eth1_probe() == 0) {
@@ -1163,6 +1176,10 @@ int main(void)
 
         put_str("tick ");
         put_dec(tick++);
+#if KERNEL_ID == 0
+        put_str(" engine=");
+        put_str(gw_engine_label());
+#endif
         put_str(" busy=");
         put_ppm_as_pct(busy_ppm);
 #if KERNEL_ID == 0
