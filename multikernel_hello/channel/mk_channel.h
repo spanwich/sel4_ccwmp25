@@ -111,6 +111,13 @@ mk_channel_status_t mk_channel_try_send(mk_channel_t *channel, uint16_t type,
                                         uint32_t length, uint64_t *sequence);
 mk_channel_status_t mk_channel_try_recv(mk_channel_t *channel,
                                         mk_channel_message_t *message);
+
+/* Recover from a MK_CHANNEL_CORRUPT slot: drop the one message at the read
+ * cursor (advance rx_tail by one) so the receiver resynchronises with the
+ * peer instead of wedging on the bad slot. The bad slot already advanced the
+ * peer's tx_head, so dropping it realigns both cursors. Returns OK if a slot
+ * was dropped, MK_CHANNEL_EMPTY if there was nothing to drop. */
+mk_channel_status_t mk_channel_drop_one(mk_channel_t *channel);
 mk_channel_status_t mk_channel_recv(mk_channel_t *channel,
                                     mk_channel_message_t *message);
 

@@ -12,6 +12,8 @@ uint64_t gw_rejected_frames(void);
 uint64_t gw_requests_served(void);
 uint64_t gw_no_response(void);
 uint64_t gw_send_failures(void);
+void gw_note_corrupt_dropped(void);
+uint64_t gw_corrupt_dropped(void);
 
 /* Provided by main.c (K0). */
 int k0_send(uint16_t type, const void *payload, uint32_t len);

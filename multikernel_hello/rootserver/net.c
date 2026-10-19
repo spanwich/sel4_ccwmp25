@@ -463,11 +463,11 @@ static int counters_json(char *out, unsigned cap)
         n += snprintf(out + n, cap - (unsigned)n,
                       "%s{\"tick\":%llu,\"uptime_ms\":%llu,\"busy_ppm\":%u,\"pets\":%u,"
                       "\"served\":%llu,\"rejected_frames\":%llu,\"no_response\":%llu,"
-                      "\"queue_depth\":%u,\"send_failures\":%u}",
+                      "\"queue_depth\":%u,\"send_failures\":%u,\"corrupt_dropped\":%llu}",
                       c ? "," : "", (unsigned long long)e->tick, (unsigned long long)e->uptime_ms,
                       e->busy_ppm, e->pets, (unsigned long long)e->served,
                       (unsigned long long)e->rejected_frames, (unsigned long long)e->no_response,
-                      e->queue_depth, e->send_failures);
+                      e->queue_depth, e->send_failures, (unsigned long long)e->corrupt_dropped);
     }
     n += snprintf(out + n, cap - (unsigned)n, "],\"k1\":[");
     for (uint32_t c = 0; c < CTR_PER_READ && k1_ctr_tail != k1_ctr_head && (unsigned)n < cap; c++) {

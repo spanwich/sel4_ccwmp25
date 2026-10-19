@@ -217,6 +217,20 @@ mk_channel_status_t mk_channel_try_recv(mk_channel_t *channel,
     return MK_CHANNEL_OK;
 }
 
+mk_channel_status_t mk_channel_drop_one(mk_channel_t *channel)
+{
+    if (channel == NULL || channel->local == NULL || channel->peer == NULL) {
+        return MK_CHANNEL_INVALID_ARGUMENT;
+    }
+    uint64_t tail = *(volatile uint64_t *)&channel->local->control.rx_tail;
+    uint64_t head = load_acquire_u64(&channel->peer->control.tx_head);
+    if (tail == head) {
+        return MK_CHANNEL_EMPTY;
+    }
+    store_release_u64(&channel->local->control.rx_tail, tail + 1u);
+    return MK_CHANNEL_OK;
+}
+
 mk_channel_status_t mk_channel_recv(mk_channel_t *channel,
                                     mk_channel_message_t *message)
 {

@@ -161,6 +161,7 @@ static DemoMessage rx_msg;          /* request under reassembly */
 static uint32_t rx_id, rx_have, rx_total;
 static int rx_active;
 static uint64_t frames_rejected, requests_served, queue_busy, no_response, send_failures;
+static uint64_t corrupt_dropped;
 static DemoMessage tx_msg;          /* response from protected_app */
 static int tx_ready;
 
@@ -273,6 +274,16 @@ void gw_on_frame(uint16_t type, const uint8_t *payload, uint32_t len)
 uint64_t gw_rejected_frames(void)
 {
     return frames_rejected;
+}
+
+void gw_note_corrupt_dropped(void)
+{
+    corrupt_dropped++;
+}
+
+uint64_t gw_corrupt_dropped(void)
+{
+    return corrupt_dropped;
 }
 
 uint64_t gw_no_response(void)

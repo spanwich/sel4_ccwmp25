@@ -53,4 +53,5 @@ typedef struct __attribute__((packed)) {
     uint64_t no_response;     /* cumulative requests that produced no response */
     uint32_t queue_depth;     /* K1->K0 fragments not yet consumed, at the tick */
     uint32_t send_failures;   /* cumulative K0->K1 sends refused (ring full) */
+    uint64_t corrupt_dropped; /* cumulative bad-sequence slots dropped and resynced */
 } gw_k0_stats_t;
