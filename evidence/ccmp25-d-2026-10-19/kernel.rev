@@ -1,0 +1,3 @@
+kernel 659faba4e7823a7c9e721e951ba04afc9e6c2288 (multikernel-stm32mp2-v16)
+tools/seL4 a96ad7183635545c32fe0788f5e4cd03ffd38f09
+sel4_ccwmp25 sources at commit 781c528 (images built from it; d4.py/d5_d7.py/d6.py/danalyze.py added later)

@@ -126,6 +126,14 @@ K0 owns `0x84000000..0x98000000`, K1 owns `0x98000000..0xac000000`
   one line per kernel per second (K1 offset by half a second). A few
   `[K1] Received disabled IRQ: 1` at start-up are expected.
 
+- **Paper gate (corrected design, `evidence/ccmp25-d-2026-10-19/`)**:
+  - **K1** (untrusted) forwards raw HTTP on `192.168.40.129:80` to K0. Its control port is
+    `:81`, one line per command: `health`, `stats`, or `probe <name>`.
+  - **K0** runs the unchanged x86 D1 PDs (gate, authenticator, app) through `k0shim/microkit.h`.
+  - **Build** with `MK_ENGINE=raw|gateonly|everparse|cedar`. Images are staged as
+    `sel4-d1-<engine>.bin`.
+  - **Scripts:** `exp/d1.py`, `d4.py`, `d5_d7.py`, `d6.py`, `danalyze.py`.
+
 ## Remote Reset & Console
 
 - **Console**: `/dev/ttyACM0` (Cypress USB-UART on J19, 115200 8N1), open in tmux session `mp255` (minicom). Read with `tmux capture-pane -p -t mp255 -S -40`.

@@ -1,0 +1,465 @@
+{
+ "status": "complete",
+ "boots": 210,
+ "retries": [
+  {
+   "block": 1,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 2,
+   "engine": "raw",
+   "scenarios": [
+    "allow",
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 2,
+   "engine": "raw",
+   "scenarios": [
+    "allow",
+    "deny"
+   ],
+   "attempt": 1,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 5,
+   "engine": "raw",
+   "scenarios": [
+    "deny",
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 6,
+   "engine": "raw",
+   "scenarios": [
+    "allow",
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 8,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 9,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 13,
+   "engine": "raw",
+   "scenarios": [
+    "deny",
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 13,
+   "engine": "raw",
+   "scenarios": [
+    "deny",
+    "allow"
+   ],
+   "attempt": 1,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 13,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 13,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 15,
+   "engine": "cedar",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 15,
+   "engine": "raw",
+   "scenarios": [
+    "deny",
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 16,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 17,
+   "engine": "cedar",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 18,
+   "engine": "cedar",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 18,
+   "engine": "cedar",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 1,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 18,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 19,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 20,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 25,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 25,
+   "engine": "cedar",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 26,
+   "engine": "cedar",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 27,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 27,
+   "engine": "gateonly",
+   "scenarios": [
+    "deny"
+   ],
+   "attempt": 1,
+   "error": "TimeoutError('phy: link up')"
+  },
+  {
+   "block": 27,
+   "engine": "gateonly",
+   "scenarios": [
+    "allow"
+   ],
+   "attempt": 0,
+   "error": "TimeoutError('phy: link up')"
+  }
+ ],
+ "http": {
+  "raw/allow": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 267.9805,
+   "block_median_min_us": 254.233,
+   "block_median_max_us": 309.0635
+  },
+  "raw/deny": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 265.1205,
+   "block_median_min_us": 253.306,
+   "block_median_max_us": 309.6145
+  },
+  "gateonly/allow": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 288.25225,
+   "block_median_min_us": 274.337,
+   "block_median_max_us": 333.964
+  },
+  "gateonly/deny": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 284.96775,
+   "block_median_min_us": 271.7195,
+   "block_median_max_us": 323.119
+  },
+  "everparse/allow": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 288.584,
+   "block_median_min_us": 270.3755,
+   "block_median_max_us": 314.9535
+  },
+  "everparse/deny": {
+   "status": 403,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 288.263,
+   "block_median_min_us": 271.1805,
+   "block_median_max_us": 327.9185
+  },
+  "cedar/allow": {
+   "status": 200,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 550.88625,
+   "block_median_min_us": 525.9425,
+   "block_median_max_us": 583.954
+  },
+  "cedar/deny": {
+   "status": 403,
+   "blocks": 30,
+   "samples": 960,
+   "median_of_block_medians_us": 528.105,
+   "block_median_min_us": 501.41,
+   "block_median_max_us": 557.218
+  }
+ },
+ "k0_path": {
+  "raw/allow": {
+   "boots": 30,
+   "k0_cycles": 10.0,
+   "k0_us": 0.008333333333333333,
+   "gate_cycles": 0.0,
+   "auth_cycles": 0.0,
+   "app_cycles": 0.0,
+   "k1_busy_cycles": 9845.75
+  },
+  "raw/deny": {
+   "boots": 30,
+   "k0_cycles": 10.0,
+   "k0_us": 0.008333333333333333,
+   "gate_cycles": 0.0,
+   "auth_cycles": 0.0,
+   "app_cycles": 0.0,
+   "k1_busy_cycles": 9861.03125
+  },
+  "gateonly/allow": {
+   "boots": 30,
+   "k0_cycles": 19212.03125,
+   "k0_us": 16.010026041666666,
+   "gate_cycles": 10965.21875,
+   "auth_cycles": 1465.671875,
+   "app_cycles": 3488.203125,
+   "k1_busy_cycles": 9957.703125
+  },
+  "gateonly/deny": {
+   "boots": 30,
+   "k0_cycles": 19084.5,
+   "k0_us": 15.903750000000002,
+   "gate_cycles": 10812.078125,
+   "auth_cycles": 1466.484375,
+   "app_cycles": 3517.140625,
+   "k1_busy_cycles": 10073.453125
+  },
+  "everparse/allow": {
+   "boots": 30,
+   "k0_cycles": 21062.46875,
+   "k0_us": 17.552057291666667,
+   "gate_cycles": 12878.40625,
+   "auth_cycles": 1439.25,
+   "app_cycles": 3414.640625,
+   "k1_busy_cycles": 9960.609375
+  },
+  "everparse/deny": {
+   "boots": 30,
+   "k0_cycles": 20751.0625,
+   "k0_us": 17.292552083333334,
+   "gate_cycles": 12581.890625,
+   "auth_cycles": 1441.3125,
+   "app_cycles": 3379.46875,
+   "k1_busy_cycles": 10386.59375
+  },
+  "cedar/allow": {
+   "boots": 30,
+   "k0_cycles": 318384.453125,
+   "k0_us": 265.32037760416665,
+   "gate_cycles": 308374.421875,
+   "auth_cycles": 1846.8125,
+   "app_cycles": 4354.953125,
+   "k1_busy_cycles": 10464.890625
+  },
+  "cedar/deny": {
+   "boots": 30,
+   "k0_cycles": 281878.546875,
+   "k0_us": 234.89878906250001,
+   "gate_cycles": 272187.734375,
+   "auth_cycles": 1830.109375,
+   "app_cycles": 4073.953125,
+   "k1_busy_cycles": 10700.125
+  }
+ },
+ "engine_only": {
+  "everparse/empty_bracket": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 11.0,
+   "median_boot_mean_ns": 9.166666666666666,
+   "boot_mean_min_cycles": 11,
+   "boot_mean_max_cycles": 11
+  },
+  "everparse/allow_first": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 1029.0,
+   "median_boot_mean_ns": 857.5,
+   "boot_mean_min_cycles": 1026,
+   "boot_mean_max_cycles": 1033
+  },
+  "everparse/allow_last": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 1037.0,
+   "median_boot_mean_ns": 864.1666666666666,
+   "boot_mean_min_cycles": 1037,
+   "boot_mean_max_cycles": 1040
+  },
+  "everparse/deny_path": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 1053.0,
+   "median_boot_mean_ns": 877.5,
+   "boot_mean_min_cycles": 1053,
+   "boot_mean_max_cycles": 1053
+  },
+  "cedar/empty_bracket": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 11.0,
+   "median_boot_mean_ns": 9.166666666666666,
+   "boot_mean_min_cycles": 11,
+   "boot_mean_max_cycles": 11
+  },
+  "cedar/allow_first": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 323681.0,
+   "median_boot_mean_ns": 269734.1666666667,
+   "boot_mean_min_cycles": 323626,
+   "boot_mean_max_cycles": 323746
+  },
+  "cedar/allow_last": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 336735.5,
+   "median_boot_mean_ns": 280612.9166666667,
+   "boot_mean_min_cycles": 336674,
+   "boot_mean_max_cycles": 336798
+  },
+  "cedar/deny_path": {
+   "boots": 60,
+   "mismatches": 0,
+   "median_boot_mean_cycles": 292004.0,
+   "median_boot_mean_ns": 243336.66666666666,
+   "boot_mean_min_cycles": 291917,
+   "boot_mean_max_cycles": 292061
+  }
+ },
+ "d2": {
+  "everparse": {
+   "boots": 60,
+   "equivalence_ok": 60,
+   "extractor_ok": 60
+  },
+  "cedar": {
+   "boots": 60,
+   "equivalence_ok": 60,
+   "extractor_ok": 60
+  }
+ }
+}

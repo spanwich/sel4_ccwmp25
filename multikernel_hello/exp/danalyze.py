@@ -62,7 +62,7 @@ def d4(ev):
                 k1.append(mean([x["k1"] for x in s["k0"]]))
             bm = [med(v) for v in blocks.values()]
             out["http"][f"{e}/{scen}"] = {
-                "status": er[0]["scenarios"].get(scen, er[-1]["scenarios"].get(scen, {})).get("status"),
+                "status": next(r["scenarios"][scen]["status"] for r in er if scen in r["scenarios"]),
                 "blocks": len(bm), "samples": sum(len(v) for v in blocks.values()),
                 "median_of_block_medians_us": med(bm) / 1e3,
                 "block_median_min_us": min(bm) / 1e3, "block_median_max_us": max(bm) / 1e3}
