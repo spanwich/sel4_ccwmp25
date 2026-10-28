@@ -1,0 +1,6 @@
+
+# local build outputs and image stash (not source)
+__pycache__/
+scratchpad/
+tools/nucleo_reset/*.bin
+tools/nucleo_reset/*.elf
